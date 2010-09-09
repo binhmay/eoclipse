@@ -1,10 +1,10 @@
-# A One page overview of EOClipse
+= A One page overview of EOClipse =
 
-= Introduction =
+== Introduction ==
 
 TBD
 
 
-= Details =
+== Details ==
 
 TBD
