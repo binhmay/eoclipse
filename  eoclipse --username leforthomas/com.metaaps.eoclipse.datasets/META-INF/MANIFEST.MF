@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Datasets
+Bundle-SymbolicName: com.metaaps.eoclipse.datasets;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.metaaps.eoclipse.datasets.Activator
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.navigator;bundle-version="3.5.0",
+ org.eclipse.core.expressions,
+ com.metaaps.eoclipse.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.metaaps.eoclipse.common
+Export-Package: com.metaaps.eoclipse.datasets,
+ com.metaaps.eoclipse.datasets.internal.NCE;x-internal:=true
