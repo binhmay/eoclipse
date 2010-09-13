@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers;
 
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionDelta;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -20,20 +21,19 @@ import org.eclipse.core.runtime.Platform;
 import com.metaaps.eoclipse.common.Folder;
 import com.metaaps.eoclipse.common.Model;
 
-public class ViewFolder extends Folder implements IRegistryChangeListener {
+public class Viewers extends Folder implements IRegistryChangeListener {
 	
 	private static String extensionpoint = "com.metaaps.eoclipse.viewers";
 	
-	private static ViewFolder m_instance = null;
+	private static Viewers m_instance = null;
 
-	protected ViewFolder() {
+	protected Viewers() {
 		IExtensionPoint viewers = Platform.getExtensionRegistry().getExtensionPoint(extensionpoint);
 		if(viewers != null)
 		{
 			IExtension[] extensions = viewers.getExtensions();
 			for (IExtension e : extensions) {
-				Viewer viewer = new Viewer(e);
-				addChild(viewer);
+				scanForExtension(e);
 			}
 		}
 		
@@ -42,9 +42,21 @@ public class ViewFolder extends Folder implements IRegistryChangeListener {
 		
 	}
 
-	public static ViewFolder getInstance() {
+	private void scanForExtension(IExtension extension) {
+		IConfigurationElement[] elements = extension.getConfigurationElements();
+		for(IConfigurationElement element : elements)
+		{
+			if(element.getName().contentEquals("Viewer"))
+			{
+				Viewer viewer = new Viewer(extension, element);
+				addChild(viewer);
+			}
+		}
+	}
+
+	public static Viewers getInstance() {
 		if(m_instance == null) {
-			m_instance = new ViewFolder();
+			m_instance = new Viewers();
 		}
 		
 		return m_instance;
@@ -56,9 +68,8 @@ public class ViewFolder extends Folder implements IRegistryChangeListener {
 		for (IExtensionDelta delta : deltas) {
 			System.out.println("Evaluating extension");
 			if (delta.getKind() == IExtensionDelta.ADDED) {
-				Viewer viewer = new Viewer(delta.getExtension());
-				addChild(viewer);
-				fireChanged(viewer,Model.ADDED);
+				scanForExtension(delta.getExtension());
+				fireChanged(this,Model.ADDED);
 			} else {
 				IExtension ext = delta.getExtension();
 				for(Object obj : m_children)

@@ -10,13 +10,9 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers.NCE;
 
-import com.metaaps.eoclipse.common.Folder;
 import com.metaaps.eoclipse.common.IDataSets;
-import com.metaaps.eoclipse.common.IModel;
-import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.ModelChangeListener;
-import com.metaaps.eoclipse.common.Util;
-import com.metaaps.eoclipse.viewers.ViewFolder;
+import com.metaaps.eoclipse.viewers.Viewers;
 
 /**
  * @author leforthomas
@@ -37,13 +33,13 @@ public class ContentProvider extends ModelChangeListener {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if(parentElement instanceof ViewFolder)
+		if(parentElement instanceof Viewers)
 		{
-			return ((ViewFolder)parentElement).getChildren();
+			return ((Viewers)parentElement).getChildren();
 		} else if(parentElement instanceof IDataSets)
 		{
 			// do not attach the ViewFolder to the workflow structure
-			return new Object[]{ViewFolder.getInstance()};
+			return new Object[]{Viewers.getInstance()};
 		}
 		
 		return EMPTY_ARRAY;

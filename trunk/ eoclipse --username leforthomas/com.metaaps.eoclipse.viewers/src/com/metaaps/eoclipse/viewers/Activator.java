@@ -10,19 +10,16 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers;
 
-import java.util.Hashtable;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.metaaps.eoclipse.common.IRendering;
-
 /**
  * The activator class controls the plug-in life cycle
+ * 
+ * This plugin provides the extension points and handling mechanisms for viewers
+ * 
  */
-public class Activator extends AbstractUIPlugin implements IRendering {
+public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.metaaps.eoclipse.viewer"; //$NON-NLS-1$
@@ -44,9 +41,6 @@ public class Activator extends AbstractUIPlugin implements IRendering {
 		super.start(context);
 		plugin = this;
 		
-		Hashtable<String, Object> pproperties = new Hashtable<String, Object>();
-		context.registerService(IRendering.class.getName(), this, pproperties);
-		
 	}
 
 	/*
@@ -65,23 +59,6 @@ public class Activator extends AbstractUIPlugin implements IRendering {
 	 */
 	public static Activator getDefault() {
 		return plugin;
-	}
-
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-
-	@Override
-	public String getActionText() {
-		// TODO Auto-generated method stub
-		return "Open Image View";
 	}
 
 }

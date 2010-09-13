@@ -10,22 +10,17 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.part.ViewPart;
+import org.eclipse.swt.widgets.Display;
 
 import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.IWorkFlow;
@@ -40,22 +35,17 @@ public class Viewer extends Model implements IViewerItem {
 	private ImageDescriptor m_imagedescriptor;
 	private String m_name;
 	private Object m_executeObj = null;
+	private IConfigurationElement m_configuration;
 
-	public Viewer(IExtension extension) {
+	public Viewer(IExtension extension, IConfigurationElement element) {
 		m_extension = extension;
-		IConfigurationElement[] elements =
-            extension.getConfigurationElements();
-		for(IConfigurationElement element : elements)
-		{
-			if(element.getName().contentEquals("Viewer"))
-			{
-				String iconpath = element.getAttribute("icon");
-				m_imagedescriptor = Activator.imageDescriptorFromPlugin(extension.getNamespaceIdentifier(), iconpath);
-				m_name = element.getAttribute("name");
-				Util.addPopupMenu("popup:navigatorcontent.popupmenu.viewers", Activator.PLUGIN_ID, getLabel(), "com.metaaps.eoclipse.viewers.vieweritem", "com.metaaps.eoclipse.viewers.viewer", IDataSets.class, null);
-				break;
-			}
-		}
+		String iconpath = element.getAttribute("icon");
+		m_imagedescriptor = Activator.imageDescriptorFromPlugin(extension.getNamespaceIdentifier(), iconpath);
+		m_name = element.getAttribute("name");
+		m_configuration = element;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("com.metaaps.eoclipse.viewers", getFullExtension());
+		Util.addPopupMenu("popup:navigatorcontent.popupmenu.viewers", Activator.PLUGIN_ID, getLabel(), "com.metaaps.eoclipse.viewers.vieweritem", "com.metaaps.eoclipse.viewers.viewer", IDataSets.class, parameters);
 	}
 	
 	public void Open(IWorkFlow workflow)
@@ -63,72 +53,61 @@ public class Viewer extends Model implements IViewerItem {
 		// TODO Auto-generated method stub
 		if(m_executeObj  == null)
 		{
-			IConfigurationElement[] elements =
-	            m_extension.getConfigurationElements();
-			for(IConfigurationElement element : elements)
-			{
-				if(element.getName().contentEquals("Viewer"))
-				{
-					try {
-						m_executeObj = (IViewerFactory) element.createExecutableExtension("Class");
-					} catch (CoreException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
-				}
+			try {
+				m_executeObj = (IViewerFactory) m_configuration.createExecutableExtension("Class");
+			} catch (CoreException e) {
+				e.printStackTrace();
 			}
 		}
 		if(m_executeObj != null)
 		{
 			final IWorkFlow fworkflow = workflow;
 			final IViewerFactory viewerfactory = (IViewerFactory)m_executeObj;
-//			IRunnableWithProgress runnable = new IRunnableWithProgress() {
-//				
-//				@Override
-//				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-//						InterruptedException {
-//					viewerfactory.open(fworkflow);
-//				}
-//			};
-			ISafeRunnable runnable = new ISafeRunnable() {
-				private String m_resultFormat;
+			Job job = new Job("Opening View " + m_name) {
+			    @Override
+			    protected IStatus run(final IProgressMonitor monitor) {
+			        monitor.beginTask("Starting...", 100);
+					Display.getDefault().asyncExec(new Runnable() {
 
-				@Override
-				public void handleException(Throwable exception) {
-					System.out.println("Exception in client");
-				}
-	
-				@Override
-				public void run() throws Exception {
-						viewerfactory.open(fworkflow);
-					}
-				};
-			SafeRunner.run(runnable);
+						@Override
+						public void run() {
+							viewerfactory.open(fworkflow);
+						}
+						
+					});
+			        monitor.done();
+			        return Status.OK_STATUS;
+			    }
+			    @Override
+			    protected void canceling() {
+			    	super.canceling();
+			    }
+			};
+			job.schedule();
 		}
 	}
 
 	@Override
 	public String getLabel() {
-		// TODO Auto-generated method stub
 		return m_name;
 	}
 
 	@Override
 	public ImageDescriptor getImageDescriptor() {
-		// TODO Auto-generated method stub
 		return m_imagedescriptor;
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public IExtension getExtension() {
-		// TODO Auto-generated method stub
 		return m_extension;
+	}
+
+	public String getFullExtension() {
+		return m_configuration.getContributor().getName() + ":" + m_name;
 	}
 
 }
