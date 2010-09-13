@@ -13,13 +13,49 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.ui.handlers.HandlerUtil;
+
+import com.metaaps.eoclipse.common.IDataSets;
+import com.metaaps.eoclipse.common.IWorkFlow;
+import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.viewers.Viewer;
+import com.metaaps.eoclipse.viewers.Viewers;
 
 
+/**
+ * @author leforthomas
+ * 
+ * Handler for the DataSets Tree Item Viewer Contextual Menu
+ * 
+ */
 public class OpenMenuHandler extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// TODO Auto-generated method stub
+        ITreeSelection currentSelection = (ITreeSelection)HandlerUtil.getCurrentSelection(event);
+        Object obj = currentSelection.iterator().next();
+        
+        if(obj instanceof IDataSets)
+        {
+	    	Viewer viewer = null;
+			try {
+				String extension = event.getParameter("com.metaaps.eoclipse.viewers");
+				for(Object viewerobj : Viewers.getInstance().getChildren()) {
+					if(viewerobj instanceof Viewer) {
+						if(((Viewer) viewerobj).getFullExtension().contentEquals(extension)) {
+							viewer = (Viewer) viewerobj;
+							break;
+						}
+					}
+				}
+	            IWorkFlow workflow = (IWorkFlow) Util.scanTreePath(currentSelection, IWorkFlow.class);
+				viewer.Open(workflow);
+			} catch (Exception e) {
+				Util.errorMessage("Could not activate Import Method");
+				e.printStackTrace();
+			}
+        }
 		return null;
 	}
 

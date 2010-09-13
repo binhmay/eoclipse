@@ -59,6 +59,11 @@
       <command
             id="com.metaaps.eoclipse.viewers.viewer"
             name="Viewers">
+         <commandParameter
+               id="com.metaaps.eoclipse.viewers"
+               name="Viewer"
+               optional="true">
+         </commandParameter>
       </command>
    </extension>
    <extension

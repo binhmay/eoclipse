@@ -15,10 +15,8 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import com.metaaps.eoclipse.common.views.IViewerFactory;
-import com.metaaps.eoclipse.common.views.IViewerItem;
 import com.metaaps.eoclipse.viewers.Activator;
-import com.metaaps.eoclipse.viewers.ViewFolder;
+import com.metaaps.eoclipse.viewers.Viewers;
 import com.metaaps.eoclipse.viewers.Viewer;
 
 /**
@@ -30,31 +28,27 @@ public class LabelProvider implements ILabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public Image getImage(Object element) {
-		if(element instanceof ViewFolder)
+		if(element instanceof Viewers)
 		{
 			return m_imagedescriptorViewFolder.createImage();
 		} else if(element instanceof Viewer) {
@@ -66,7 +60,7 @@ public class LabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if(element instanceof ViewFolder)
+		if(element instanceof Viewers)
 		{
 			return "Available Views";
 		} else if(element instanceof Viewer) {
