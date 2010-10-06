@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="com.metaaps.eoclipse.metadataviewer.MetadataViewer"
+            icon="icons/property.png"
+            id="com.metaaps.eoclipse.eoclipsepropertiesviews.metadataviewer"
+            name="Meta Data Viewer and Editor"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.viewers">
+      <Viewer
+            Class="com.metaaps.eoclipse.metadataviewer.ViewFactory"
+            icon="icons/property.png"
+            name="Metadata Viewer"
+            viewid="com.metaaps.eoclipse.eoclipsepropertiesviews.metadataviewer">
+      </Viewer>
+   </extension>
+
+</plugin>
