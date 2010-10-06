@@ -126,7 +126,7 @@
                   ifEmpty="false"
                   operator="or">
                <instanceof
-                     value="com.metaaps.eoclipse.common.IData">
+                     value="com.metaaps.eoclipse.common.datasets.IDataContent">
                </instanceof>
             </iterate>
          </with>
@@ -152,11 +152,20 @@
                   ifEmpty="false"
                   operator="or">
                <instanceof
-                     value="com.metaaps.eoclipse.common.IDataSets">
+                     value="com.metaaps.eoclipse.common.datasets.IDataSets">
                </instanceof>
             </iterate>
          </with>
       </definition>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.layer2extensions">
+      <Imports
+            Class="com.metaaps.eoclipse.datasets.importmethods.AllImports">
+      </Imports>
+      <Readers
+            Class="com.metaaps.eoclipse.datasets.readers.AllReaders">
+      </Readers>
    </extension>
 
 </plugin>

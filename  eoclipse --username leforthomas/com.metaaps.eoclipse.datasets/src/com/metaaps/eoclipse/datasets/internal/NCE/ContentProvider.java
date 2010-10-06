@@ -13,11 +13,11 @@ package com.metaaps.eoclipse.datasets.internal.NCE;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.IModel;
 import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.ModelChangeListener;
 import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.datasets.DataSets;
 import com.metaaps.eoclipse.datasets.importmethods.ImportFolder;
 

@@ -93,7 +93,7 @@
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="uriExtension" type="string" use="required">
+         <attribute name="uriScheme" type="string" use="required">
             <annotation>
                <documentation>
                   

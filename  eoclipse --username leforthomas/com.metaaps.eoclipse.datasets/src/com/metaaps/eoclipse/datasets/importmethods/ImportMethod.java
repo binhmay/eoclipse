@@ -16,9 +16,11 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
-import com.metaaps.eoclipse.common.IDataSets;
+import org.jdom.Element;
+
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.IImport;
 import com.metaaps.eoclipse.common.datasets.IImportMethod;
 import com.metaaps.eoclipse.datasets.Activator;
@@ -38,7 +40,7 @@ public class ImportMethod extends Model implements IImportMethod {
 	private String m_name;
 	private IConfigurationElement m_configuration;
 	private boolean m_useWizard;
-	private String m_uriextension = "";
+	private String m_urischeme = "";
 
 	public ImportMethod(IExtension extension, IConfigurationElement element)
 	{
@@ -46,7 +48,7 @@ public class ImportMethod extends Model implements IImportMethod {
 		String iconpath = element.getAttribute("icon");
 		m_imagedescriptor = Activator.imageDescriptorFromPlugin(extension.getNamespaceIdentifier(), iconpath);
 		m_name = element.getAttribute("name");
-		m_uriextension = element.getAttribute("uriExtension");
+		m_urischeme = element.getAttribute("uriScheme");
 		m_useWizard = element.getAttribute("useWizard").contentEquals("true");
 		m_configuration = element;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -96,8 +98,8 @@ public class ImportMethod extends Model implements IImportMethod {
 	}
 
 	@Override
-	public String getURIExtension() {
-		return m_uriextension;
+	public String getURIScheme() {
+		return m_urischeme;
 	}
 
 	@Override
@@ -110,5 +112,5 @@ public class ImportMethod extends Model implements IImportMethod {
 		
 		return null;
 	}
-
+	
 }
