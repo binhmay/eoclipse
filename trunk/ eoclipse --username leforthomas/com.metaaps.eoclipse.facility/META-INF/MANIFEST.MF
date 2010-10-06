@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Facility
+Bundle-SymbolicName: com.metaaps.eoclipse.facility;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.metaaps.eoclipse.facility.Activator
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.metaaps.eoclipse.hosted,
+ com.metaaps.eoclipse.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.metaaps.eoclipse.common.hosted
