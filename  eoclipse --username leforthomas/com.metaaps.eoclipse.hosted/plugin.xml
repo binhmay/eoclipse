@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="com.metaaps.eoclipse.hosted" name="Host" schema="schema/com.metaaps.eoclipse.hosted.exsd"/>
+
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="com.metaaps.eoclipse.hosted.NCE.ContentProvider"
+            id="com.metaaps.eoclipse.hosted.NCE"
+            labelProvider="com.metaaps.eoclipse.hosted.NCE.LabelProvider"
+            name="hosted">
+         <triggerPoints>
+            <instanceof
+                  value="com.metaaps.eoclipse.common.IWorkFlow">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="com.metaaps.eoclipse.navigatorcontent">
+         <includes>
+            <contentExtension
+                  pattern="com.metaaps.eoclipse.hosted.NCE">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+
+</plugin>
