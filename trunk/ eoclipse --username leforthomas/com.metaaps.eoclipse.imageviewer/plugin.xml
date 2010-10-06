@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Image Viewers"
+            id="com.metaaps.eoclipse.imageviewer">
+      </category>
+      <view
+            allowMultiple="true"
+            category="com.metaaps.eoclipse.imageviewer"
+            class="com.metaaps.eoclipse.imageviewer.ImageViewer"
+            icon="icons/maps-stack.png"
+            id="com.metaaps.eoclipse.eoclipsegisviews.imageviewer"
+            name="Metaaps Image Viewer">
+      </view>
+   </extension>
+
+   <extension
+         point="com.metaaps.eoclipse.viewers">
+      <Viewer
+            Class="com.metaaps.eoclipse.imageviewer.ViewFactory"
+            icon="icons/terminal.png"
+            name="Metaaps Image Viewer"
+            viewid="com.metaaps.eoclipse.eoclipsegisviews.imageviewer">
+      </Viewer>
+   </extension>
+
+</plugin>
