@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.metaaps.eoclipse.hosted">
+      <Host
+            Class="com.metaaps.eoclipse.facility.Facility"
+            icon="icons/open-source.png"
+            name="Metaaps Hosting Services">
+      </Host>
+   </extension>
+
+</plugin>
