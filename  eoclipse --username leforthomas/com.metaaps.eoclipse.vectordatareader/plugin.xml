@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.metaaps.eoclipse.reader">
+      <Reader
+            Class="com.metaaps.eoclipse.vectordatareader.ShapeFileReader"
+            Type="Vector"
+            name="Shape File Reader">
+         <Format
+               Type="VECTOR_MIXED">
+         </Format>
+         <Format
+               Type="VECTOR_ALL">
+         </Format>
+         <Format
+               Type="VECTOR_POLYGON">
+         </Format>
+         <Format
+               Type="VECTOR_LINE">
+         </Format>
+         <Format
+               Type="VECTOR_POINT">
+         </Format>
+      </Reader>
+      <Reader
+            Class="com.metaaps.eoclipse.vectordatareader"
+            Type="Vector"
+            name="CSV File Reader">
+         <Format
+               Type="VECTOR_POINT">
+         </Format>
+      </Reader>
+   </extension>
+
+</plugin>
