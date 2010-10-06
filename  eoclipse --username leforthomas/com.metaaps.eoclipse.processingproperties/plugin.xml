@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="com.metaaps.eoclipse.processingproperties.NCE.ContentProvider"
+            id="com.metaaps.eoclipse.processingproperties.NCE"
+            labelProvider="com.metaaps.eoclipse.processingproperties.NCE.LabelProvider"
+            name="processingproperties">
+         <triggerPoints>
+            <instanceof
+                  value="com.metaaps.eoclipse.common.processing.IProcess">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="com.metaaps.eoclipse.navigatorcontent">
+         <includes>
+            <contentExtension
+                  pattern="com.metaaps.eoclipse.processingproperties.NCE">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+
+</plugin>
