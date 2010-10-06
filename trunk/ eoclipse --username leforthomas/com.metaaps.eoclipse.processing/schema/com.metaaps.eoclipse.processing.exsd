@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.metaaps.eoclipse.processing" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="com.metaaps.eoclipse.processing" id="com.metaaps.eoclipse.processing" name="process"/>
+      </appinfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="Processing"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Processing">
+      <annotation>
+         <documentation>
+            Extend to provide a processing element.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Parameter" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="Output"/>
+         </sequence>
+         <attribute name="Class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="com.metaaps.eoclipse.common.processing.AbstractProcessing:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="Description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Parameter">
+      <annotation>
+         <documentation>
+            An input parameter of your processing element
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Formats"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of this parameter.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="Type" use="required">
+            <annotation>
+               <documentation>
+                  The type of the parameter.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Image">
+                  </enumeration>
+                  <enumeration value="Vector">
+                  </enumeration>
+                  <enumeration value="Value">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Formats">
+      <annotation>
+         <documentation>
+            Type of data supported by the processing plugin for the specified parameter
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="Format" minOccurs="1" maxOccurs="unbounded"/>
+         </choice>
+      </complexType>
+   </element>
+
+   <element name="Output">
+      <complexType>
+         <attribute name="Type" use="required">
+            <annotation>
+               <documentation>
+                  The type of the output data.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Image">
+                  </enumeration>
+                  <enumeration value="Vector">
+                  </enumeration>
+                  <enumeration value="Value">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="Format" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The format of the output element.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="com.metaaps.eoclipse.reader/Reader/Format/@Type"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Format">
+      <complexType>
+         <attribute name="Format" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="com.metaaps.eoclipse.reader/Reader/Format/@Type"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>
