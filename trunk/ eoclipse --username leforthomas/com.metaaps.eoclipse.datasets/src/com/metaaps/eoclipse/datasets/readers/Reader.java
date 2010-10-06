@@ -17,9 +17,10 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.jface.resource.ImageDescriptor;
 
-import com.metaaps.eoclipse.common.IDataContent;
 import com.metaaps.eoclipse.common.Model;
+import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IReader;
+import com.metaaps.eoclipse.common.datasets.ISourceDataContent;
 
 /**
  * 
@@ -89,7 +90,7 @@ public class Reader extends Model implements IReader {
 
 	public IDataContent openFile(File file) {
 		try {
-			IDataContent reader = (IDataContent) m_configuration.createExecutableExtension("Class");
+			ISourceDataContent reader = (ISourceDataContent) m_configuration.createExecutableExtension("Class");
 			reader.setFile(file);
 			reader.initialise();
 			reader.setDataFormat(m_format);

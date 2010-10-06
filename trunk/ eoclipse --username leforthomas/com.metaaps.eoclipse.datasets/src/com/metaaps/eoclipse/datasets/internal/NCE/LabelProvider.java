@@ -15,10 +15,13 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import com.metaaps.eoclipse.common.IData;
-import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.Model;
+import com.metaaps.eoclipse.common.datasets.IDataContent;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
+import com.metaaps.eoclipse.common.datasets.IGeoRaster;
 import com.metaaps.eoclipse.common.datasets.IImportMethod;
+import com.metaaps.eoclipse.common.datasets.ISourceDataContent;
+import com.metaaps.eoclipse.datasets.Activator;
 import com.metaaps.eoclipse.datasets.importmethods.ImportFolder;
 
 /**
@@ -26,6 +29,13 @@ import com.metaaps.eoclipse.datasets.importmethods.ImportFolder;
  */
 public class LabelProvider implements ILabelProvider {
 
+	private static ImageDescriptor[] m_imagedescriptor = new ImageDescriptor[]{
+		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/picture.png"),
+		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/node-select-all.png"),
+		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/picture-generated.png"),
+		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/vector-generated.png")
+	};
+	
 	@Override
 	public void addListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
@@ -52,20 +62,29 @@ public class LabelProvider implements ILabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if((element instanceof IDataSets) || (element instanceof IData) || (element instanceof ImportFolder) || (element instanceof IImportMethod))
+		ImageDescriptor imagedescriptor = null;
+		if((element instanceof IDataSets) || (element instanceof ImportFolder) || (element instanceof IImportMethod))
 		{
-			ImageDescriptor imagedescriptor = ((Model)element).getImageDescriptor();
-			return (imagedescriptor != null ? imagedescriptor.createImage() : null);
+			imagedescriptor = ((Model)element).getImageDescriptor();
+		} else if(element instanceof IDataContent) {
+			try {
+				boolean isimage = element instanceof IGeoRaster;
+				boolean issource = element instanceof ISourceDataContent;
+				imagedescriptor = m_imagedescriptor[(isimage ? 0 : 1) + (issource ? 0 : 2)];
+			} catch (Exception e) {
+			}
 		}
 		
-		return null;
+		return (imagedescriptor != null ? imagedescriptor.createImage() : null);
 	}
 
 	@Override
 	public String getText(Object element) {
-		if((element instanceof IDataSets) || (element instanceof IData) || (element instanceof ImportFolder) || (element instanceof IImportMethod))
+		if((element instanceof IDataSets) || (element instanceof ImportFolder) || (element instanceof IImportMethod))
 		{
 			return ((Model)element).getLabel();
+		} else if(element instanceof IDataContent) {
+			return ((IDataContent) element).getName();
 		}
 		
 		return null;

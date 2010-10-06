@@ -17,8 +17,8 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.metaaps.eoclipse.common.IData;
-import com.metaaps.eoclipse.common.IDataSets;
+import com.metaaps.eoclipse.common.datasets.IDataContent;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 
 /**
  * @author leforthomas
@@ -32,9 +32,9 @@ public class DeleteHandler extends AbstractHandler implements IHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
         IStructuredSelection currentSelection = (IStructuredSelection)HandlerUtil.getCurrentSelection(event);
         Object obj = currentSelection.iterator().next();
-        if(obj instanceof IData)
+        if(obj instanceof IDataContent)
         {
-        	IData data = (IData) obj;
+        	IDataContent data = (IDataContent) obj;
         	IDataSets datasets = (IDataSets) data.getParent();
     		datasets.removeDataContent(data);
         }

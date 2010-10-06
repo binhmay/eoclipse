@@ -19,8 +19,8 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.IImport;
 import com.metaaps.eoclipse.common.datasets.IImportMethod;
 import com.metaaps.eoclipse.datasets.internal.wizards.ImportDataWizard;

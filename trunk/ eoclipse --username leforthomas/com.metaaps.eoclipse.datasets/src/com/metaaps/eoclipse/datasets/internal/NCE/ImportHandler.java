@@ -17,8 +17,8 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.datasets.importmethods.ImportFolder;
 import com.metaaps.eoclipse.datasets.importmethods.ImportMethod;
 
