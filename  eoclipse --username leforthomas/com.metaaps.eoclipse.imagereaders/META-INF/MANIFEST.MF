@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Imagereaders
+Bundle-SymbolicName: com.metaaps.eoclipse.imagereaders;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.metaaps.eoclipse.imagereaders.Activator
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.metaaps.eoclipse.datasets;bundle-version="1.0.0",
+ com.metaaps.eoclipse.common;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
