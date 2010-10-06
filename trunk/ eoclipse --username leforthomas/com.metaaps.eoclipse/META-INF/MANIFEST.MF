@@ -13,3 +13,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: com.metaaps.eoclipse.common,
  org.osgi.service.wireadmin;version="1.0.0"
+Export-Package: com.metaaps.eoclipse.workflowmanager

@@ -8,31 +8,22 @@
  * Contributors:
  *     METAAPS SRL(U) - created by Thomas Lefort - initial API and implementation
  ******************************************************************************/
-
 package com.metaaps.eoclipse;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.navigator.CommonNavigator;
+import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
 /**
  * @author leforthomas
  */
-public class AdditionalViews extends ViewPart {
+public class WorkFlowContent extends CommonNavigator {
 
-	public AdditionalViews() {
-		// TODO Auto-generated constructor stub
-	}
-
+	public static final String ID = "com.metaaps.eoclipse.navigatorcontent";
+	
 	@Override
-	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-
+	protected Object getInitialInput() {
+		WorkFlowManager workflowmanager = WorkFlowManager.getInstance();
+		workflowmanager.setNavigator(this);
+		return workflowmanager;
 	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

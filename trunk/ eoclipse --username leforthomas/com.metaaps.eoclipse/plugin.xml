@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="com.metaaps.eoclipse.layer2extensions" name="Layer2Extensions" schema="schema/com.metaaps.eoclipse.layer2extensions.exsd"/>
 
    <extension
          id="application"
@@ -28,18 +29,11 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="com.metaaps.eoclipse.renderingviews"
-            class="com.metaaps.eoclipse.AdditionalViews"
-            id="com.metaaps.eoclipse.additionalviews"
-            name="Additional Views"
-            restorable="true">
-      </view>
-      <view
             category="com.metaaps.eoclipse.workflow"
-            class="com.metaaps.eoclipse.NavigatorContent"
+            class="com.metaaps.eoclipse.WorkFlowContent"
             icon="icons/zones-stack.png"
             id="com.metaaps.eoclipse.navigatorcontent"
-            name="Navigator"
+            name="WorkFlows"
             restorable="true">
       </view>
       <category
@@ -50,6 +44,13 @@
             id="com.metaaps.eoclipse.workflow"
             name="Workflow">
       </category>
+      <view
+            category="org.eclipse.ui"
+            class="org.eclipse.ui.ExtensionFactory:progressView"
+            id="org.eclipse.ui.views.ProgressView"
+            name="Progress View"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
@@ -118,20 +119,26 @@
             locationURI="popup:navigatorcontent.popupmenu?after=additions">
          <command
                commandId="com.metaaps.eoclipse.workflowmanager.newworkflow"
+               disabledIcon="icons/103.png"
+               hoverIcon="icons/103.png"
+               icon="icons/103.png"
                id="com.metaaps.newworkflow"
                label="New WorkFlow"
                mnemonic="D"
-               style="push">
+               style="push"
+               tooltip="Create a New WorkFlow">
             <visibleWhen
                   checkEnabled="true">
             </visibleWhen>
          </command>
          <command
                commandId="com.metaaps.eoclipse.workflowmanager.deleteworkflow"
+               disabledIcon="icons/cross-circle.png"
                hoverIcon="icons/cross-circle.png"
                icon="icons/cross-circle.png"
-               label="Delete"
-               style="push">
+               label="Close"
+               style="push"
+               tooltip="Close the Selected WorkFlow">
             <visibleWhen
                   checkEnabled="true">
             </visibleWhen>
@@ -148,20 +155,45 @@
          </command>
          <command
                commandId="com.metaaps.eoclipse.workflow.save"
+               disabledIcon="icons/096.png"
+               hoverIcon="icons/096.png"
+               icon="icons/096.png"
                label="Save"
-               style="push">
+               style="push"
+               tooltip="Save the Selected WorkFlow">
             <visibleWhen
                   checkEnabled="true">
             </visibleWhen>
          </command>
          <command
                commandId="com.metaaps.eoclipse.open"
-               label="Open"
+               label="Open WorkFlow"
                style="push">
             <visibleWhen
                   checkEnabled="true">
             </visibleWhen>
          </command>
+         <command
+               commandId="com.metaaps.eoclipse.workflow.saveas"
+               label="Save As"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="WorkSpace">
+            <command
+                  commandId="com.metaaps.eoclipse.workflowmanager.newworkflow"
+                  icon="icons/103.png"
+                  label="New Work Flow"
+                  style="push">
+            </command>
+         </menu>
       </menuContribution>
    </extension>
    <extension
@@ -188,7 +220,7 @@
       </command>
       <command
             id="com.metaaps.eoclipse.workflowmanager.deleteworkflow"
-            name="Delete Workflow">
+            name="Close Workflow">
       </command>
       <command
             id="com.metaaps.eoclipse.runworkflow"
@@ -199,8 +231,12 @@
             name="Save Workflow">
       </command>
       <command
+            id="com.metaaps.eoclipse.workflow.saveas"
+            name="Save Workflow As">
+      </command>
+      <command
             id="com.metaaps.eoclipse.open"
-            name="Open">
+            name="Open Workflow">
       </command>
    </extension>
    <extension
@@ -250,6 +286,20 @@
       <handler
             class="com.metaaps.eoclipse.workflowmanager.NCE.SaveHandler"
             commandId="com.metaaps.eoclipse.workflow.save">
+         <activeWhen>
+            <reference
+                  definitionId="com.metaaps.eoclipse.isworkflow">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="com.metaaps.eoclipse.isworkflow">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="com.metaaps.eoclipse.workflowmanager.NCE.SaveAsHandler"
+            commandId="com.metaaps.eoclipse.workflow.saveas">
          <activeWhen>
             <reference
                   definitionId="com.metaaps.eoclipse.isworkflow">

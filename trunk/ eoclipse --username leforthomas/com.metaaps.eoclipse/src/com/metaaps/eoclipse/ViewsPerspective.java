@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.metaaps.eoclipse;
 
+import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
@@ -17,9 +18,10 @@ public class ViewsPerspective implements IPerspectiveFactory {
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
-		String viewID = NavigatorContent.ID;
+		String viewID = WorkFlowContent.ID;
 		// add navigation window for the DataSetsManager
-		layout.addStandaloneView(viewID, true, IPageLayout.LEFT, .25f, IPageLayout.ID_EDITOR_AREA);
+		IFolderLayout sidefolder = layout.createFolder("com.metaaps.eoclipse.sidefolder", IPageLayout.LEFT, 0.25f, IPageLayout.ID_EDITOR_AREA);
+		sidefolder.addView(viewID);
 		layout.setEditorAreaVisible(false);
 		
 		layout.getViewLayout(viewID).setCloseable(false);

@@ -29,6 +29,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     
     public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
+    	WorkFlowManager.getInstance().setConfigurer(getWindowConfigurer());
         configurer.setShowCoolBar(false);
         configurer.setShowStatusLine(true);
 		configurer.setShowPerspectiveBar(true);
@@ -38,7 +39,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     @Override
     public void postWindowOpen() {
     	super.postWindowOpen();
-    	// debug code, to be changed to support dynamic file recovery
-        WorkFlowManager.getInstance().setInitialFile("/home/thomas/Desktop/New workflow");
+		WorkFlowManager.getInstance().openWorkSpace();
+    }
+    
+    @Override
+    public boolean preWindowShellClose() {
+    	WorkFlowManager.getInstance().saveWorkSpace();
+    	return super.preWindowShellClose();
     }
 }

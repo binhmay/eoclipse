@@ -13,6 +13,10 @@ package com.metaaps.eoclipse.workflowmanager.NCE;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Display;
 
 import com.metaaps.eoclipse.workflowmanager.WorkFlow;
 import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
@@ -25,7 +29,18 @@ public class NewWorkFlow extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		WorkFlowManager.getInstance().addWorkFlow(new WorkFlow("New workflow"));
+        InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
+                "", "Provide a name for your Work Flow", "New WorkFlow", new IInputValidator() {
+					
+					@Override
+					public String isValid(String newText) {
+						if(newText.length() == 0) return "You need to specifiy a Name!";
+						return null;
+					}
+		});
+        if (dlg.open() == Window.OK) {
+    		WorkFlowManager.getInstance().addWorkFlow(new WorkFlow(dlg.getValue()));
+        }
 		
 		return null;
 	}

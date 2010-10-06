@@ -42,8 +42,8 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		
-		// start the plugin registry service
-		PluginRegistry.instance(context);
+//		// start the plugin registry service
+//		PluginRegistry.instance(context);
 	}
 
 	/*
