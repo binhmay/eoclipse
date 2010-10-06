@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.metaaps.eoclipse.reader">
+      <Reader
+            Class="com.metaaps.eoclipse.imagereaders.EnvisatImage"
+            Type="Image"
+            name="ENVISAT ASAR Image Reader">
+         <Format
+               Type="ENVISAT_ASAR_ALL">
+         </Format>
+      </Reader>
+      <Reader
+            Class="com.metaaps.eoclipse.imagereaders.ERS2Image"
+            Type="Image"
+            name="ERS2 SAR Image Reader">
+         <Format
+               Type="ERS_SAR_IMAGE">
+         </Format>
+      </Reader>
+   </extension>
+
+</plugin>
