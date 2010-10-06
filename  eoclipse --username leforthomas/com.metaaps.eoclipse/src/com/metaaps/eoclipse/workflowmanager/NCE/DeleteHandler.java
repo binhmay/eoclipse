@@ -32,6 +32,7 @@ public class DeleteHandler extends AbstractHandler {
         if(obj instanceof WorkFlow)
         {
     		WorkFlowManager.getInstance().removeChild(obj);
+    		WorkFlowManager.getInstance().refreshTree();
         }
 		
 		return null;

@@ -31,7 +31,7 @@ import com.metaaps.eoclipse.workflowmanager.WorkFlow;
  * Handler to save a workflow from the tree.
  * 
  */
-public class SaveHandler extends AbstractHandler implements IHandler {
+public class SaveAsHandler extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -40,7 +40,7 @@ public class SaveHandler extends AbstractHandler implements IHandler {
         if(obj instanceof WorkFlow)
         {
         	WorkFlow workflow = (WorkFlow) obj;
-			workflow.save(false);
+        	workflow.save(true);
         }
         
         return null;
