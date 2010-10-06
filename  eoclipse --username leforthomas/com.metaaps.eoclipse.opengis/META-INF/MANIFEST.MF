@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Opengis
+Bundle-SymbolicName: com.metaaps.eoclipse.opengis;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.metaaps.eoclipse.opengis.Activator
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.metaaps.eoclipse.export
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
