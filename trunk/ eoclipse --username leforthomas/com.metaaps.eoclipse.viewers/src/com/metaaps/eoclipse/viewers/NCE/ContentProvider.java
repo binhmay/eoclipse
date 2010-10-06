@@ -10,8 +10,8 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers.NCE;
 
-import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.ModelChangeListener;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.viewers.Viewers;
 
 /**

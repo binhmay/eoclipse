@@ -10,8 +10,14 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers;
 
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.viewers.layers.LayerContent;
 
 /**
  * The activator class controls the plug-in life cycle
