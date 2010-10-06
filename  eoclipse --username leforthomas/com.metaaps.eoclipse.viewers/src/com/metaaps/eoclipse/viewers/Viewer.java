@@ -21,13 +21,21 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
 
-import com.metaaps.eoclipse.common.IDataSets;
 import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Util;
-import com.metaaps.eoclipse.common.views.IViewerFactory;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
+import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.common.views.IViewerItem;
+import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
 public class Viewer extends Model implements IViewerItem {
 	
@@ -36,12 +44,15 @@ public class Viewer extends Model implements IViewerItem {
 	private String m_name;
 	private Object m_executeObj = null;
 	private IConfigurationElement m_configuration;
+	private String m_viewid;
+	private int m_viewCounter = 0;
 
 	public Viewer(IExtension extension, IConfigurationElement element) {
 		m_extension = extension;
 		String iconpath = element.getAttribute("icon");
 		m_imagedescriptor = Activator.imageDescriptorFromPlugin(extension.getNamespaceIdentifier(), iconpath);
 		m_name = element.getAttribute("name");
+		m_viewid = element.getAttribute("viewid");
 		m_configuration = element;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("com.metaaps.eoclipse.viewers", getFullExtension());
@@ -50,41 +61,47 @@ public class Viewer extends Model implements IViewerItem {
 	
 	public void Open(IWorkFlow workflow)
 	{
-		// TODO Auto-generated method stub
-		if(m_executeObj  == null)
-		{
-			try {
-				m_executeObj = (IViewerFactory) m_configuration.createExecutableExtension("Class");
-			} catch (CoreException e) {
-				e.printStackTrace();
+		IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		try {
+			workbench.getActivePage().showView(m_viewid, new Integer(m_viewCounter).toString(), IWorkbenchPage.VIEW_CREATE);
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Util.errorMessage("Could not open the View");
+			return;
+		}
+		// find datasets from the workflow
+		final IDataSets datasets = (IDataSets) Util.searchForInterface(IDataSets.class, workflow.getChildren());
+		if(datasets != null) {
+			final IViewPart viewer = workbench.getActivePage().findViewReference(m_viewid, new Integer(m_viewCounter).toString()).getView(false);
+			if(viewer != null) {
+				IWorkbenchSiteProgressService siteService = (IWorkbenchSiteProgressService)viewer.getSite().getAdapter(IWorkbenchSiteProgressService.class);
+				siteService.schedule(new Job("Opening Window") {
+										@Override
+										protected IStatus run(IProgressMonitor monitor) {
+									        monitor.beginTask("Adding Layers...", 100);
+											Display.getDefault().syncExec(new Runnable() {
+						
+												@Override
+												public void run() {
+													((IViewerImplementation)viewer).setDataSets(datasets);
+													WorkFlowManager.getInstance().addTreeSelectionListener((IViewerImplementation)viewer);
+												}
+												
+											});
+									        monitor.done();
+									        return Status.OK_STATUS;
+										}
+									},
+								0 /* now */,
+								true /* use the half-busy cursor in the part */);
+
 			}
 		}
-		if(m_executeObj != null)
-		{
-			final IWorkFlow fworkflow = workflow;
-			final IViewerFactory viewerfactory = (IViewerFactory)m_executeObj;
-			Job job = new Job("Opening View " + m_name) {
-			    @Override
-			    protected IStatus run(final IProgressMonitor monitor) {
-			        monitor.beginTask("Starting...", 100);
-					Display.getDefault().asyncExec(new Runnable() {
-
-						@Override
-						public void run() {
-							viewerfactory.open(fworkflow);
-						}
-						
-					});
-			        monitor.done();
-			        return Status.OK_STATUS;
-			    }
-			    @Override
-			    protected void canceling() {
-			    	super.canceling();
-			    }
-			};
-			job.schedule();
-		}
+		m_viewCounter++;
+		
+		// open layers view if not already opened
+		Viewers.getInstance().OpenLayersView();
 	}
 
 	@Override
@@ -108,6 +125,11 @@ public class Viewer extends Model implements IViewerItem {
 
 	public String getFullExtension() {
 		return m_configuration.getContributor().getName() + ":" + m_name;
+	}
+
+	public String getViewID() {
+		// TODO Auto-generated method stub
+		return m_viewid;
 	}
 
 }

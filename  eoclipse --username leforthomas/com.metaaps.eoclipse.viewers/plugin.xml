@@ -13,7 +13,19 @@
             name="Viewers">
          <triggerPoints>
             <instanceof
-                  value="com.metaaps.eoclipse.common.IDataSets">
+                  value="com.metaaps.eoclipse.common.datasets.IDataSets">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="com.metaaps.eoclipse.viewers.layers.NCE.ContentProvider"
+            id="com.metaaps.eoclipse.viewers.layers.NCE"
+            labelProvider="com.metaaps.eoclipse.viewers.layers.NCE.LabelProvider"
+            name="Layers">
+         <triggerPoints>
+            <instanceof
+                  value="com.metaaps.eoclipse.viewers.Viewers">
             </instanceof>
          </triggerPoints>
       </navigatorContent>
@@ -25,6 +37,15 @@
          <includes>
             <contentExtension
                   pattern="com.metaaps.eoclipse.viewers.NCE">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+      <viewerContentBinding
+            viewerId="com.metaaps.eoclipse.viewers.sidepanel.layers">
+         <includes>
+            <contentExtension
+                  isRoot="true"
+                  pattern="com.metaaps.eoclipse.viewers.layers.NCE">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -102,6 +123,23 @@
             class="com.metaaps.eoclipse.viewers.NCE.OpenMenuHandler"
             commandId="com.metaaps.eoclipse.viewers.viewer">
       </handler>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.layer2extensions">
+      <Viewers
+            Class="com.metaaps.eoclipse.viewers.AllViewers">
+      </Viewers>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="com.metaaps.eoclipse.viewers.layers.LayerContent"
+            icon="icons/maps-stack.png"
+            id="com.metaaps.eoclipse.viewers.sidepanel.layers"
+            name="Layers"
+            restorable="true">
+      </view>
    </extension>
 
 </plugin>

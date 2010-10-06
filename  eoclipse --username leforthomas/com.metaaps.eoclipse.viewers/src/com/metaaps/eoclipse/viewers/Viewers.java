@@ -17,9 +17,16 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import com.metaaps.eoclipse.common.Folder;
 import com.metaaps.eoclipse.common.Model;
+import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.views.IViewerItem;
+import com.metaaps.eoclipse.viewers.layers.LayerContent;
 
 public class Viewers extends Folder implements IRegistryChangeListener {
 	
@@ -39,6 +46,24 @@ public class Viewers extends Folder implements IRegistryChangeListener {
 		
 		// add a listener to track for new plugins with the extension
 		Platform.getExtensionRegistry().addRegistryChangeListener(this, extensionpoint);
+		
+	}
+	
+	public void OpenLayersView() {
+		// check if view has already been opened
+		IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IViewReference viewreference = workbench.getActivePage().findViewReference(LayerContent.layerViewID);
+		if(viewreference == null) {
+			// create layer panel
+			try {
+				workbench.getActivePage().showView(LayerContent.layerViewID);
+			} catch (PartInitException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Util.errorMessage("Could not open the Layers View");
+				return;
+			}
+		}
 		
 	}
 
@@ -86,4 +111,15 @@ public class Viewers extends Folder implements IRegistryChangeListener {
 		
 	}
 
+	public IViewerItem findViewer(String viewID) {
+		
+		for(Object obj : getChildren()) {
+			Viewer viewer = (Viewer) obj;
+			if(viewer.getViewID().contentEquals(viewID)) {
+				return viewer;
+			}
+		}
+		
+		return null;
+	}
 }

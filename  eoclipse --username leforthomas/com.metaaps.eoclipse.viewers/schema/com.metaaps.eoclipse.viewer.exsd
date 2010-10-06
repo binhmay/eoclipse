@@ -49,16 +49,6 @@
 
    <element name="Viewer">
       <complexType>
-         <attribute name="Class" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The View Factory
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":com.metaaps.eoclipse.common.views.IViewer"/>
-               </appinfo>
-            </annotation>
-         </attribute>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
@@ -74,6 +64,13 @@
                <appinfo>
                   <meta.attribute kind="resource"/>
                </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="viewid" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>
