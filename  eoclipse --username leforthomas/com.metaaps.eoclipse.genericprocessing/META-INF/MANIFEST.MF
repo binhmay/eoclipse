@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Genericprocessing
+Bundle-SymbolicName: com.metaaps.eoclipse.genericprocessing;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.metaaps.eoclipse.genericprocessing.Activator
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.metaaps.eoclipse.common,
+ com.metaaps.eoclipse.processing;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.metaaps.eoclipse.common,
+ com.metaaps.eoclipse.common.processing
+Export-Package: com.metaaps.eoclipse.genericprocessing
