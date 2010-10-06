@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            category="com.metaaps.eoclipse.renderingviews"
+            class="com.metaaps.eoclipse.browserview.BrowserView"
+            icon="icons/sample.gif"
+            id="com.metaaps.eoclipse.eoclipsegisviews.browserview"
+            name="Browser View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="com.metaaps.eoclipse.browserview.views.BrowserView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.viewers">
+      <Viewer
+            Class="com.metaaps.eoclipse.browserview.ViewFactory"
+            icon="icons/sample.gif"
+            name="Browser View"
+            viewid="com.metaaps.eoclipse.eoclipsegisviews.browserview">
+      </Viewer>
+   </extension>
+
+</plugin>
