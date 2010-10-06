@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="com.metaaps.eoclipse.dataproperties.NCE.ContentProvider"
+            id="com.metaaps.eoclipse.dataproperties.NCE"
+            labelProvider="com.metaaps.eoclipse.dataproperties.NCE.LabelProvider"
+            name="dataproperties">
+         <triggerPoints>
+            <instanceof
+                  value="com.metaaps.eoclipse.common.datasets.IDataContent">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="com.metaaps.eoclipse.navigatorcontent">
+         <includes>
+            <contentExtension
+                  pattern="com.metaaps.eoclipse.dataproperties.NCE">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+
+</plugin>
