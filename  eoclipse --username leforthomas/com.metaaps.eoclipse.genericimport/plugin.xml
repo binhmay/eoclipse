@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.metaaps.eoclipse.import">
+      <Import
+            Class="com.metaaps.eoclipse.genericimport.LocalFile"
+            icon="icons/disks.png"
+            name="Local File"
+            uriExtension="file://"
+            uriScheme="file"
+            useWizard="true"
+            wizardPage="com.metaaps.eoclipse.genericimport.wizards.LocalFileImportWizardPage">
+      </Import>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.import">
+      <Import
+            Class="com.metaaps.eoclipse.genericimport.wizards.FTPImportWizardPage"
+            icon="icons/network.png"
+            name="FTP"
+            uriExtension="ftp://"
+            uriScheme="ftp"
+            useWizard="true"
+            wizardPage="com.metaaps.eoclipse.genericimport.wizards.FTPImportWizardPage">
+      </Import>
+   </extension>
+
+</plugin>
