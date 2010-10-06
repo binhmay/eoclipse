@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.metaaps.eoclipse.viewers">
+      <Viewer
+            Class="com.metaaps.eoclipse.globeviewer.ViewFactory"
+            icon="icons/globe-model.png"
+            name="Globe Viewer"
+            viewid="com.metaaps.eoclipse.eoclipsegisviews.globeviewer">
+      </Viewer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="com.metaaps.eoclipse.globeviewer.GlobeViewer"
+            id="com.metaaps.eoclipse.eoclipsegisviews.globeviewer"
+            name="Globe Viewer"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="com.metaaps.eoclipse.globeviewer.layers.NCE.ContentProvider"
+            id="com.metaaps.eoclipse.globeviewer.layers.NCE"
+            labelProvider="com.metaaps.eoclipse.globeviewer.layers.NCE.LabelProvider"
+            name="layers">
+         <triggerPoints>
+            <instanceof
+                  value="com.metaaps.eoclipse.common.views.IViewerItem">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="com.metaaps.eoclipse.viewers.sidepanel.layers">
+         <includes>
+            <contentExtension
+                  isRoot="false"
+                  pattern="com.metaaps.eoclipse.globeviewer.layers.NCE">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+
+</plugin>
