@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Swathplanner
+Bundle-SymbolicName: com.metaaps.eoclipse.swathplanner; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.metaaps.eoclipse.swathplanner.Activator
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.metaaps.eoclipse.datasets
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.metaaps.eoclipse.common

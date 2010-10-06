@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.metaaps.eoclipse.swathplanner"
+            label="Swath Planner"
+            visible="true">
+      </actionSet>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.import">
+      <Import
+            Class="com.metaaps.eoclipse.swathplanner.SwathPlanner"
+            icon="icons/sample.gif"
+            name="Swath Planner"
+            uriScheme="swathplanner"
+            useWizard="false">
+      </Import>
+   </extension>
+
+</plugin>
