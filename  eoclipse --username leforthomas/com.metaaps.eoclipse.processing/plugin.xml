@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="com.metaaps.eoclipse.processing.NCE.ContentProvider"
+            id="com.metaaps.eoclipse.processing.NCE"
+            labelProvider="com.metaaps.eoclipse.processing.NCE.LabelProvider"
+            name="Processing"
+            priority="higher">
+         <triggerPoints>
+            <instanceof
+                  value="com.metaaps.eoclipse.common.datasets.IDataContent">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="com.metaaps.eoclipse.navigatorcontent">
+         <includes>
+            <contentExtension
+                  pattern="com.metaaps.eoclipse.processing.NCE">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+
+   <extension-point id="com.metaaps.eoclipse.processing" name="process" schema="schema/com.metaaps.eoclipse.processing.exsd"/>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:navigatorcontent.popupmenu">
+         <command
+               commandId="com.metaaps.eoclipse.processing.execute"
+               hoverIcon="icons/sample.gif"
+               label="Execute"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="com.metaaps.eoclipse.processing.execute"
+            name="Execute Processing">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="com.metaaps.eoclipse.processing.isprocess">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <instanceof
+                     value="com.metaaps.eoclipse.common.processing.IProcess">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.metaaps.eoclipse.processing.NCE.Execute"
+            commandId="com.metaaps.eoclipse.processing.execute">
+         <activeWhen>
+            <reference
+                  definitionId="com.metaaps.eoclipse.processing.isprocess">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="com.metaaps.eoclipse.processing.isprocess">
+            </reference>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="com.metaaps.eoclipse.layer2extensions">
+      <Processes
+            Class="com.metaaps.eoclipse.processing.AllProcesses">
+      </Processes>
+   </extension>
+
+</plugin>
