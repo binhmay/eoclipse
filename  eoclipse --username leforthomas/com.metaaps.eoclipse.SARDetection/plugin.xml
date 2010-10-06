@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.metaaps.eoclipse.processing">
+      <Processing
+            Class="com.metaaps.eoclipse.sardetection.SARDetection"
+            icon="icons/sample.gif"
+            name="SAR Detection">
+         <Parameter
+               Type="Vector"
+               name="Mask">
+            <Formats>
+               <Format
+                     Format="VECTOR_ALL">
+               </Format>
+            </Formats>
+         </Parameter>
+         <Parameter
+               Type="Image"
+               name="Image">
+            <Formats>
+               <Format
+                     Format="ENVISAT_ASAR_ALL">
+               </Format>
+               <Format
+                     Format="ERS_SAR_IMAGE">
+               </Format>
+            </Formats>
+         </Parameter>
+         <Output
+               Format="VECTOR_POINT"
+               Type="Vector">
+         </Output>
+      </Processing>
+   </extension>
+
+</plugin>
