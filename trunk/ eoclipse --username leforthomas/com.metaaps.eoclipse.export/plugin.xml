@@ -14,7 +14,7 @@
             name="export">
          <triggerPoints>
             <instanceof
-                  value="com.metaaps.eoclipse.common.IData">
+                  value="com.metaaps.eoclipse.common.datasets.IDataContent">
             </instanceof>
          </triggerPoints>
       </navigatorContent>
