@@ -15,8 +15,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.jdom.Element;
@@ -25,9 +28,13 @@ import com.metaaps.eoclipse.Activator;
 import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.IImports;
 import com.metaaps.eoclipse.common.datasets.IReaders;
 import com.metaaps.eoclipse.common.processing.IProcesses;
+import com.metaaps.eoclipse.common.views.IViewerImplementation;
+import com.metaaps.eoclipse.common.views.IViewerItem;
+import com.metaaps.eoclipse.common.views.IViewers;
 
 /**
  * @author leforthomas
@@ -52,8 +59,8 @@ public class WorkFlowManager extends Model {
 	protected WorkFlowManager() {
 	}
 	
-	public void openFile(String filename) throws FileNotFoundException {
-		WorkFlow.openFile(filename);
+	public WorkFlow openFile(String filename) throws FileNotFoundException {
+		return WorkFlow.openFile(filename);
 	}
 	
 	public void setConfigurerData(String key, Object value) {
@@ -85,11 +92,22 @@ public class WorkFlowManager extends Model {
 		for(Element fileelement : files) {
 			String filename = fileelement.getAttributeValue("name");
 			try {
-				openFile(filename);
+				WorkFlow workflow = WorkFlow.openFile(filename);
+				List<Element> views = fileelement.getChildren(IViewerItem.class.getName());
+				for(Element viewelement : views) {
+					String viewid = viewelement.getAttributeValue("viewid");
+					IViewerItem viewer = WorkFlowManager.getInstance().getViewers().findViewer(viewid);
+					if(viewer != null) {
+						viewer.Open(workflow);
+					} else {
+						Util.errorMessage("Could not Open View with view ID: " + viewid);
+					}
+				}
 			} catch (FileNotFoundException e) {
 				Util.errorMessage("Could not find file " + filename);
 			}
 		}
+		
 	}
 	
 	public void saveWorkSpace() {
@@ -99,7 +117,22 @@ public class WorkFlowManager extends Model {
 			if(obj instanceof WorkFlow) {
 				WorkFlow workflow = (WorkFlow) obj;
 				String filename = workflow.getFileName();
-				fileselements.addContent(new Element("file").setAttribute("name", filename));
+				if((filename == null) || (filename.length() == 0)) {
+					if(Util.questionMessage("Unsaved Work Flow", "You are about to leave with an unsaved work flow: " + workflow.getLabel() + "\nDo you want to save the workflow first?"))
+					{
+						workflow.save(false);
+						filename = workflow.getFileName();
+					}
+				}
+				if((filename != null) && (filename.length() != 0)) {
+					Element fileelement = new Element("file").setAttribute("name", filename);
+					IDataSets datasets = (IDataSets) Util.scanTreeChidren(IDataSets.class, workflow);
+					List<IViewerImplementation> viewers = WorkFlowManager.getInstance().getViewers().findDataSetsViewers(datasets);
+					for(IViewerImplementation viewer : viewers) {
+						fileelement.addContent(new Element(IViewerItem.class.getName()).setAttribute("viewid", viewer.getViewid()));
+					}
+					fileselements.addContent(fileelement);
+				}
 			}
 		}
 		Util.setConfiguration(fileselements);
@@ -133,8 +166,12 @@ public class WorkFlowManager extends Model {
 		return (IReaders) Util.getExtensionPointImplementation("com.metaaps.eoclipse.layer2extensions", "Readers");
 	}
 
+	public IViewers getViewers() {
+		return (IViewers) Util.getExtensionPointImplementation("com.metaaps.eoclipse.layer2extensions", "Viewers");
+	}
+	
 	public void setConfigurer(IWorkbenchWindowConfigurer windowConfigurer) {
 		m_configurer = windowConfigurer;
 	}
-	
+
 }
