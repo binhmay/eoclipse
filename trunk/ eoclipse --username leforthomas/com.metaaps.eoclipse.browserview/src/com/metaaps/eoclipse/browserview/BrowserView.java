@@ -11,6 +11,8 @@
 package com.metaaps.eoclipse.browserview;
 
 
+import java.util.List;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -28,7 +30,9 @@ import org.eclipse.swt.SWTError;
 import com.metaaps.eoclipse.common.IModelChangeListener;
 import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
+import com.metaaps.eoclipse.common.views.ILayer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
+import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
 
 
 /**
@@ -49,7 +53,7 @@ import com.metaaps.eoclipse.common.views.IViewerImplementation;
  * <p>
  */
 
-public class BrowserView extends ViewPart implements IViewerImplementation, IModelChangeListener {
+public class BrowserView extends AbstractViewerImplementation implements IViewerImplementation, IModelChangeListener {
 
 	private Action action1;
 
@@ -139,15 +143,15 @@ public class BrowserView extends ViewPart implements IViewerImplementation, IMod
 	}
 	
 	@Override
-	public void setDataSets(IDataSets datasets) {
+	public void selectionChanged(SelectionChangedEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
+	public List<ILayer> getLayers() {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }
