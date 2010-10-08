@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.media.opengl.GL;
 
 import com.metaaps.eoclipse.common.Attributes;
+import com.metaaps.eoclipse.common.Property;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.imageviewer.api.GeoContext;
 import com.metaaps.eoclipse.imageviewer.api.GeometricLayer;
@@ -727,5 +728,46 @@ public class SimpleVectorLayer implements ILayer, IVectorLayer, IClickable, IThr
 	@Override
 	public boolean represents(IDataContent datacontent) {
 		return m_datacontent == datacontent;
+	}
+
+	@Override
+	public Object getLayerProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Property[] getLayerProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLayerProperty(String key, Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Coordinate getCenter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void selectionChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void selectionDoubleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refresh() {
+		
 	}
 }
