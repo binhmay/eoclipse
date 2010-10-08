@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.imageviewer;
 
-
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.SWT;
@@ -28,7 +27,6 @@ import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.part.ViewPart;
 
 import com.metaaps.eoclipse.common.IModelChangeListener;
 import com.metaaps.eoclipse.common.Util;
@@ -48,21 +46,25 @@ import com.metaaps.eoclipse.imageviewer.layers.LayerManager;
 import com.metaaps.eoclipse.imageviewer.layers.SimpleVectorLayer;
 import com.metaaps.eoclipse.imageviewer.utils.GeoUtils;
 import com.metaaps.eoclipse.imageviewer.api.ILayerListener;
+import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
 import com.vividsolutions.jts.io.ParseException;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ImageViewer extends ViewPart implements ILayerUser, IViewerImplementation, IModelChangeListener {
+public class ImageViewer extends AbstractViewerImplementation implements ILayerUser, IViewerImplementation, IModelChangeListener {
 
-	public static final String ID = "com.metaaps.eoclipse.eoclipsegisviews.imageviewer";
 	private GLCanvas canvas;
 	private LayerManager root = new LayerManager(null);
 	private GeoContext geocontext=new GeoContext();
 	protected int dyy;
 	protected int dxx;
 	private ArrayList<ILayerListener> listeners=new ArrayList<ILayerListener>();
-	private IDataSets m_datasets;
-
+	
+	public ImageViewer() {
+		m_name = "Image Viewer";
+	}
+	
 	public void createPartControl(final Composite parent) {
 		Composite top = new Composite(parent, SWT.NONE);
 		top.setLayout(new FillLayout());
@@ -292,6 +294,48 @@ public class ImageViewer extends ViewPart implements ILayerUser, IViewerImplemen
 	public void selectionChanged(SelectionChangedEvent event) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<com.metaaps.eoclipse.common.views.ILayer> getLayers() {
+		ArrayList<com.metaaps.eoclipse.common.views.ILayer> layers = new ArrayList<com.metaaps.eoclipse.common.views.ILayer>();
+		layers.add(root);
+		for(ILayer layer : root.getLayers()) {
+			layers.add((com.metaaps.eoclipse.common.views.ILayer)layer);
+		}
+		
+		return layers;
+	}
+
+	@Override
+	public String getName() {
+		return m_name;
+	}
+
+	@Override
+	public void setName(String name) {
+		m_name = name;
+	}
+
+	@Override
+	public void refresh() {
+		geocontext.setDirty(true);
+		root.render(geocontext);
+	}
+	
+	@Override
+	public void moveLayer(com.metaaps.eoclipse.common.views.ILayer layer, boolean up) {
+		List<ILayer> layers = root.getLayers();
+		layers.lastIndexOf(layer);
+		int curindex = layers.lastIndexOf(layer);
+		if(curindex > 0) {
+			layers.remove(curindex);
+			if(curindex + 1 < layers.size()) {
+				layers.add(curindex + 1, (ILayer) layer);
+			} else {
+				layers.add((ILayer) layer);
+			}
+		}
 	}
 	
 }

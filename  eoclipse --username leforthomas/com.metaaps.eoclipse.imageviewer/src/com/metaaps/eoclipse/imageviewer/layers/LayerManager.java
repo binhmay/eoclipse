@@ -5,11 +5,13 @@
 package com.metaaps.eoclipse.imageviewer.layers;
 
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.metaaps.eoclipse.common.Property;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.imageviewer.api.GeoContext;
 import com.metaaps.eoclipse.imageviewer.api.IClickable;
@@ -21,6 +23,7 @@ import com.metaaps.eoclipse.imageviewer.api.ILayerManager;
 import com.metaaps.eoclipse.imageviewer.api.ILayerUser;
 import com.metaaps.eoclipse.imageviewer.api.IMouseDrag;
 import com.metaaps.eoclipse.imageviewer.api.IMouseMove;
+import com.vividsolutions.jts.geom.Coordinate;
 
 /**
  *
@@ -198,5 +201,47 @@ public class LayerManager implements ILayerManager, IClickable, IMouseMove, IMou
 	public boolean represents(IDataContent datacontent) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Coordinate getCenter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getLayerProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLayerProperty(String key, Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Property[] getLayerProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void selectionChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void selectionDoubleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 }
