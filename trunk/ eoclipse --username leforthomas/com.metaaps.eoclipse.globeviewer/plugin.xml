@@ -20,31 +20,5 @@
             restorable="true">
       </view>
    </extension>
-   <extension
-         point="org.eclipse.ui.navigator.navigatorContent">
-      <navigatorContent
-            contentProvider="com.metaaps.eoclipse.globeviewer.layers.NCE.ContentProvider"
-            id="com.metaaps.eoclipse.globeviewer.layers.NCE"
-            labelProvider="com.metaaps.eoclipse.globeviewer.layers.NCE.LabelProvider"
-            name="layers">
-         <triggerPoints>
-            <instanceof
-                  value="com.metaaps.eoclipse.common.views.IViewerItem">
-            </instanceof>
-         </triggerPoints>
-      </navigatorContent>
-   </extension>
-   <extension
-         point="org.eclipse.ui.navigator.viewer">
-      <viewerContentBinding
-            viewerId="com.metaaps.eoclipse.viewers.sidepanel.layers">
-         <includes>
-            <contentExtension
-                  isRoot="false"
-                  pattern="com.metaaps.eoclipse.globeviewer.layers.NCE">
-            </contentExtension>
-         </includes>
-      </viewerContentBinding>
-   </extension>
 
 </plugin>

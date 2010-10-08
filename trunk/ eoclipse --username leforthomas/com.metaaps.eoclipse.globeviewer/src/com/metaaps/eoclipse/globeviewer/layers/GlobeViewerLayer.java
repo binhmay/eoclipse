@@ -33,6 +33,8 @@ import com.vividsolutions.jts.geom.Coordinate;
  */
 public class GlobeViewerLayer extends RenderableLayer implements ILayer {
 	
+	private static final String COLOR_KEY = "Color";
+	private static final String VISIBLE_KEY = "Visible";
 	private IDataContent m_datacontent;
 
 	public GlobeViewerLayer(IDataContent datacontent) {
@@ -81,12 +83,35 @@ public class GlobeViewerLayer extends RenderableLayer implements ILayer {
 	@Override
 	public Property[] getLayerProperties() {
 		ArrayList<Property> properties = new ArrayList<Property>();
-		properties.add(new Property("color", getLayerColor()));
+		properties.add(new Property(VISIBLE_KEY, isEnabled()));
+		properties.add(new Property(COLOR_KEY, getLayerColor()));
 		return properties.toArray(new Property[properties.size()]);
 	}
 
 	@Override
 	public void setLayerProperty(String key, Object obj) {
+		if(key.contentEquals(COLOR_KEY)) {
+			setLayerColor((Color) obj);
+		}
+		if(key.contentEquals(VISIBLE_KEY)) {
+			setEnabled(((Boolean) obj).booleanValue());
+		}
+	}
+
+	@Override
+	public void selectionChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void selectionDoubleClick() {
+//	   double elevation = view.getCurrentEyePosition().elevation;
+//	   view.goTo(new Position(latlon.latitude, latlon.longitude, elevation), elevation);
+	}
+
+	@Override
+	public void refresh() {
 		// TODO Auto-generated method stub
 		
 	}
