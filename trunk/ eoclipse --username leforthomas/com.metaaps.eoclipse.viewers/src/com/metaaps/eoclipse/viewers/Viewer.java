@@ -26,6 +26,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.CommonViewer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
 
@@ -35,6 +36,7 @@ import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.common.views.IViewerItem;
+import com.metaaps.eoclipse.viewers.layers.LayerContent;
 import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
 public class Viewer extends Model implements IViewerItem {
@@ -42,7 +44,6 @@ public class Viewer extends Model implements IViewerItem {
 	private IExtension m_extension;
 	private ImageDescriptor m_imagedescriptor;
 	private String m_name;
-	private Object m_executeObj = null;
 	private IConfigurationElement m_configuration;
 	private String m_viewid;
 	private int m_viewCounter = 0;
@@ -59,22 +60,25 @@ public class Viewer extends Model implements IViewerItem {
 		Util.addPopupMenu("popup:navigatorcontent.popupmenu.viewers", Activator.PLUGIN_ID, getLabel(), "com.metaaps.eoclipse.viewers.vieweritem", "com.metaaps.eoclipse.viewers.viewer", IDataSets.class, parameters);
 	}
 	
-	public void Open(IWorkFlow workflow)
+	@Override
+	public void Open(final IWorkFlow workflow)
 	{
 		IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		try {
 			workbench.getActivePage().showView(m_viewid, new Integer(m_viewCounter).toString(), IWorkbenchPage.VIEW_CREATE);
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Util.errorMessage("Could not open the View");
 			return;
 		}
+		// open layers view if not already opened
+		Viewers.getInstance().OpenLayersView();
 		// find datasets from the workflow
 		final IDataSets datasets = (IDataSets) Util.searchForInterface(IDataSets.class, workflow.getChildren());
 		if(datasets != null) {
 			final IViewPart viewer = workbench.getActivePage().findViewReference(m_viewid, new Integer(m_viewCounter).toString()).getView(false);
 			if(viewer != null) {
+				final Viewer vieweritem = this;
 				IWorkbenchSiteProgressService siteService = (IWorkbenchSiteProgressService)viewer.getSite().getAdapter(IWorkbenchSiteProgressService.class);
 				siteService.schedule(new Job("Opening Window") {
 										@Override
@@ -84,7 +88,14 @@ public class Viewer extends Model implements IViewerItem {
 						
 												@Override
 												public void run() {
-													((IViewerImplementation)viewer).setDataSets(datasets);
+													IViewerImplementation viewerimp = (IViewerImplementation)viewer;
+													viewerimp.setDataSets(datasets);
+													viewerimp.setViewid(m_viewid);
+													viewerimp.setName(workflow.getLabel());
+													LayerContent layerview = Viewers.getInstance().getLayerView();
+													CommonViewer layertreeview = layerview.getCommonViewer();
+													vieweritem.addChild(viewer);
+													layertreeview.refresh();
 													WorkFlowManager.getInstance().addTreeSelectionListener((IViewerImplementation)viewer);
 												}
 												
@@ -100,8 +111,6 @@ public class Viewer extends Model implements IViewerItem {
 		}
 		m_viewCounter++;
 		
-		// open layers view if not already opened
-		Viewers.getInstance().OpenLayersView();
 	}
 
 	@Override
@@ -127,9 +136,17 @@ public class Viewer extends Model implements IViewerItem {
 		return m_configuration.getContributor().getName() + ":" + m_name;
 	}
 
+	@Override
 	public String getViewID() {
 		// TODO Auto-generated method stub
 		return m_viewid;
 	}
+	
+//	@Override
+//	public Object[] getChildren() {
+//		// look for views that are opened
+//		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+//		page.findViewReference(getViewID());
+//	}
 
 }

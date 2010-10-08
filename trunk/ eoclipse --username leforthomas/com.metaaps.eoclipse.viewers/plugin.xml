@@ -25,7 +25,7 @@
             name="Layers">
          <triggerPoints>
             <instanceof
-                  value="com.metaaps.eoclipse.viewers.Viewers">
+                  value="com.metaaps.eoclipse.workflowmanager.WorkFlowManager">
             </instanceof>
          </triggerPoints>
       </navigatorContent>

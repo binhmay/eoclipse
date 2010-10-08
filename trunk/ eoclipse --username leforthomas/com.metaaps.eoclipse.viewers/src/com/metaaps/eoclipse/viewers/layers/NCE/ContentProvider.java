@@ -1,11 +1,18 @@
 package com.metaaps.eoclipse.viewers.layers.NCE;
 
+import java.util.ArrayList;
+
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import com.metaaps.eoclipse.common.ModelChangeListener;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
+import com.metaaps.eoclipse.common.views.ILayer;
+import com.metaaps.eoclipse.common.views.IViewerImplementation;
+import com.metaaps.eoclipse.common.views.IViewerItem;
 import com.metaaps.eoclipse.viewers.Viewers;
+import com.metaaps.eoclipse.workflowmanager.WorkFlow;
+import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
 public class ContentProvider extends ModelChangeListener {
 
@@ -19,10 +26,26 @@ public class ContentProvider extends ModelChangeListener {
 	public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof Viewers)
 		{
-			return ((Viewers)parentElement).getChildren();
-		} else if(parentElement instanceof Viewer)
+			// display only the ones which are opened
+			ArrayList<IViewerItem> vieweritems = new ArrayList<IViewerItem>();
+			for(Object obj : ((Viewers)parentElement).getChildren()) {
+				if(obj instanceof IViewerItem) {
+					IViewerItem vieweritem = (IViewerItem) obj;
+					if((vieweritem.getChildren() != null) && (vieweritem.getChildren().length > 0)) {
+						vieweritems.add(vieweritem);
+					}
+				}
+			}
+			return vieweritems.toArray();
+		} else if(parentElement instanceof IViewerItem)
 		{
-			return new Object[]{};
+			return ((IViewerItem) parentElement).getChildren();
+		} else if(parentElement instanceof IViewerImplementation)
+		{
+			return ((IViewerImplementation) parentElement).getLayers().toArray();
+		} else if(parentElement instanceof ILayer)
+		{
+			return ((ILayer) parentElement).getLayerProperties();
 		}
 		
 		return EMPTY_ARRAY;
