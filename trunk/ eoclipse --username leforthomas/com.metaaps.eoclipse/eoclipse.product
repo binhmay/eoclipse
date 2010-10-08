@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="EOClipse" id="com.metaaps.eoclipse.product" application="com.metaaps.eoclipse.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="EOClipse" uid="com.metaaps.eoclipse" id="com.metaaps.eoclipse.product" application="com.metaaps.eoclipse.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/com.metaaps.eoclipse/icons/helplogo.png"/>
+      <text>
+         An Open Source framework and Rich Client Platform for Earth Observation Services
+Version 0.1
+Copyright Metaaps, October 2010
+This software is available using the GNU Lesser General Public License (LGPL).
+Visit http://www.eotools.com/eorcp/
+
+This product includes software developed by the Eclipse
+Foundation, Geotools and the Apache Software Foundation.
+This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke Kamiyamane.
+      </text>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
@@ -12,10 +27,13 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/com.metaaps.eoclipse/icons/logosmall.png"/>
 
    <splash
-      location="com.metaaps.eoclipse" />
+      location="com.metaaps.eoclipse"
+      startupProgressRect="50,110,470,15"
+      startupMessageRect="50,130,470,20"
+      startupForegroundColor="FFFFFF" />
    <launcher name="eoclipse">
       <solaris/>
       <win useIco="false">
@@ -23,8 +41,10 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="com.ibm.icu"/>
@@ -105,6 +125,7 @@
    <configurations>
       <plugin id="com.metaaps.eoclipse" autoStart="true" startLevel="2" />
       <plugin id="com.metaaps.eoclipse.datasets" autoStart="true" startLevel="1" />
+      <plugin id="com.metaaps.eoclipse.viewers" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.osgi" autoStart="true" startLevel="-1" />

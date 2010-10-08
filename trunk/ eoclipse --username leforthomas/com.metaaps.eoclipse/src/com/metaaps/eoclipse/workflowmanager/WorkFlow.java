@@ -52,6 +52,7 @@ import com.metaaps.eoclipse.common.processing.IParameter;
 import com.metaaps.eoclipse.common.processing.IProcess;
 import com.metaaps.eoclipse.common.processing.IProcesses;
 import com.metaaps.eoclipse.common.views.IViewerItem;
+import com.metaaps.eoclipse.common.views.IViewers;
 
 /**
  * @author leforthomas
@@ -91,7 +92,7 @@ public class WorkFlow extends Model implements IWorkFlow {
 	}
 	
 	public void writeToStream(OutputStream stream) throws IOException {
-		Element root = new Element("workflow");
+		Element root = new Element(IWorkFlow.class.getName());
 		fillDOMElement(root);
 		Document doc = new Document(root);
 		XMLOutputter output = new XMLOutputter();
@@ -106,7 +107,7 @@ public class WorkFlow extends Model implements IWorkFlow {
 				element.addContent(dataset);
 				for(Object dataobj : ((IDataSets) obj).getChildren()) {
 					if(dataobj instanceof IDataContent) {
-						CodeFragment code = ((IDataContent)obj).getCode();
+						CodeFragment code = ((IDataContent)dataobj).getCode();
 						dataset.addContent(code);
 					}
 				}
@@ -287,17 +288,22 @@ public class WorkFlow extends Model implements IWorkFlow {
 	}
 
 	private void readDOMViewsElement(Element viewselements) {
-		// TODO Auto-generated method stub
-		
+//		List<Element> views = viewselements.getChildren(IViewerItem.class.getName());
+//		for(Element viewelement : views) {
+//			String viewid = viewelement.getAttributeValue("viewid");
+//			IViewerItem viewer = WorkFlowManager.getInstance().getViewers().findViewer(viewid);
+//			viewer.Open(this);
+//		}
 	}
 
-	static public void openFile(String filename) throws FileNotFoundException {
+	static public WorkFlow openFile(String filename) throws FileNotFoundException {
 		FileInputStream fileinputstream = new FileInputStream(filename);
     	WorkFlow workflow = new WorkFlow("Initialised");
     	workflow.setFileName(filename);
     	WorkFlowManager.getInstance().addWorkFlow(workflow);
     	WorkFlowManager.getInstance().refreshTree();
 		workflow.readFromStream(fileinputstream);
+		return workflow;
 	}
 
 	private void setFileName(String filename) {
