@@ -11,6 +11,7 @@
 package com.metaaps.eoclipse.globeviewer;
 
 import gov.nasa.worldwind.layers.Layer;
+import gov.nasa.worldwind.layers.LayerList;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -28,18 +29,16 @@ import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.views.ILayer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
+import com.metaaps.eoclipse.globeviewer.layers.GlobeViewerLayer;
 import com.metaaps.eoclipse.globeviewer.layers.LayerTableViewerControl;
+import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
 
-public class GlobeViewer extends ViewPart implements IViewerImplementation, IModelChangeListener {
+public class GlobeViewer extends AbstractViewerImplementation implements IViewerImplementation, IModelChangeListener {
 
-	public static String ID = "com.metaaps.eoclipse.eoclipsegisviews.globeviewer";
 	private GlobeViewerControl m_globeviewercontrol;
-	private LayerTableViewerControl m_layertableviewer;
-	private IDataSets m_datasets;
-	private String m_name = "Globe Viewer";
 
 	public GlobeViewer() {
-		// TODO Auto-generated constructor stub
+		m_name = "Globe Viewer";
 	}
 
 	/**
@@ -141,6 +140,31 @@ public class GlobeViewer extends ViewPart implements IViewerImplementation, IMod
 	@Override
 	public void setName(String name) {
 		m_name = name;
+	}
+
+	@Override
+	public void refresh() {
+		m_globeviewercontrol.world.redraw();
+	}
+	
+	@Override
+	public void moveLayer(ILayer layer, boolean up) {
+		LayerList layerlist = m_globeviewercontrol.getLayers();
+		int curindex = layerlist.indexOf((GlobeViewerLayer) layer, 0);
+		if(curindex > -1 ) {
+			layerlist.remove(curindex);
+			if(up) {
+				if(curindex > 0) {
+					layerlist.add(curindex - 1, (GlobeViewerLayer) layer);
+				}
+			} else {
+				if(curindex + 1 < layerlist.size()) {
+					layerlist.add(curindex + 1, (GlobeViewerLayer) layer);
+				} else {
+					layerlist.add((GlobeViewerLayer) layer);
+				}
+			}
+		}
 	}
 
 }
