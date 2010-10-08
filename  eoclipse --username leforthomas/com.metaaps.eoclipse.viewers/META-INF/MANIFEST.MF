@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.ui,
  com.metaaps.eoclipse
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Export-Package: com.metaaps.eoclipse.viewers.util
