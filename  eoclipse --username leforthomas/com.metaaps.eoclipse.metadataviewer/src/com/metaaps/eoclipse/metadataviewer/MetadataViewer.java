@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.metadataviewer;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -35,16 +37,18 @@ import com.metaaps.eoclipse.common.IModelChangeListener;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.ITableData;
+import com.metaaps.eoclipse.common.views.ILayer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
+import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
 
-public class MetadataViewer extends ViewPart implements IViewerImplementation, IModelChangeListener {
+public class MetadataViewer extends AbstractViewerImplementation implements IViewerImplementation, IModelChangeListener {
 	
-	static String ID = "com.metaaps.eoclipse.eoclipsepropertiesviews.metadataviewer";
 	private TableViewer m_viewer;
 	private IDataContent m_currentdata;
 	private Table m_table;
 
 	public MetadataViewer() {
+		m_name = "Meta Data Viewer";
 	}
 
 	@Override
@@ -206,6 +210,23 @@ public class MetadataViewer extends ViewPart implements IViewerImplementation, I
         	generateTable();
         }
 		
+	}
+
+	@Override
+	public List<ILayer> getLayers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return m_name;
+	}
+
+	@Override
+	public void setName(String name) {
+		m_name  = name;
 	}
 
 }
