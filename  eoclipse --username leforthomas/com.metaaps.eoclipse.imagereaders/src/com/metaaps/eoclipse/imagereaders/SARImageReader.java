@@ -45,10 +45,6 @@ public abstract class SARImageReader extends DataContent implements IGeoRaster, 
         return this.band;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getWidth() {
         return xSize;
     }

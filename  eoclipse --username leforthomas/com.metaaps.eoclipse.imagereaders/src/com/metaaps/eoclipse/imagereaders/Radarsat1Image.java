@@ -767,5 +767,11 @@ public class Radarsat1Image extends SARImageReader {
         setMetadata(MODE, imgMode);
 
     }
+
+	@Override
+	public String getDataFormat() {
+		return "RADARSAT1_SAR_" + getMetadata("MODE") + getMetadata("BEAM") + "_IMAGE";
+	}
+
 }
 

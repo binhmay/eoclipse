@@ -590,4 +590,9 @@ public class EnvisatImage extends SARImageReader {
         return getClass().getCanonicalName();
     }
 
+	@Override
+	public String getDataFormat() {
+		return "ENVISAT_ASAR_" + getMetadata("SWATH") + "_IMAGE";
+	}
+
 }
