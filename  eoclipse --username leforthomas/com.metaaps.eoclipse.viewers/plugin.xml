@@ -28,6 +28,9 @@
                   value="com.metaaps.eoclipse.workflowmanager.WorkFlowManager">
             </instanceof>
          </triggerPoints>
+         <commonSorter
+               class="com.metaaps.eoclipse.viewers.layers.NCE.LayerViewerSorter">
+         </commonSorter>
       </navigatorContent>
    </extension>
    <extension
