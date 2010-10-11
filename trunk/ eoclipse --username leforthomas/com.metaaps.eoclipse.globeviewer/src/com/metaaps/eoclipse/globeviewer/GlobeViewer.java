@@ -46,13 +46,7 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 	 * it.
 	 */
 	public void createPartControl(Composite parent) {
-		
-//        SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-//        sashForm.setSize(10, 50);
 		m_globeviewercontrol = new GlobeViewerControl(parent); //sashForm);
-
-//		m_layertableviewer = new LayerTableViewerControl(sashForm);
-		
 	}
 
 	@Override
@@ -89,10 +83,14 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 	
 	private void addDataLayer(IDataContent datacontent) throws ParseException {
 		m_globeviewercontrol.addLayer(datacontent);
+		// tell listeners we have changed
+		fireChanged(datacontent, ADDED);
 	}
 	
 	private void removeDataLayer(IDataContent datacontent) throws ParseException {
 		m_globeviewercontrol.removeLayer(datacontent);
+		// tell listeners we have changed
+		fireChanged(datacontent, REMOVED);
 	}
 	
 	@Override
@@ -110,8 +108,6 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 				e.printStackTrace();
 			}
 		}
-		// update table too
-//		m_layertableviewer.update();
 	}
 
 	@Override
@@ -140,6 +136,7 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 	@Override
 	public void setName(String name) {
 		m_name = name;
+		setPartName("Globe Viewer - " + name);
 	}
 
 	@Override
