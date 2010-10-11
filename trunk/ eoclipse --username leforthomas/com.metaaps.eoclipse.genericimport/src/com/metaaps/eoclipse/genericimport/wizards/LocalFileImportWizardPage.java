@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.genericimport.wizards;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,6 +36,7 @@ public class LocalFileImportWizardPage extends WizardPage implements IImportWiza
 	private Label URI;
 	private Composite container;
 	private String m_uri;
+	private String m_filter;
 
 	public LocalFileImportWizardPage() {
 		super("Import Data Source From Local Disks");
@@ -62,6 +66,11 @@ public class LocalFileImportWizardPage extends WizardPage implements IImportWiza
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog filePicker = new FileDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 				filePicker.setFilterPath(Util.getUniqueConfigurationElementValue(CONFIGURATION_NAME, "filterpath"));
+				if(m_filter != null) {
+					ArrayList<String> filters = new ArrayList<String>(Arrays.asList(m_filter.split(";")));
+					filters.add(0, m_filter);
+					filePicker.setFilterExtensions(filters.toArray(new String[filters.size()]));
+				}
 				filePicker.open();
 				String path = filePicker.getFilterPath();
 				URI.setText(path + "/" + filePicker.getFileName());
@@ -97,6 +106,11 @@ public class LocalFileImportWizardPage extends WizardPage implements IImportWiza
 		method.setURI(m_uri);
 		
 		return method;
+	}
+
+	@Override
+	public void setFilter(String filter) {
+		m_filter = filter;
 	}
 	
 }
