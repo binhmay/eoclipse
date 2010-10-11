@@ -8,6 +8,21 @@
             icon="icons/sample.gif"
             name="SAR Detection">
          <Parameter
+               Type="Image"
+               name="Image">
+            <Formats>
+               <Format
+                     Format="ENVISAT_ASAR_ALL_IMAGE">
+               </Format>
+               <Format
+                     Format="ERS_SAR_ALL_IMAGE">
+               </Format>
+               <Format
+                     Format="RADARSAT1_SAR_ALL_IMAGE">
+               </Format>
+            </Formats>
+         </Parameter>
+         <Parameter
                Type="Vector"
                name="Mask">
             <Formats>
@@ -16,22 +31,6 @@
                </Format>
             </Formats>
          </Parameter>
-         <Parameter
-               Type="Image"
-               name="Image">
-            <Formats>
-               <Format
-                     Format="ENVISAT_ASAR_ALL">
-               </Format>
-               <Format
-                     Format="ERS_SAR_IMAGE">
-               </Format>
-            </Formats>
-         </Parameter>
-         <Output
-               Format="VECTOR_POINT"
-               Type="Vector">
-         </Output>
       </Processing>
    </extension>
 

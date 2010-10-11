@@ -35,12 +35,12 @@ public class SARDetection extends AbstractProcessing {
 				// TODO Auto-generated method stub
 				return "VDS Results";
 			}
-			
+
 			@Override
-			public String getType() {
-				// TODO Auto-generated method stub
-				return "Vector";
+			public String getDataFormat() {
+				return DATA_FORMATS.VECTOR_POINT.toString();
 			}
+			
 		};
 	}
 
