@@ -51,6 +51,7 @@ import com.metaaps.eoclipse.common.Attributes;
 import com.metaaps.eoclipse.common.CodeFragment;
 import com.metaaps.eoclipse.common.datasets.DataContent;
 import com.metaaps.eoclipse.common.datasets.ISourceDataContent;
+import com.metaaps.eoclipse.common.datasets.ITableData;
 import com.metaaps.eoclipse.common.datasets.IVectorData;
 import com.metaaps.eoclipse.common.datasets.VectorData;
 import com.vividsolutions.jts.geom.Geometry;
@@ -59,14 +60,8 @@ import com.vividsolutions.jts.io.WKTReader;
 
 public class ShapeFileReader extends DataContent implements IVectorData, ISourceDataContent {
 
-	private String m_name;
 	private File m_file;
 	private DataStore m_dataStore;
-
-	@Override
-	public String getName() {
-		return (m_file == null ? null : m_file.getName());
-	}
 
 	@Override
 	public String getDescription() {
@@ -169,6 +164,27 @@ public class ShapeFileReader extends DataContent implements IVectorData, ISource
 		
 		return vectordata;
 	}
+	
+	@Override
+	public ITableData getTableData() {
+		VectorData data = getVectorData("");
+		final List<Geometry> geometries = data.getGeometries();
+		List<Attributes> attributes = data.getAttributes();
+		final String[] schema = data.getSchema();
+		return new ITableData() {
+			
+			@Override
+			public Object[] getRowValues(int rownumber) {
+//				Geometry geometry = geometries.get(rownumber);
+				return schema;
+			}
+			
+			@Override
+			public String[] getColumnNames() {
+				return schema;
+			}
+		};
+	}
 
 	@Override
 	public HashMap<String, Object> getProperties() {
@@ -193,6 +209,12 @@ public class ShapeFileReader extends DataContent implements IVectorData, ISource
 	@Override
 	public String[] getFilesList() {
 		return new String[]{m_file.getAbsolutePath()};
+	}
+
+	@Override
+	public String getDataFormat() {
+		// Change to return the exact type of the shapefile data
+		return DATA_FORMATS.VECTOR_ALL.toString();
 	}
 
 }
