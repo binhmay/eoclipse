@@ -23,11 +23,14 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -43,9 +46,10 @@ import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
 
 public class MetadataViewer extends AbstractViewerImplementation implements IViewerImplementation, IModelChangeListener {
 	
-	private TableViewer m_viewer;
+	private TableViewer m_tableviewer;
 	private IDataContent m_currentdata;
-	private Table m_table;
+	private Label m_selectlabel;
+	private Composite m_parent;
 
 	public MetadataViewer() {
 		m_name = "Meta Data Viewer";
@@ -54,12 +58,34 @@ public class MetadataViewer extends AbstractViewerImplementation implements IVie
 	@Override
 	public void createPartControl(Composite parent) {
 		
-	    FillLayout compositeLayout = new FillLayout();
+	    GridLayout compositeLayout = new GridLayout(1, true);
 	    parent.setLayout(compositeLayout);
-
-	    m_table = new Table(parent, SWT.FULL_SELECTION);
-	    m_viewer = new TableViewer(m_table);
 	    
+	    m_parent = parent;
+	    
+	    generateTable();
+	    
+//	    m_tableviewer.addDoubleClickListener(new IDoubleClickListener() {
+//			
+//			@Override
+//			public void doubleClick(DoubleClickEvent event) {
+//			}
+//		});
+//	    
+//	    m_tableviewer.setCellModifier(new ICellModifier() {
+//		      public boolean canModify(Object element, String property) {
+//		    	  return false;
+//		      }
+//
+//		      public Object getValue(Object element, String property) {
+//				return null;
+//		      }
+//
+//		      public void modify(Object element, String property, Object value) {
+//		        m_tableviewer.refresh();
+//		      }
+//		    });
+
 	    generateTable();
 	}
 
@@ -76,31 +102,45 @@ public class MetadataViewer extends AbstractViewerImplementation implements IVie
 
 	private void generateTable() {
 		
-	    m_table.removeAll();
-	    m_viewer.refresh();
-
-	    if(m_currentdata == null) return;
+		if(m_tableviewer != null) {
+			m_tableviewer.getTable().dispose();
+		}
+		if(m_selectlabel != null) {
+			m_selectlabel.dispose();
+		}
+		
+	    if(m_currentdata == null) {
+		    m_selectlabel = new Label(m_parent, SWT.FULL_SELECTION);
+		    m_selectlabel.setText("No Data Element Selected, select an element first");
+		    m_parent.redraw();
+	    	return;
+	    }
 	    
 	    ITableData tabledata = m_currentdata.getTableData();
-	    if(tabledata == null) return;
-	    
-	    TableLayout layout = new TableLayout();
-	    for(String columnname : tabledata.getColumnNames()) {
-	    	layout.addColumnData(null);
+	    if(tabledata == null) {
+		    m_selectlabel = new Label(m_parent, SWT.FULL_SELECTION);
+		    m_selectlabel.setText("Element Selected '" + m_currentdata.getLabel() + "' does not provide metadata.");
+		    m_selectlabel.redraw();
+		    m_parent.redraw();
+	    	return;
 	    }
-	    m_table.setLayout(layout);
+	    
+	    m_tableviewer = new TableViewer(m_parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+	    
+		Table table = m_tableviewer.getTable();
+	    table.setVisible(true);
 	    
 	    for(String columnname : tabledata.getColumnNames()) {
-	    	layout.addColumnData(null);
-		    TableColumn nameColumn = new TableColumn(m_table, SWT.LEFT);
-		    nameColumn.setText(columnname);
+			TableViewerColumn column = new TableViewerColumn(m_tableviewer, SWT.NONE);
+			column.getColumn().setText(columnname);
+			column.getColumn().setWidth(100);
+			column.getColumn().setResizable(true);
+			column.getColumn().setMoveable(true);
 	    }
-	    m_table.setHeaderVisible(true);
+	    table.setHeaderVisible(true);
+	    table.setLinesVisible(true);
 	    
-	    m_viewer.setColumnProperties(tabledata.getColumnNames());
-	    m_viewer.setUseHashlookup(true);
-	    
-	    m_viewer.setContentProvider(new IStructuredContentProvider() {
+	    m_tableviewer.setContentProvider(new IStructuredContentProvider() {
 			
 			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -116,14 +156,16 @@ public class MetadataViewer extends AbstractViewerImplementation implements IVie
 
 			@Override
 			public Object[] getElements(Object inputElement) {
-				if(inputElement instanceof ITableData) {
-					return ((ITableData) inputElement).getRowValues(0);
+				if(inputElement instanceof IDataContent) {
+					return new Object[]{((IDataContent) inputElement).getTableData()};
+				} else if(inputElement instanceof ITableData) {
+					return new Object[]{((ITableData) inputElement).getRowValues(0)};
 				}
 				return null;
 			}
 		});
 
-	    m_viewer.setLabelProvider(new ITableLabelProvider() {
+	    m_tableviewer.setLabelProvider(new ITableLabelProvider() {
 
 			@Override
 			public void addListener(ILabelProviderListener listener) {
@@ -162,31 +204,15 @@ public class MetadataViewer extends AbstractViewerImplementation implements IVie
 				} else if(element instanceof Boolean) {
 					return ((Boolean) element).toString();
 				}
-				return null;
+				return element.toString();
 			}
 	    });
 	    
-	    m_viewer.addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-			}
-		});
+	    m_tableviewer.setInput(m_currentdata);
 	    
-	    m_viewer.setCellModifier(new ICellModifier() {
-		      public boolean canModify(Object element, String property) {
-		    	  return false;
-		      }
-
-		      public Object getValue(Object element, String property) {
-				return null;
-		      }
-
-		      public void modify(Object element, String property, Object value) {
-		        m_viewer.refresh();
-		      }
-		    });
-
+	    m_tableviewer.getTable().redraw();
+	    m_parent.redraw();
+	    
 //		    m_viewer.setCellEditors(
 //		    		new CellEditor[] { new TextCellEditor(table), new TextCellEditor(table),
 //		    					new ComboBoxCellEditor(table, new String[]{VISIBLE, HIDDEN}, SWT.READ_ONLY) }
@@ -207,9 +233,10 @@ public class MetadataViewer extends AbstractViewerImplementation implements IVie
         if(obj instanceof IDataContent)
         {
         	m_currentdata = (IDataContent) obj;
-        	generateTable();
+        } else {
+        	m_currentdata = null;
         }
-		
+    	generateTable();
 	}
 
 	@Override
