@@ -22,17 +22,19 @@ public class SelectParameterWizard extends Wizard {
 	private SelectParametersPage m_parameterspage;
 	private IDataContent m_data = null;
 	private Process m_process;
+	private HashMap<String, Object> m_parametervalues;
 
-	public SelectParameterWizard(IDataContent data, Process process) {
+	public SelectParameterWizard(IDataContent data, Process process, HashMap<String, Object> parametervalues) {
 		super();
 		setNeedsProgressMonitor(true);
 		m_data  = data;
 		m_process = process;
+		m_parametervalues = parametervalues;
 	}
 
 	@Override
 	public void addPages() {
-		m_parameterspage = new SelectParametersPage(m_data, m_process);
+		m_parameterspage = new SelectParametersPage(m_data, m_process, m_parametervalues);
 		addPage(m_parameterspage);
 	}
 	

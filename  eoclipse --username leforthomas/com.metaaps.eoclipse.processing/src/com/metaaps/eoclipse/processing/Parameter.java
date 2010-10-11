@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.processing;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.metaaps.eoclipse.common.datasets.IDataContent;
@@ -33,10 +34,18 @@ public class Parameter implements IParameter {
 	
 	public boolean isSupported(IDataContent data) {
 		String format = data.getDataFormat();
-		for(String type : m_supportedFormats)
+		String[] formatparts = format.split("_");
+		int length = Array.getLength(formatparts);
+		for(String supformat : m_supportedFormats)
 		{
-			if(format.contentEquals(type)) {
-				return true;
+			String[] supformatparts = supformat.split("_");
+			if(Array.getLength(supformatparts) == length) {
+				for(int count = 0; count < length; count++) {
+					String value = supformatparts[count];
+					if(value.contentEquals(formatparts[count]) || value.contentEquals("ALL")) {
+						return true;
+					}
+				}
 			}
 			
 		}

@@ -35,13 +35,14 @@ public class SelectParametersPage extends WizardPage {
 	private HashMap<String, Object> m_parameters = new HashMap<String, Object>();
 	private HashMap<String, Object> m_parametersvalues;
 
-	public SelectParametersPage(IDataContent data, Process process) {
+	public SelectParametersPage(IDataContent data, Process process, HashMap<String, Object> parametervalues) {
 		super("Select Parameters");
 		setTitle("Select the processing parameters for " + process.getName());
 		setDescription("Specify the extra parameters required for this plugin");
 		
 		m_process = process;
 		m_datasets = (IDataSets) Util.scanTree(IDataSets.class, data);
+		m_parametersvalues = parametervalues;
 	}
 
 	@Override
@@ -51,10 +52,17 @@ public class SelectParametersPage extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		
+		String parametername = m_parametersvalues.keySet().iterator().next();
+		new Label(container, SWT.NULL).setText(parametername);
+		new Label(container, SWT.NULL).setText(((IDataContent) m_parametersvalues.get(parametername)).getLabel());
+		
+		int counter = 0;
 		for(Object obj : m_process.getChildren())
 		{
 			if(obj instanceof Parameter)
 			{
+				// skip first parameter
+				if(counter++ == 0) continue;
 				Parameter parameter = (Parameter)obj;
 				String name = parameter.getName();
 				Label label = new Label(container, SWT.NULL);
@@ -104,11 +112,11 @@ public class SelectParametersPage extends WizardPage {
 	
 	@Override
 	public void dispose() {
-		m_parametersvalues = collectParameters();
+		collectParameters();
 	}
 	
-	public HashMap<String, Object> collectParameters() {
-		HashMap<String, Object> parameters = new HashMap<String, Object>();
+	public void collectParameters() {
+//		HashMap<String, Object> parameters = new HashMap<String, Object>();
 		
 		Iterator<String> keyiterator = m_parameters.keySet().iterator();
 		while(keyiterator.hasNext())
@@ -124,7 +132,7 @@ public class SelectParametersPage extends WizardPage {
 						IDataContent data = (IDataContent) obj;
 						if(data.getLabel().contentEquals(parametervalue))
 						{
-							parameters.put(parametername, data);
+							m_parametersvalues.put(parametername, data);
 							break;
 						}
 					}
@@ -132,14 +140,12 @@ public class SelectParametersPage extends WizardPage {
 			} else if(parameter instanceof Text) {
 				String parametervalue = ((Text)parameter).getText();
 				try {
-					parameters.put(parametername, new Double(parametervalue));
+					m_parametersvalues.put(parametername, new Double(parametervalue));
 				} catch(Exception e) {
 					
 				}
 			}
 		}
-		
-		return parameters;
 	}
 }
 

@@ -49,8 +49,6 @@ public class Process extends Model implements IProcess {
 	private ImageDescriptor m_imagedescriptor;
 	private IExtension m_extension;
 	private IProcessing m_executeObj;
-	private String m_resultType;
-	private String m_resultFormat;
 	private IConfigurationElement m_processing;
 	private IConfigurationElement m_confelement;
 
@@ -77,11 +75,11 @@ public class Process extends Model implements IProcess {
 				
 				addChild(new Parameter(parameter.getAttribute("name"), parameter.getAttribute("Type"), formats));
 			}
-			if(parameter.getName().contentEquals("Output"))
-			{
-				m_resultType = parameter.getAttribute("Type");
-				m_resultFormat = parameter.getAttribute("Format");
-			}
+//			if(parameter.getName().contentEquals("Output"))
+//			{
+//				m_resultType = parameter.getAttribute("Type");
+//				m_resultFormat = parameter.getAttribute("Format");
+//			}
 		}
 	}
 	
@@ -94,11 +92,13 @@ public class Process extends Model implements IProcess {
 	{
 		for(Object obj : m_children)
 		{
+			// check only for first parameter
 			Parameter parameter = (Parameter)obj;
 			if(parameter.isSupported(data))
 			{
 				return true;
 			}
+			return false;
 		}
 		
 		return false;
@@ -147,18 +147,18 @@ public class Process extends Model implements IProcess {
 			if(data != null)
 			{
 	    		final HashMap<String, Object> parametervalues;
+				// first parameter is the one that triggered the menu, add to list
+				parametervalues = new HashMap<String, Object>();
+				Parameter uniqueparam = (Parameter) m_children.toArray()[0];
+				parametervalues.put(uniqueparam.getName(), data);
+				// if more than one parameter required, open the wizard
 				if((m_children != null) && (m_children.size() > 1)) {
-		    		SelectParameterWizard wizard = new SelectParameterWizard(data, this);
+		    		SelectParameterWizard wizard = new SelectParameterWizard(data, this, parametervalues);
 		    		WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), wizard);
 		    		if(dialog.open() == WizardDialog.CANCEL){
 		    			return;
 		    		}
-		    		parametervalues = wizard.getParameters();
-				} else {
-					// parameter is the one that triggered the menu
-					parametervalues = new HashMap<String, Object>();
-					Parameter uniqueparam = (Parameter) m_children.toArray()[0];
-					parametervalues.put(uniqueparam.getName(), data);
+//		    		parametervalues = wizard.getParameters();
 				}
 				final IDataSets datasets = (IDataSets) Util.scanTree(IDataSets.class, data);
 				
@@ -209,9 +209,6 @@ public class Process extends Model implements IProcess {
 		m_executeObj.setMonitor(monitor);
 		IDataContent result = m_executeObj.execute(parametervalues);
 		if(result != null) {
-			result.setType(m_resultType);
-			result.setDataFormat(m_resultFormat);
-			
 			CodeFragment code = new CodeFragment(IDataContent.class.getName(), CodeFragment.TYPE.GENERATED);
 			code.setAttribute("name", result.getName());
 			// dataid is set later
