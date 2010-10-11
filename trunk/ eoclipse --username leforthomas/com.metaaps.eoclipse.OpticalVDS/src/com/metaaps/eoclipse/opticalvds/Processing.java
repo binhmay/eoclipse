@@ -34,11 +34,11 @@ public class Processing extends AbstractProcessing {
 				// TODO Auto-generated method stub
 				return "Optical VDS Results";
 			}
-			
+
 			@Override
-			public String getType() {
+			public String getDataFormat() {
 				// TODO Auto-generated method stub
-				return "Vector";
+				return DATA_FORMATS.VECTOR_POINT.toString();
 			}
 			
 		};
