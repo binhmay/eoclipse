@@ -14,18 +14,6 @@
                <Format
                      Format="VECTOR_ALL">
                </Format>
-               <Format
-                     Format="VECTOR_MIXED">
-               </Format>
-               <Format
-                     Format="VECTOR_POINT">
-               </Format>
-               <Format
-                     Format="VECTOR_POLYGON">
-               </Format>
-               <Format
-                     Format="VECTOR_LINE">
-               </Format>
             </Formats>
          </Parameter>
          <Parameter
@@ -51,12 +39,6 @@
             <Formats>
                <Format
                      Format="VECTOR_ALL">
-               </Format>
-               <Format
-                     Format="VECTOR_MIXED">
-               </Format>
-               <Format
-                     Format="VECTOR_POINT">
                </Format></Formats>
          </Parameter>
          <Output
@@ -82,10 +64,7 @@
                name="Source">
             <Formats>
                <Format
-                     Format="ENVISAT_ASAR_ALL">
-               </Format>
-               <Format
-                     Format="ERS_SAR_IMAGE">
+                     Format="ALL_ALL_ALL_ALL">
                </Format></Formats>
          </Parameter>
          <Output

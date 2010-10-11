@@ -57,6 +57,11 @@ public class VectorClipping extends AbstractProcessing {
 			public VectorData getVectorData(String cqlFilter) {
 				return clippedData;
 			}
+			
+			@Override
+			public String getDataFormat() {
+				return DATA_FORMATS.VECTOR_POLYGON.toString();
+			}
 		};
 		
 	}
