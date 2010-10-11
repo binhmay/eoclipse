@@ -5,18 +5,30 @@
          point="com.metaaps.eoclipse.reader">
       <Reader
             Class="com.metaaps.eoclipse.imagereaders.EnvisatImage"
+            Filter="*.N1"
             Type="Image"
             name="ENVISAT ASAR Image Reader">
          <Format
-               Type="ENVISAT_ASAR_ALL">
+               Filter="*.N1"
+               Type="ENVISAT_ASAR_ALL_IMAGE">
          </Format>
       </Reader>
       <Reader
             Class="com.metaaps.eoclipse.imagereaders.ERS2Image"
+            Filter="*.ers"
             Type="Image"
             name="ERS2 SAR Image Reader">
          <Format
-               Type="ERS_SAR_IMAGE">
+               Type="ERS2_SAR_ALL_IMAGE">
+         </Format>
+      </Reader>
+      <Reader
+            Class="com.metaaps.eoclipse.imagereaders.Radarsat1Image"
+            Filter="*.DAT"
+            Type="Image"
+            name="RADARSAT Image Reader">
+         <Format
+               Type="RADARSAT1_SAR_ALL_IMAGE">
          </Format>
       </Reader>
    </extension>
