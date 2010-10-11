@@ -315,6 +315,7 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 	@Override
 	public void setName(String name) {
 		m_name = name;
+		setPartName("Image Viewer - " + name);
 	}
 
 	@Override

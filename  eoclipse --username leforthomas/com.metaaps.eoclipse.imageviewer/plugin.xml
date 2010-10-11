@@ -22,7 +22,7 @@
       <Viewer
             Class="com.metaaps.eoclipse.imageviewer.ViewFactory"
             icon="icons/terminal.png"
-            name="Metaaps Image Viewer"
+            name="Image Viewer"
             viewid="com.metaaps.eoclipse.eoclipsegisviews.imageviewer">
       </Viewer>
    </extension>
