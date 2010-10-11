@@ -78,6 +78,7 @@ public class Viewer extends Model implements IViewerItem {
 		if(datasets != null) {
 			final IViewPart viewer = workbench.getActivePage().findViewReference(m_viewid, new Integer(m_viewCounter).toString()).getView(false);
 			if(viewer != null) {
+				workbench.getActivePage().activate(viewer);
 				final Viewer vieweritem = this;
 				IWorkbenchSiteProgressService siteService = (IWorkbenchSiteProgressService)viewer.getSite().getAdapter(IWorkbenchSiteProgressService.class);
 				siteService.schedule(new Job("Opening Window") {
@@ -88,15 +89,18 @@ public class Viewer extends Model implements IViewerItem {
 						
 												@Override
 												public void run() {
+													LayerContent layerview = Viewers.getInstance().getLayerView();
 													IViewerImplementation viewerimp = (IViewerImplementation)viewer;
 													viewerimp.setDataSets(datasets);
 													viewerimp.setViewid(m_viewid);
 													viewerimp.setName(workflow.getLabel());
-													LayerContent layerview = Viewers.getInstance().getLayerView();
 													CommonViewer layertreeview = layerview.getCommonViewer();
 													vieweritem.addChild(viewer);
 													layertreeview.refresh();
+													// listen to selection changes in the Tree
 													WorkFlowManager.getInstance().addTreeSelectionListener((IViewerImplementation)viewer);
+													// Layer View listens for changes in the viewer implementation
+													viewerimp.addListener(layerview);
 												}
 												
 											});

@@ -1,5 +1,6 @@
 package com.metaaps.eoclipse.viewers.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -7,12 +8,13 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import com.metaaps.eoclipse.common.IEvent;
+import com.metaaps.eoclipse.common.IModelChangeListener;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.views.ILayer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 
-public abstract class AbstractViewerImplementation extends ViewPart implements
-		IViewerImplementation {
+public abstract class AbstractViewerImplementation extends ViewPart implements IViewerImplementation {
 	
 	protected String m_viewID = "";
 	
@@ -20,12 +22,9 @@ public abstract class AbstractViewerImplementation extends ViewPart implements
 
 	protected IDataSets m_datasets;
 
-	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
+	// for event listeners on the viewer
+	protected ArrayList<IModelChangeListener> m_listeners = new ArrayList<IModelChangeListener>(); //NullDeltaListener.getSoleInstance();
+	
 	@Override
 	public void setViewid(String viewID) {
 		m_viewID = viewID;
@@ -68,4 +67,24 @@ public abstract class AbstractViewerImplementation extends ViewPart implements
 		
 	}
 
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void fireChanged(Object added, String event) {
+		for(IModelChangeListener listener : m_listeners) {
+			listener.modelChanged(added, event);
+		}
+	}
+
+	public void addListener(IModelChangeListener listener) {
+		m_listeners.add(listener);
+	}
+	
+	public void removeListener(IModelChangeListener listener) {
+		m_listeners.remove(listener);
+	}
+	
 }
