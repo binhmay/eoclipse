@@ -159,7 +159,7 @@ public class WorkFlow extends Model implements IWorkFlow {
 				String format = readerelement.getAttributeValue("format");
 				String readertype = readerelement.getAttributeValue("datatype");
 				IReaders allreaders = WorkFlowManager.getInstance().getReaders();
-				IReader reader = allreaders.findReader(readername);
+				IReader reader = allreaders.findReaderWithName(readername);
 				if(reader == null) {
 					Util.errorMessage("Could not find reader " + readername);
 					return;
