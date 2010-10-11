@@ -70,6 +70,7 @@ public class FTPImportWizardPage extends WizardPage implements IImportWizardPage
 	private Text m_status;
 	private Button m_localcopy;
 	private FTP m_method;
+	private String m_filter;
 
 	public FTPImportWizardPage() {
 		super("Import Data Source From Local Disks");
@@ -247,6 +248,11 @@ public class FTPImportWizardPage extends WizardPage implements IImportWizardPage
 	@Override
 	public IImport getImportMethod() {
 		return m_method;
+	}
+	
+	@Override
+	public void setFilter(String filter) {
+		m_filter = filter;
 	}
 	
 }

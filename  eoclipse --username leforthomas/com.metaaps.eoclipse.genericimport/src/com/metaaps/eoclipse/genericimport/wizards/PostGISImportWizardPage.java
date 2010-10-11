@@ -33,4 +33,10 @@ public class PostGISImportWizardPage extends WizardPage implements
 		return null;
 	}
 
+	@Override
+	public void setFilter(String filter) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
