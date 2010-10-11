@@ -13,10 +13,12 @@ package com.metaaps.eoclipse.globeviewer.layers;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.RenderableLayer;
+import gov.nasa.worldwind.render.Renderable;
 
 import com.metaaps.eoclipse.common.Property;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
@@ -52,8 +54,11 @@ public class GlobeViewerLayer extends RenderableLayer implements ILayer {
 	}
 
 	public void setLayerColor(Color color) {
-		PlaceMark item = (PlaceMark) getRenderables().iterator().next();
-		item.changeColor(color);
+		Iterator<Renderable> placemarks = getRenderables().iterator();
+		for(; placemarks.hasNext();) {
+			Renderable item = placemarks.next();
+			((PlaceMark)item).changeColor(color);
+		}
 	}
 
 	public Coordinate getCenter() {
