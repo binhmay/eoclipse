@@ -59,6 +59,11 @@ public class VectorBuffering extends AbstractProcessing {
 					public VectorData getVectorData(String cqlFilter) {
 						return bufferedData;
 					}
+					
+					@Override
+					public String getDataFormat() {
+						return DATA_FORMATS.VECTOR_POLYGON.toString();
+					}
 				});
 		
 	}

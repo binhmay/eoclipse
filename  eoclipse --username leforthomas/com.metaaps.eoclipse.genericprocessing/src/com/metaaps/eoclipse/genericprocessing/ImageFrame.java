@@ -53,6 +53,11 @@ public class ImageFrame extends AbstractProcessing {
 				public VectorData getVectorData(String cqlFilter) {
 					return imageframe;
 				}
+				
+				@Override
+				public String getDataFormat() {
+					return DATA_FORMATS.VECTOR_POLYGON.toString();
+				}
 			};
 		} catch(ParseException exception) {
 			return null;
