@@ -16,6 +16,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import com.metaaps.eoclipse.common.datasets.IImport;
 import com.metaaps.eoclipse.common.datasets.IImportWizardPage;
 import com.metaaps.eoclipse.common.datasets.IReader;
+import com.metaaps.eoclipse.datasets.readers.ReadersFolder;
 
 /**
  * 
@@ -28,22 +29,23 @@ import com.metaaps.eoclipse.common.datasets.IReader;
  */
 public class ImportDataWizard extends Wizard {
 
-	private WizardPage m_importpage;
-	private ReaderDataPage m_readerpage;
+	private IImportWizardPage m_importpage;
+//	private ReaderDataPage m_readerpage;
 	private AdditionalInfoWizardPage m_additionalpage;
 
-	public ImportDataWizard(WizardPage page) {
+	public ImportDataWizard(IImportWizardPage page) {
 		super();
 		setNeedsProgressMonitor(true);
 		m_importpage = page;
-		m_readerpage = new ReaderDataPage();
+//		m_readerpage = new ReaderDataPage();
 		m_additionalpage = new AdditionalInfoWizardPage((IImportWizardPage)m_importpage);
 	}
 
 	@Override
 	public void addPages() {
-		addPage(m_readerpage);
-		addPage(m_importpage);
+//		addPage(m_readerpage);
+		addPage((WizardPage) m_importpage);
+		m_importpage.setFilter(ReadersFolder.getInstance().getFilters());
 		addPage(m_additionalpage);
 	}
 
@@ -53,7 +55,8 @@ public class ImportDataWizard extends Wizard {
 	}
 
 	public IReader getReader() {
-		return m_readerpage.getReader();
+		return m_additionalpage.getReader();
+//		return m_readerpage.getReader();
 	}
 
 	public IImport getImportMethod() {

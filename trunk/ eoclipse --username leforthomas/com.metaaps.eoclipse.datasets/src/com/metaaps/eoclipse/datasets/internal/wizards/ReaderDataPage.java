@@ -19,6 +19,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+
+import com.metaaps.eoclipse.common.datasets.IImportWizardPage;
 import com.metaaps.eoclipse.common.datasets.IReader;
 import com.metaaps.eoclipse.datasets.readers.ReadersFolder;
 
@@ -147,21 +149,43 @@ public class ReaderDataPage extends WizardPage {
 	}
 	
 	@Override
-	public void dispose() {
-		String readername = m_reader.getText();
-		String formatname = m_formats.getText();
-		String type = m_types.getText();
-		
-		ReadersFolder readerfolder = ReadersFolder.getInstance();
-		Object[] readers = readerfolder.getChildren();
-		for(Object reader : readers) {
-			if(((IReader)reader).getType().contentEquals(type) && ((IReader)reader).getName().contentEquals(readername)) {
-				m_datareader = ((IReader)reader);
-				break;
+	public void setVisible(boolean visible) {
+		if(visible == false) {
+			String readername = m_reader.getText();
+			String formatname = m_formats.getText();
+			String type = m_types.getText();
+			
+			ReadersFolder readerfolder = ReadersFolder.getInstance();
+			Object[] readers = readerfolder.getChildren();
+			for(Object reader : readers) {
+				if(((IReader)reader).getType().contentEquals(type) && ((IReader)reader).getName().contentEquals(readername)) {
+					m_datareader = ((IReader)reader);
+					break;
+				}
 			}
+			m_datareader.setType(type);
+			m_datareader.setDataFormat(formatname);
+			((IImportWizardPage)getNextPage()).setFilter(m_datareader.getFilter());
 		}
-		m_datareader.setType(type);
-		m_datareader.setDataFormat(formatname);
+		super.setVisible(visible);
+	}
+	
+	@Override
+	public void dispose() {
+//		String readername = m_reader.getText();
+//		String formatname = m_formats.getText();
+//		String type = m_types.getText();
+//		
+//		ReadersFolder readerfolder = ReadersFolder.getInstance();
+//		Object[] readers = readerfolder.getChildren();
+//		for(Object reader : readers) {
+//			if(((IReader)reader).getType().contentEquals(type) && ((IReader)reader).getName().contentEquals(readername)) {
+//				m_datareader = ((IReader)reader);
+//				break;
+//			}
+//		}
+//		m_datareader.setType(type);
+//		m_datareader.setDataFormat(formatname);
 		super.dispose();
 	}
 }
