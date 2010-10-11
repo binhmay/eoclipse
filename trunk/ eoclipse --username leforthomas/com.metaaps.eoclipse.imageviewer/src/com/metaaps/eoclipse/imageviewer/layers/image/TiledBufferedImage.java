@@ -404,5 +404,11 @@ public class TiledBufferedImage extends DataContent implements IGeoRaster {
     	// TODO Auto-generated method stub
     	return null;
     }
+
+	@Override
+	public String getDataFormat() {
+		// TODO Auto-generated method stub
+		return "TIFF_ALL_ALL_ALL";
+	}
     
 }
