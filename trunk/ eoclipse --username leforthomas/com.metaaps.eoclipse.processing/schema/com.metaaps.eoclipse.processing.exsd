@@ -51,12 +51,14 @@
       <annotation>
          <documentation>
             Extend to provide a processing element.
+Parameters should be specified in the following order:
+- first the main parameter, which data type the process should appear under
+- then all secondary parameters
          </documentation>
       </annotation>
       <complexType>
          <sequence>
             <element ref="Parameter" minOccurs="1" maxOccurs="unbounded"/>
-            <element ref="Output"/>
          </sequence>
          <attribute name="Class" type="string" use="required">
             <annotation>
@@ -145,48 +147,17 @@
       </complexType>
    </element>
 
-   <element name="Output">
-      <complexType>
-         <attribute name="Type" use="required">
-            <annotation>
-               <documentation>
-                  The type of the output data.
-               </documentation>
-            </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="Image">
-                  </enumeration>
-                  <enumeration value="Vector">
-                  </enumeration>
-                  <enumeration value="Value">
-                  </enumeration>
-               </restriction>
-            </simpleType>
-         </attribute>
-         <attribute name="Format" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The format of the output element.
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="identifier" basedOn="com.metaaps.eoclipse.reader/Reader/Format/@Type"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
    <element name="Format">
       <complexType>
          <attribute name="Format" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Format uses the following naming conventions:
+- For an Image, PLATFORM_SENSOR_MODE_PRODUCTTYPE
+Any PLATFORM, SENSOR, MODE and PRODUCTTYPE can be replaced by the keyword &quot;ALL&quot;, if all subtypes are supported indeed.
+- For a Vector Data, VECTOR_TYPE
+VECTOR is a fixed string. TYPE includes &quot;ALL&quot;, &quot;POLYGON&quot;, &quot;POLYLINE&quot;, &quot;POINT&quot;
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="identifier" basedOn="com.metaaps.eoclipse.reader/Reader/Format/@Type"/>
-               </appinfo>
             </annotation>
          </attribute>
       </complexType>
