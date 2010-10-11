@@ -27,6 +27,9 @@
                   value="com.metaaps.eoclipse.common.IWorkFlow">
             </instanceof>
          </enablement>
+         <commonSorter
+               class="com.metaaps.eoclipse.datasets.internal.NCE.DataSetsViewerSorter">
+         </commonSorter>
       </navigatorContent>
    </extension>
    <extension

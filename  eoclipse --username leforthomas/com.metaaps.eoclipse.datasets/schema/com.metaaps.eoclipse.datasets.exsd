@@ -89,6 +89,13 @@
                </restriction>
             </simpleType>
          </attribute>
+         <attribute name="Filter" type="string">
+            <annotation>
+               <documentation>
+                  Specify the filter, eg for a Shapefile it would be *.shp
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

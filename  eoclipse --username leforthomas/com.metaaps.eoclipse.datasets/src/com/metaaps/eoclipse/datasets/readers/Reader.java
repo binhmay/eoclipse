@@ -40,11 +40,13 @@ public class Reader extends Model implements IReader {
 	private String[] m_formats = null;
 	private String m_format;
 	private String m_type;
+	private String m_filter;
 
 	public Reader(IExtension extension, IConfigurationElement element) {
 		m_extension = extension;
 		m_name = element.getAttribute("name");
 		m_readertype = element.getAttribute("Type");
+		m_filter = element.getAttribute("Filter");
 		m_configuration = element;
 		ArrayList<String> formats = new ArrayList<String>();
 		IConfigurationElement[] formatelements = element.getChildren("Format");
@@ -93,8 +95,8 @@ public class Reader extends Model implements IReader {
 			ISourceDataContent reader = (ISourceDataContent) m_configuration.createExecutableExtension("Class");
 			reader.setFile(file);
 			reader.initialise();
-			reader.setDataFormat(m_format);
-			reader.setType(m_type);
+//			reader.setDataFormat(m_format);
+//			reader.setType(m_type);
 			return reader;
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -123,6 +125,12 @@ public class Reader extends Model implements IReader {
 	public String getDataFormat() {
 		// TODO Auto-generated method stub
 		return m_format;
+	}
+
+	@Override
+	public String getFilter() {
+		// TODO Auto-generated method stub
+		return m_filter;
 	}
 
 }

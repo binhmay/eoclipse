@@ -10,7 +10,7 @@ public class AllReaders implements IReaders {
 	}
 
 	@Override
-	public IReader findReader(String readername) {
+	public IReader findReaderWithName(String readername) {
 		for(Object obj : ReadersFolder.getInstance().getChildren()) {
 			IReader childreader = (IReader) obj;
 			if(childreader.getName().contentEquals(readername)) {

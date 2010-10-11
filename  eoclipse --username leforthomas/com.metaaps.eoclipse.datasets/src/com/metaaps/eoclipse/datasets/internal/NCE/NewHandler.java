@@ -23,6 +23,7 @@ import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.IImport;
 import com.metaaps.eoclipse.common.datasets.IImportMethod;
+import com.metaaps.eoclipse.common.datasets.IImportWizardPage;
 import com.metaaps.eoclipse.datasets.internal.wizards.ImportDataWizard;
 
 /**
@@ -53,7 +54,7 @@ public class NewHandler extends AbstractHandler {
     	if(importmethod.useWizard()) {
         	// create wizard to collect reader and file
     		WizardPage importpage = importmethod.getImportWizardPage();
-    		ImportDataWizard wizard = new ImportDataWizard(importpage);
+    		ImportDataWizard wizard = new ImportDataWizard((IImportWizardPage) importpage);
     		WizardDialog dialog = new WizardDialog(new Shell(), wizard);
     		if(dialog.open() == WizardDialog.OK) {
             	datasets.importDataContent(wizard.getImportMethod(), wizard.getReader(), wizard.getDataName());

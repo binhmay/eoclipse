@@ -62,7 +62,7 @@ public class ReadersFolder extends Model implements IRegistryChangeListener {
 			}
 		}
 	}
-
+	
 	public static ReadersFolder getInstance() {
 		if(m_instance == null) {
 			m_instance = new ReadersFolder();
@@ -93,6 +93,45 @@ public class ReadersFolder extends Model implements IRegistryChangeListener {
 		
 	}
 
+	public String getFilters() {
+		String filters = "";
+		
+		for(Object obj : getChildren()) {
+			if(obj instanceof Reader) {
+				filters += ((Reader) obj).getFilter() + ";";
+			}
+		}
+		
+		return filters; 
+	}
+
+	public IReader findReaderWithName(String readername) {
+		for(Object obj : ReadersFolder.getInstance().getChildren()) {
+			IReader childreader = (IReader) obj;
+			if(childreader.getName().contentEquals(readername)) {
+				return childreader;
+			}
+		}
+		
+		return null;
+	}
+	
+	public IReader[] findReadersWithFilter(String filter) {
+		ArrayList<IReader> readers = new ArrayList<IReader>();
+		
+		for(Object obj : ReadersFolder.getInstance().getChildren()) {
+			IReader childreader = (IReader) obj;
+			String[] filters = childreader.getFilter().split(";");
+			for(String filtervalue : filters) {
+				if(filtervalue.contentEquals(filter)) {
+					readers.add(childreader);
+				}
+			}
+		}
+		
+		return readers.toArray(new IReader[readers.size()]);
+	}
+	
 	public IReader[] getChildrenWithType(String type) {
 		ArrayList<IReader> readers = new ArrayList<IReader>();
 		
