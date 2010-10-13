@@ -8,7 +8,8 @@
             icon="icons/sample.gif"
             name="Optical VDS">
          <Parameter
-               Type="Image"
+               Type="Data (Image or Vector)"
+               description="The Optical Input Image to process"
                name="Image">
             <Formats>
                <Format
@@ -16,10 +17,6 @@
                </Format>
             </Formats>
          </Parameter>
-         <Output
-               Format="VECTOR_POINT"
-               Type="Vector">
-         </Output>
       </Processing>
    </extension>
 
