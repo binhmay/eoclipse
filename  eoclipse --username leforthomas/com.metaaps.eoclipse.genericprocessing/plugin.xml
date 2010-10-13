@@ -8,7 +8,7 @@
             icon="icons/open-source.png"
             name="Vector Data Buffering">
          <Parameter
-               Type="Vector"
+               Type="Data (Image or Vector)"
                name="Source">
             <Formats>
                <Format
@@ -18,35 +18,28 @@
          </Parameter>
          <Parameter
                Type="Value"
+               description="(meters)"
                name="Size">
             <Formats>
                <Format
-                     Format="DOUBLE">
+                     Format="DOUBLE:0:50000">
                </Format></Formats>
          </Parameter>
-         <Output
-               Format="VECTOR_ALL"
-               Type="Vector">
-         </Output>
       </Processing>
       <Processing
             Class="com.metaaps.eoclipse.genericprocessing.VectorClipping"
             icon="icons/open-source.png"
             name="Vector Clipping">
          <Parameter
-               Type="Vector"
+               Type="Data (Image or Vector)"
                name="Source">
             <Formats>
                <Format
                      Format="VECTOR_ALL">
                </Format></Formats>
          </Parameter>
-         <Output
-               Format="VECTOR_MIXED"
-               Type="Vector">
-         </Output>
          <Parameter
-               Type="Vector"
+               Type="Data (Image or Vector)"
                name="Clip">
             <Formats>
                <Format
@@ -60,17 +53,61 @@
             icon="icons/open-source.png"
             name="Image Frame">
          <Parameter
-               Type="Image"
+               Type="Data (Image or Vector)"
                name="Source">
             <Formats>
                <Format
                      Format="ALL_ALL_ALL_ALL">
                </Format></Formats>
          </Parameter>
-         <Output
-               Format="VECTOR_POLYGON"
-               Type="Vector">
-         </Output>
+      </Processing>
+      <Processing
+            Class="com.metaaps.eoclipse.genericprocessing.ImageMasking"
+            Description="Produces a new image masked with the given input vectordata mask. All new pixel values are set to the pixel value parameter."
+            icon="icons/open-source.png"
+            name="Image Masking">
+         <Parameter
+               Type="Data (Image or Vector)"
+               description="Raster to be masked"
+               name="Source">
+            <Formats>
+               <Format
+                     Format="ALL_ALL_ALL_ALL">
+               </Format></Formats>
+         </Parameter>
+         <Parameter
+               Type="Data (Image or Vector)"
+               description="Mask to use"
+               name="Mask">
+            <Formats>
+               <Format
+                     Format="VECTOR_POLYGON">
+               </Format>
+               <Format
+                     Format="VECTOR_POLYLINE">
+               </Format>
+            </Formats>
+         </Parameter>
+         <Parameter
+               Type="Value"
+               description="buffering of mask (meters)"
+               name="Buffering">
+            <Formats>
+               <Format
+                     Format="DOUBLE:0:50000">
+               </Format>
+            </Formats>
+         </Parameter>
+         <Parameter
+               Type="Value"
+               description="value to use to replace masked pixels (use RGB)"
+               name="Pixel Value">
+            <Formats>
+               <Format
+                     Format="INTEGER:0:65635">
+               </Format>
+            </Formats>
+         </Parameter>
       </Processing>
    </extension>
 
