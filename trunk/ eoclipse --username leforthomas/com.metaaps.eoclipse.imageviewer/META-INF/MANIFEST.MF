@@ -8,14 +8,10 @@ Bundle-Vendor: METAAPS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.metaaps.eoclipse.viewers,
- com.metaaps.eoclipse.common,
  com.metaaps.eoclipse.genericprocessing;bundle-version="1.0.0",
+ com.metaaps.eoclipse;bundle-version="1.0.0",
+ com.metaaps.eoclipse.common,
  com.metaaps.eoclipse.processing;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: com.metaaps.eoclipse.common,
- com.metaaps.eoclipse.common.views,
- com.vividsolutions.jts.geom,
- com.vividsolutions.jts.io,
- com.vividsolutions.jts.operation.buffer
 Bundle-ClassPath: .
