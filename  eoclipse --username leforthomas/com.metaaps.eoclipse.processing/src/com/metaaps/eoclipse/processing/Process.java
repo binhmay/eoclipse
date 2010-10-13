@@ -73,7 +73,7 @@ public class Process extends Model implements IProcess {
 					formats.add(format.getAttribute("Format"));
 				}
 				
-				addChild(new Parameter(parameter.getAttribute("name"), parameter.getAttribute("Type"), formats));
+				addChild(new Parameter(parameter.getAttribute("name"), parameter.getAttribute("Type"), (parameter.getAttribute("description")  == null ? "" : parameter.getAttribute("description")), formats));
 			}
 //			if(parameter.getName().contentEquals("Output"))
 //			{
@@ -108,7 +108,7 @@ public class Process extends Model implements IProcess {
 	{
 		if(dataset != null)
 		{
-			dataset.addDataContent(data, null);
+			dataset.addDataContent(data, data.getName());
 		} else {
 			System.out.println("Datasets is null");
 		}

@@ -50,10 +50,10 @@ public class SelectParametersPage extends WizardPage {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.numColumns = 2;
+		layout.numColumns = 1;
 		
 		String parametername = m_parametersvalues.keySet().iterator().next();
-		new Label(container, SWT.NULL).setText(parametername);
+		new Label(container, SWT.NULL | SWT.BOLD).setText("Parameter " + parametername + ":");
 		new Label(container, SWT.NULL).setText(((IDataContent) m_parametersvalues.get(parametername)).getLabel());
 		
 		int counter = 0;
@@ -65,13 +65,42 @@ public class SelectParametersPage extends WizardPage {
 				if(counter++ == 0) continue;
 				Parameter parameter = (Parameter)obj;
 				String name = parameter.getName();
-				Label label = new Label(container, SWT.NULL);
-				label.setText(name);
+				String description = parameter.getDescription();
+				String fullname = "'" + name + "' " + description;
+				new Label(container, SWT.NULL);
+				Label label = new Label(container, SWT.NULL | SWT.BOLD);
 				if(parameter.getType().contentEquals("Value")) {
+					// check type
+					String format = parameter.getSupportedFormats().get(0);
+					String[] formats = format.split(":");
+					String type = formats[0];
+					double min = -1;
+					double max = -1;
+					if((formats.length > 1) && !formats[1].contentEquals("*")) {
+						min = Double.parseDouble(formats[1]);
+					}
+					if((formats.length == 3) && !formats[2].contentEquals("*")) {
+						max = Double.parseDouble(formats[2]);
+					}
 					Text text = new Text(container, SWT.SINGLE | SWT.BORDER);
 					text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+					if(type.contentEquals("STRING")) {
+						label.setText("Parameter " + fullname + "(String " + (min == -1 ? "" : "- min char: " + min) + (max == -1 ? "" : " - max char: " + max) + ")");
+					}
+					if(type.contentEquals("INTEGER") || type.contentEquals("DOUBLE")) {
+						label.setText("Parameter " + fullname + "(" + (type.contentEquals("INTEGER") ? "Integer" : "Double") + (min == -1 ? "" : "- min: " + min) + (max == -1 ? "" : " - max: " + max) + ")");
+					}
 					m_parameters.put(name, text);
+				} else if(parameter.getType().contentEquals("Choice")) {
+					label.setText("Parameter " + fullname + ":");
+					Combo combo = new Combo(container, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.VERTICAL | SWT.BORDER);
+					combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+					for(String format : parameter.getSupportedFormats()) {
+						combo.add(format);
+					}
+					m_parameters.put(name, combo);
 				} else {
+					label.setText("Parameter " + fullname + ":");
 					Combo combo = new Combo(container, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.VERTICAL | SWT.BORDER);
 					addParameters(combo, parameter);
 					combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -116,36 +145,90 @@ public class SelectParametersPage extends WizardPage {
 	}
 	
 	public void collectParameters() {
-//		HashMap<String, Object> parameters = new HashMap<String, Object>();
 		
-		Iterator<String> keyiterator = m_parameters.keySet().iterator();
-		while(keyiterator.hasNext())
+		int counter = 0;
+		for(Object obj : m_process.getChildren())
 		{
-			String parametername = keyiterator.next();
-			Object parameter = m_parameters.get(parametername);
-			if(parameter instanceof Combo) {
-				String parametervalue = ((Combo)parameter).getText();
-				for(Object obj : ((IModel)m_datasets).getChildren())
-				{
-					if(obj instanceof IDataContent)
+			if(obj instanceof Parameter)
+			{
+				// skip first parameter
+				if(counter++ == 0) continue;
+				Parameter parameter = (Parameter)obj;
+				String name = parameter.getName();
+				Object control = m_parameters.get(name);
+				if(parameter.getType().contentEquals("Value")) {
+					// check type
+					String format = parameter.getSupportedFormats().get(0);
+					String[] formats = format.split(":");
+					String type = formats[0];
+					double min = -1;
+					double max = -1;
+					if((formats.length > 1) && !formats[1].contentEquals("*")) {
+						min = Double.parseDouble(formats[1]);
+					}
+					if((formats.length == 3) && !formats[2].contentEquals("*")) {
+						max = Double.parseDouble(formats[2]);
+					}
+					String parametervalue = ((Text)control).getText();
+					if(type.contentEquals("STRING")) {
+						m_parametersvalues.put(name, parametervalue);
+					}
+					if(type.contentEquals("INTEGER")) {
+						m_parametersvalues.put(name, new Integer(parametervalue));
+					}
+					if(type.contentEquals("DOUBLE")) {
+						m_parametersvalues.put(name, new Double(parametervalue));
+					}
+				} else if(parameter.getType().contentEquals("Choice")) {
+					String parametervalue = ((Text)control).getText();
+					m_parametersvalues.put(name, parametervalue);
+				} else {
+					String parametervalue = ((Combo)control).getText();
+					for(Object dataobj : ((IModel)m_datasets).getChildren())
 					{
-						IDataContent data = (IDataContent) obj;
-						if(data.getLabel().contentEquals(parametervalue))
+						if(dataobj instanceof IDataContent)
 						{
-							m_parametersvalues.put(parametername, data);
-							break;
+							IDataContent data = (IDataContent) dataobj;
+							if(data.getLabel().contentEquals(parametervalue))
+							{
+								m_parametersvalues.put(name, data);
+								break;
+							}
 						}
 					}
 				}
-			} else if(parameter instanceof Text) {
-				String parametervalue = ((Text)parameter).getText();
-				try {
-					m_parametersvalues.put(parametername, new Double(parametervalue));
-				} catch(Exception e) {
-					
-				}
 			}
 		}
+		
+//		Iterator<String> keyiterator = m_parameters.keySet().iterator();
+//		while(keyiterator.hasNext())
+//		{
+//			String parametername = keyiterator.next();
+//			Object parameter = m_parameters.get(parametername);
+//			if(parameter instanceof Combo) {
+//				String parametervalue = ((Combo)parameter).getText();
+//				for(Object obj : ((IModel)m_datasets).getChildren())
+//				{
+//					if(obj instanceof IDataContent)
+//					{
+//						IDataContent data = (IDataContent) obj;
+//						if(data.getLabel().contentEquals(parametervalue))
+//						{
+//							m_parametersvalues.put(parametername, data);
+//							break;
+//						}
+//					}
+//				}
+//			} else if(parameter instanceof Text) {
+//				String parametervalue = ((Text)parameter).getText();
+//				try {
+//					m_parametersvalues.put(parametername, new Double(parametervalue));
+//				} catch(Exception e) {
+//					
+//				}
+//			}
+//		}
 	}
+	
 }
 
