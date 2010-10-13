@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 
 
 import com.metaaps.eoclipse.common.Attributes;
+import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IGeoRaster;
 import com.metaaps.eoclipse.common.datasets.IVectorData;
@@ -103,6 +104,9 @@ public class GlobeViewerControl implements IGISControl {
 		if(datacontent instanceof IVectorData) {
 			VectorData vectordata = ((IVectorData) datacontent).getVectorData("");
 	        List<Renderable> renderables = new Vector<Renderable>();
+	        if(vectordata.getGeometries() == null) {
+	        	Util.errorMessage("Cannot add Empty Layer '" + datacontent.getName() + "'");
+	        }
 	        for (Geometry geom : vectordata.getGeometries()) {
 	            Attributes att = vectordata.getAttributes(geom);
 	            renderables.add(PlaceMark.create(att.toString(), geom, Color.CYAN));
