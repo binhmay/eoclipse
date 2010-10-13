@@ -13,5 +13,13 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: com.metaaps.eoclipse.common,
- org.osgi.service.wireadmin;version="1.0.0"
-Export-Package: com.metaaps.eoclipse.workflowmanager
+ org.eclipse.core.expressions
+Export-Package: com.metaaps.eoclipse.common,
+ com.metaaps.eoclipse.common.datasets,
+ com.metaaps.eoclipse.common.export,
+ com.metaaps.eoclipse.common.geometry,
+ com.metaaps.eoclipse.common.hosted,
+ com.metaaps.eoclipse.common.processing,
+ com.metaaps.eoclipse.common.properties,
+ com.metaaps.eoclipse.common.views,
+ com.metaaps.eoclipse.workflowmanager
