@@ -8,7 +8,8 @@
             icon="icons/sample.gif"
             name="SAR Detection">
          <Parameter
-               Type="Image"
+               Type="Data (Image or Vector)"
+               description="The Input SAR Image to process"
                name="Image">
             <Formats>
                <Format
@@ -23,7 +24,8 @@
             </Formats>
          </Parameter>
          <Parameter
-               Type="Vector"
+               Type="Data (Image or Vector)"
+               description="The Land Mask to use"
                name="Mask">
             <Formats>
                <Format
