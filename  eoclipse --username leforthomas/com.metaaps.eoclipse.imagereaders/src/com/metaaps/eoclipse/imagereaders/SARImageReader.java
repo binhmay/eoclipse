@@ -23,6 +23,7 @@ import com.metaaps.eoclipse.common.datasets.ISatelliteMetadata;
 import com.metaaps.eoclipse.common.datasets.IGeoTransform;
 import com.metaaps.eoclipse.common.datasets.ISourceDataContent;
 import com.metaaps.eoclipse.common.datasets.ISARMetadata;
+import com.metaaps.eoclipse.datasets.readers.ReadersFolder;
 
 /**
  * this is a class that implememts default method to access raster data.
@@ -320,13 +321,6 @@ public abstract class SARImageReader extends DataContent implements IGeoRaster, 
     }
 
     private double getSatelliteSpeed() {
-        // calculate satellite speed
-/*
-        double seconds = ((double)(getTimestamp(GeoImageReaderBasic.TIMESTAMP_STOP).getTime() - getTimestamp(GeoImageReaderBasic.TIMESTAMP_START).getTime())) / 1000;
-        // calculate satellite speed in azimuth pixels / seconds
-        double azimuthpixelspeed = ((double)getHeight() * (6400000 + sataltitude) / 6400000) / seconds;
-        return azimuthpixelspeed * getGeoTransform().getPixelSize()[0];
-         */
         double satellite_speed = 0.0;
 
         // check if satellite speed has been calculated
@@ -476,7 +470,27 @@ public abstract class SARImageReader extends DataContent implements IGeoRaster, 
 
     @Override
     public IGeoRaster clone(){
-        return this;
+    	// create new file
+    	Class clazz = getClass();
+    	try {
+			IGeoRaster clone = (IGeoRaster) clazz.newInstance();
+			ISourceDataContent source = (ISourceDataContent) clone;
+			source.setFile(new File(this.getFilesList()[0]));
+			source.setCode(getCode());
+			source.setDataFormat(getDataFormat());
+			source.setName(getName());
+			source.setParent(getParent());
+			clone.initialise();
+			return clone;
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	// copy all data to new file
+        return null;
     }
     
     @Override
