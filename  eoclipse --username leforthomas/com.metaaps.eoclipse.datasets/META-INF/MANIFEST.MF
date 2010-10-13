@@ -15,4 +15,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: com.metaaps.eoclipse.common
 Export-Package: com.metaaps.eoclipse.datasets,
- com.metaaps.eoclipse.datasets.internal.NCE;x-internal:=true
+ com.metaaps.eoclipse.datasets.internal.NCE;x-internal:=true,
+ com.metaaps.eoclipse.datasets.readers

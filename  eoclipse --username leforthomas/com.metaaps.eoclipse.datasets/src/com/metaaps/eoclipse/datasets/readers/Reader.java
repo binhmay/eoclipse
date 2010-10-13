@@ -95,8 +95,6 @@ public class Reader extends Model implements IReader {
 			ISourceDataContent reader = (ISourceDataContent) m_configuration.createExecutableExtension("Class");
 			reader.setFile(file);
 			reader.initialise();
-//			reader.setDataFormat(m_format);
-//			reader.setType(m_type);
 			return reader;
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
