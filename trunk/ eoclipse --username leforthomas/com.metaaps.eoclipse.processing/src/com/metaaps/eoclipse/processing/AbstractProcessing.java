@@ -24,7 +24,7 @@ import com.metaaps.eoclipse.common.processing.IProcessing;
  * Provides an abstract class implementation of IProcessing for the processing elements
  * 
  */
-public class AbstractProcessing implements IProcessing {
+public abstract class AbstractProcessing implements IProcessing {
 
 	private HashMap<String, Object> m_parameters;
 	protected IProgressMonitor m_monitor;
@@ -39,10 +39,10 @@ public class AbstractProcessing implements IProcessing {
 		return m_parameters;
 	}
 
-	@Override
-	public IDataContent execute(HashMap<String, Object> parametervalues) {
-		return null;
-	}
+//	@Override
+//	public IDataContent execute(HashMap<String, Object> parametervalues) {
+//		return null;
+//	}
 
 	@Override
 	public void setMonitor(IProgressMonitor monitor) {

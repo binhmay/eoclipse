@@ -66,7 +66,7 @@ Parameters should be specified in the following order:
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="com.metaaps.eoclipse.common.processing.AbstractProcessing:"/>
+                  <meta.attribute kind="java" basedOn="com.metaaps.eoclipse.processing.AbstractProcessing:"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -122,14 +122,21 @@ Parameters should be specified in the following order:
             </annotation>
             <simpleType>
                <restriction base="string">
-                  <enumeration value="Image">
-                  </enumeration>
-                  <enumeration value="Vector">
-                  </enumeration>
                   <enumeration value="Value">
+                  </enumeration>
+                  <enumeration value="Data (Image or Vector)">
+                  </enumeration>
+                  <enumeration value="Choice">
                   </enumeration>
                </restriction>
             </simpleType>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  A description of the parameter
+               </documentation>
+            </annotation>
          </attribute>
       </complexType>
    </element>
@@ -157,6 +164,8 @@ Parameters should be specified in the following order:
 Any PLATFORM, SENSOR, MODE and PRODUCTTYPE can be replaced by the keyword &quot;ALL&quot;, if all subtypes are supported indeed.
 - For a Vector Data, VECTOR_TYPE
 VECTOR is a fixed string. TYPE includes &quot;ALL&quot;, &quot;POLYGON&quot;, &quot;POLYLINE&quot;, &quot;POINT&quot;
+- For a value specify the type and the range. Types are INTEGER, DOUBLE or STRING. The range for INTEGER and DOUBLE is min:max, eg INTEGER:0:100. If no min or max needs specifying, you can replace the value by a *. For String the range is the min and max length of the string in characters.
+For Choice, add a format for each choice available with the string value of the choice.
                </documentation>
             </annotation>
          </attribute>

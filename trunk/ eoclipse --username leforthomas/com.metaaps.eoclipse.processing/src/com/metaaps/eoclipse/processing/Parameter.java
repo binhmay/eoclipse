@@ -24,11 +24,12 @@ public class Parameter implements IParameter {
 	private String m_name;
 	private ArrayList<String> m_supportedFormats;
 	private String m_type;
+	private String m_description;
 
-	public Parameter(String name, String type, ArrayList<String> formats) {
-		// TODO Auto-generated constructor stub
+	public Parameter(String name, String type, String description, ArrayList<String> formats) {
 		m_name = name;
 		m_type = type;
+		m_description = description;
 		m_supportedFormats = formats;
 	}
 	
@@ -67,6 +68,11 @@ public class Parameter implements IParameter {
 	public String getType() {
 		// TODO Auto-generated method stub
 		return m_type;
+	}
+	
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return m_description;
 	}
 	
 }
