@@ -14,7 +14,11 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author leforthomas
+ * 
+ * This plugin provides an implementation of the hosted extension point
+ * It is currently not implemented
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 

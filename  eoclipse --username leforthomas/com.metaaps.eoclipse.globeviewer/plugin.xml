@@ -15,6 +15,7 @@
       <view
             allowMultiple="true"
             class="com.metaaps.eoclipse.globeviewer.GlobeViewer"
+            icon="icons/globe-model.png"
             id="com.metaaps.eoclipse.eoclipsegisviews.globeviewer"
             name="Globe Viewer"
             restorable="true">

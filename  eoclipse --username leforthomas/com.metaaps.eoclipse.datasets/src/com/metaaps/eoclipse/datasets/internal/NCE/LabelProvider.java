@@ -30,10 +30,10 @@ import com.metaaps.eoclipse.datasets.importmethods.ImportFolder;
 public class LabelProvider implements ILabelProvider {
 
 	private static ImageDescriptor[] m_imagedescriptor = new ImageDescriptor[]{
-		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/picture.png"),
-		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/node-select-all.png"),
-		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/picture-generated.png"),
-		Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/vector-generated.png")
+		Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/picture.png"),
+		Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/node-select-all.png"),
+		Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/picture-generated.png"),
+		Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/vector-generated.png")
 	};
 	
 	@Override

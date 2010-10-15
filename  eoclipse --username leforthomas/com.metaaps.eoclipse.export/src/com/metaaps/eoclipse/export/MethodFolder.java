@@ -20,6 +20,10 @@ import org.eclipse.core.runtime.Platform;
 import com.metaaps.eoclipse.common.Folder;
 import com.metaaps.eoclipse.common.Model;
 
+/**
+ * @author leforthomas
+ * 
+ */
 public class MethodFolder extends Folder implements IRegistryChangeListener {
 	
 	private static String extensionpoint = "com.metaaps.eoclipse.export";

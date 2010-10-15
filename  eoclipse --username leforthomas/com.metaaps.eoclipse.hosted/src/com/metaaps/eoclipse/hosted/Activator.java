@@ -14,12 +14,16 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author leforthomas
+ * 
+ * This plugin defines the extension point for hosting facilities
+ * It is currently not implemented, eg it only provides support for the tree viewer
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.metaaps.eoclipe.hosted"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.metaaps.eoclipse.hosted"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

@@ -19,6 +19,10 @@ import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.export.IExportItem;
 
+/**
+ * @author leforthomas
+ * 
+ */
 public class Method extends Model implements IExportItem {
 	
 	private IExtension m_extension;

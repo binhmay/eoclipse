@@ -24,7 +24,7 @@ import com.metaaps.eoclipse.hosted.Facility;
  */
 public class LabelProvider implements ILabelProvider {
 
-	private static ImageDescriptor m_imagedescriptorFacilityFolder = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/weather-cloud.png");
+	private static ImageDescriptor m_imagedescriptorFacilityFolder = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/weather-cloud.png");
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {

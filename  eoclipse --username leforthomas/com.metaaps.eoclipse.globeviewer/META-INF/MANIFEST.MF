@@ -8,7 +8,7 @@ Bundle-Vendor: METAAPS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.metaaps.eoclipse.viewers,
- com.metaaps.eoclipse.common;bundle-version="1.0.0",
+ com.metaaps.eoclipse.commonlibs;bundle-version="1.0.0",
  com.metaaps.eoclipse.genericprocessing;bundle-version="1.0.0",
  org.eclipse.ui.navigator,
  com.metaaps.eoclipse;bundle-version="1.0.0"

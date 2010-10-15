@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2010 METAAPS SRL(U).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     METAAPS SRL(U) - created by Thomas Lefort - initial API and implementation
+ ******************************************************************************/
 package com.metaaps.eoclipse.genericprocessing;
 
 import java.awt.Rectangle;
@@ -13,6 +23,14 @@ import com.metaaps.eoclipse.genericprocessing.util.RasterizeVector;
 import com.metaaps.eoclipse.processing.AbstractProcessing;
 import com.vividsolutions.jts.geom.Coordinate;
 
+/**
+ * @author leforthomas
+ *
+ * Returns an image masked using the Mask Vector Data with all masked pixels set to the pixel value parameter
+ * The mask can be buffered
+ * NOT FINISHED
+ * 
+ */
 public class ImageMasking extends AbstractProcessing {
 
 	@Override

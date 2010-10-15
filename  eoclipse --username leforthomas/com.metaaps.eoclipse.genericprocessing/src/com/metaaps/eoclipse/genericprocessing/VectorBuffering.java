@@ -14,6 +14,11 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.geotools.referencing.CRS;
+import org.opengis.geometry.MismatchedDimensionException;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.operation.TransformException;
 
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IVectorData;
@@ -40,8 +45,8 @@ public class VectorBuffering extends AbstractProcessing {
 	public IDataContent execute(HashMap<String, Object> parametervalues) {
 		
 		// get parameters
-		IVectorData source = (IVectorData) parametervalues.get("Source");
-		Double size = (Double) parametervalues.get("Size");
+		final IVectorData source = (IVectorData) parametervalues.get("Source");
+		final Double size = (Double) parametervalues.get("Size");
 		
 		// generate buffering
 		final VectorData bufferedData = buffer(source.getVectorData(""), size.doubleValue(), m_monitor);
@@ -52,7 +57,7 @@ public class VectorBuffering extends AbstractProcessing {
 					
 					@Override
 					public String getName() {
-						return "Buffered Vector Data";
+						return "Buffered '" + source.getName() + "' (" + size.doubleValue() + "m)";
 					}
 					
 					@Override
@@ -78,6 +83,14 @@ public class VectorBuffering extends AbstractProcessing {
     	monitor.worked(40);
     	if(monitor.isCanceled()) {return null;}
     	
+    	// check which coordinates system we use
+    	// convert to projected layer if necessary
+    	try {
+			data.transformGeometries(CRS.decode("EPSG:3785"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	// start buffering
         PrecisionModel pm=new PrecisionModel(1);
         GeometryFactory gf = new GeometryFactory(pm);
         for (Geometry geom : new Vector<Geometry>(data.getGeometries())) {
@@ -129,6 +142,13 @@ public class VectorBuffering extends AbstractProcessing {
             data.put(geom);
         }
         
+    	// convert back to projected layer
+    	try {
+			data.transformGeometries(CRS.decode("EPSG:4326"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
         return data;
     }
 

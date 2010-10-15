@@ -13,6 +13,10 @@ package com.metaaps.eoclipse.facility;
 import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.hosted.IFacility;
 
+/**
+ * @author leforthomas
+ * 
+ */
 public class Facility implements IFacility {
 
 	public Facility() {

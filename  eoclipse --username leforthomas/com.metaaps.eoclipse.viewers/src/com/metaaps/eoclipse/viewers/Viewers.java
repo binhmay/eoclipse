@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers;
 
+import java.util.HashMap;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionDelta;
@@ -47,17 +49,24 @@ import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Property;
 import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.views.ILayer;
+import com.metaaps.eoclipse.common.views.ILayeredViewer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.common.views.IViewerItem;
 import com.metaaps.eoclipse.viewers.layers.LayerContent;
 import com.metaaps.eoclipse.viewers.util.EditValueDialog;
 
+/**
+ * @author leforthomas
+ * 
+ * Viewers folder with a set of utilities for binding views and viewers together
+ * 
+ */
 public class Viewers extends Folder implements IRegistryChangeListener, IDoubleClickListener, ISelectionChangedListener {
 	
 	private static String extensionpoint = "com.metaaps.eoclipse.viewers";
 	
-	private static ImageDescriptor m_imagedescriptorActionLayerUp = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/arrow-curve-090.png");
-	private static ImageDescriptor m_imagedescriptorActionLayerDown = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/arrow-curve-270.png");
+	private static ImageDescriptor m_imagedescriptorActionLayerUp = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/arrow-curve-090.png");
+	private static ImageDescriptor m_imagedescriptorActionLayerDown = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/arrow-curve-270.png");
 	
 	private static Viewers m_instance = null;
 
@@ -157,9 +166,11 @@ public class Viewers extends Folder implements IRegistryChangeListener, IDoubleC
 				Object obj = ((ITreeSelection)selection).getFirstElement();
 				if((!selection.isEmpty()) && (obj instanceof ILayer)) {
 					ILayer layer = (ILayer) obj;
-					IViewerImplementation viewerimp = (IViewerImplementation) Util.scanTreePath((ITreeSelection)selection, IViewerImplementation.class);
-					viewerimp.moveLayer(layer, false);
-					layerviewer.refresh();
+					ILayeredViewer viewerimp = (ILayeredViewer) Util.scanTreePath((ITreeSelection)selection, IViewerImplementation.class);
+					if(viewerimp != null) {
+						((ILayeredViewer)viewerimp).moveLayer(layer, false);
+						layerviewer.refresh();
+					}
 				}
 			}
 		};
@@ -173,9 +184,11 @@ public class Viewers extends Folder implements IRegistryChangeListener, IDoubleC
 				Object obj = ((ITreeSelection)selection).getFirstElement();
 				if((!selection.isEmpty()) && (obj instanceof ILayer)) {
 					ILayer layer = (ILayer) obj;
-					IViewerImplementation viewerimp = (IViewerImplementation) Util.scanTreePath((ITreeSelection)selection, IViewerImplementation.class);
-					viewerimp.moveLayer(layer, true);
-					layerviewer.refresh();
+					ILayeredViewer viewerimp = (ILayeredViewer) Util.scanTreePath((ITreeSelection)selection, IViewerImplementation.class);
+					if(viewerimp != null) {
+						((ILayeredViewer)viewerimp).moveLayer(layer, true);
+						layerviewer.refresh();
+					}
 				}
 			}
 		};
@@ -207,6 +220,14 @@ public class Viewers extends Folder implements IRegistryChangeListener, IDoubleC
 			{
 				Viewer viewer = new Viewer(extension, element);
 				addChild(viewer);
+			}
+			if(element.getName().contentEquals("GenericViewer"))
+			{
+				String name = element.getAttribute("name");
+				String viewid = element.getAttribute("viewid");
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("com.metaaps.eoclipse.viewers.viewerid", viewid);
+				Util.addMenu("menu:com.metaaps.eoclipse.menu.genericviews", Activator.PLUGIN_ID, name, "com.metaaps.eoclipse.viewers.genericviewer", "com.metaaps.eoclipse.viewers.genericviewer.open", parameters);
 			}
 		}
 	}
@@ -246,9 +267,11 @@ public class Viewers extends Folder implements IRegistryChangeListener, IDoubleC
 	public IViewerItem findViewer(String viewID) {
 		
 		for(Object obj : getChildren()) {
-			Viewer viewer = (Viewer) obj;
-			if(viewer.getViewID().contentEquals(viewID)) {
-				return viewer;
+			if(obj instanceof IViewerItem) {
+				Viewer viewer = (Viewer) obj;
+				if(viewer.getViewID().contentEquals(viewID)) {
+					return viewer;
+				}
 			}
 		}
 		

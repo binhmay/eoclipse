@@ -12,6 +12,15 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 
+/**
+ * 
+ * @author leforthomas
+ * based on code from fxthoor
+ * 
+ * Returns the input VectorData object as a Raster with polygons filled
+ * NOT FINISHED
+ * 
+ */
 public class RasterizeVector {
 
     private VectorData m_vectordata;

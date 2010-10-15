@@ -34,6 +34,7 @@ import com.metaaps.eoclipse.common.datasets.IGeoRaster;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.IVectorData;
+import com.metaaps.eoclipse.common.views.ILayeredViewer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.imageviewer.api.GeoContext;
 import com.metaaps.eoclipse.imageviewer.api.GeometricLayer;
@@ -52,7 +53,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageViewer extends AbstractViewerImplementation implements ILayerUser, IViewerImplementation, IModelChangeListener {
+public class ImageViewer extends AbstractViewerImplementation implements ILayerUser, IViewerImplementation, ILayeredViewer {
 
 	private GLCanvas canvas;
 	private LayerManager root = new LayerManager(null);
@@ -60,6 +61,7 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 	protected int dyy;
 	protected int dxx;
 	private ArrayList<ILayerListener> listeners=new ArrayList<ILayerListener>();
+	private ArrayList<IDataContent> m_tmplayers = new ArrayList<IDataContent>();
 	
 	public ImageViewer() {
 		m_name = "Image Viewer";
@@ -239,6 +241,10 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 			iil = new FastImageLayer(root, (IGeoRaster)datacontent);
 			root.addLayer(iil);
 			root.render(geocontext);
+			for(IDataContent vectordatacontent : m_tmplayers) {
+				addDataLayer(vectordatacontent);
+			}
+			m_tmplayers.clear();
 		}
 		if(datacontent instanceof IVectorData) {
 			IVectorData vectordata = (IVectorData) datacontent;
@@ -251,6 +257,8 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 				IGeoRaster gir = iil.getImage();
 				GeometricLayer layer = GeoUtils.createImageProjectedLayer(vectordata, gir, "EPSG:4326");
 				iil.addLayer(new SimpleVectorLayer(vectordata.getName(), iil, vectordata, layer));
+			} else {
+				m_tmplayers.add(datacontent);
 			}
 		}
 	}
@@ -291,17 +299,16 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 	}
 
 	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<com.metaaps.eoclipse.common.views.ILayer> getLayers() {
 		ArrayList<com.metaaps.eoclipse.common.views.ILayer> layers = new ArrayList<com.metaaps.eoclipse.common.views.ILayer>();
-		layers.add(root);
+		//layers.add(root);
 		for(ILayer layer : root.getLayers()) {
-			layers.add((com.metaaps.eoclipse.common.views.ILayer)layer);
+			if(layer instanceof IImageLayer) {
+				layers.add((com.metaaps.eoclipse.common.views.ILayer)layer);
+				for(ILayer vectorlayer : ((IImageLayer) layer).getLayers()) {
+					layers.add((com.metaaps.eoclipse.common.views.ILayer)vectorlayer);
+				}
+			}
 		}
 		
 		return layers;

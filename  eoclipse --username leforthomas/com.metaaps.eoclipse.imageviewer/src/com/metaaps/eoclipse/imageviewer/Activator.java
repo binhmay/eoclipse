@@ -14,7 +14,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * 
+ * This plugin extends the viewer extension point for Image Viewing
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 

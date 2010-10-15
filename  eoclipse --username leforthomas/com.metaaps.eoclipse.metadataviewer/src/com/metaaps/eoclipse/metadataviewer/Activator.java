@@ -10,11 +10,18 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.metadataviewer;
 
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author leforthomas
+ * 
+ * This plugin implements the GenericViewer extension point element
+ * It displays the meta data of the currently selected data item in the work flow tree
+ * If the data item does not provide meta data, a message is displayed
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 

@@ -24,7 +24,7 @@ import com.metaaps.eoclipse.viewers.Viewer;
  */
 public class LabelProvider implements ILabelProvider {
 
-	private static ImageDescriptor m_imagedescriptorViewFolder = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/monitor-window-3d.png");
+	private static ImageDescriptor m_imagedescriptorViewFolder = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/monitor-window-3d.png");
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -62,7 +62,7 @@ public class LabelProvider implements ILabelProvider {
 	public String getText(Object element) {
 		if(element instanceof Viewers)
 		{
-			return "Available Views";
+			return "Viewers Available";
 		} else if(element instanceof Viewer) {
 			return ((Viewer)element).getLabel();
 		}

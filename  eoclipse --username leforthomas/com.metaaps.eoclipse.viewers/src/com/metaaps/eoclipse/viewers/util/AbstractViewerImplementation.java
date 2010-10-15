@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2010 METAAPS SRL(U).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     METAAPS SRL(U) - created by Thomas Lefort - initial API and implementation
+ ******************************************************************************/
 package com.metaaps.eoclipse.viewers.util;
 
 import java.util.ArrayList;
@@ -14,6 +24,12 @@ import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.views.ILayer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 
+/**
+ * @author leforthomas
+ * 
+ * Abstract Implementation for the IViewerImplementation interface
+ * 
+ */
 public abstract class AbstractViewerImplementation extends ViewPart implements IViewerImplementation {
 	
 	protected String m_viewID = "";
@@ -61,18 +77,6 @@ public abstract class AbstractViewerImplementation extends ViewPart implements I
 		
 	}
 	
-	@Override
-	public void moveLayer(ILayer layer, boolean up) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void fireChanged(Object added, String event) {
 		for(IModelChangeListener listener : m_listeners) {
 			listener.modelChanged(added, event);

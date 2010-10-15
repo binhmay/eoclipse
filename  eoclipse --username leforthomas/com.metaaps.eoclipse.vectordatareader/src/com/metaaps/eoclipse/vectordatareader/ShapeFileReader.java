@@ -58,6 +58,13 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 
+/**
+ * @author leforthomas
+ * based on code from fxthoor
+ * 
+ * ShapeFile Reader
+ * 
+ */
 public class ShapeFileReader extends DataContent implements IVectorData, ISourceDataContent {
 
 	private File m_file;
@@ -171,6 +178,10 @@ public class ShapeFileReader extends DataContent implements IVectorData, ISource
 		final List<Geometry> geometries = data.getGeometries();
 		List<Attributes> attributes = data.getAttributes();
 		final String[] schema = data.getSchema();
+		final ArrayList<Object[]> attvalues = new ArrayList<Object[]>();
+		for(Attributes att : data.getAttributes()) {
+			attvalues.add(att.getValues());
+		}
 		return new ITableData() {
 			
 			@Override
@@ -182,6 +193,11 @@ public class ShapeFileReader extends DataContent implements IVectorData, ISource
 			@Override
 			public String[] getColumnNames() {
 				return schema;
+			}
+
+			@Override
+			public Object[] getAllRows() {
+				return attvalues.toArray();
 			}
 		};
 	}

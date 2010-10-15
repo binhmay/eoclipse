@@ -38,7 +38,7 @@ import com.metaaps.eoclipse.common.datasets.IReader;
 public class DataSets extends Model implements IDataSets {
 
 	private static ImageDescriptor m_imagedescriptor = Activator
-			.imageDescriptorFromPlugin("com.metaaps.eoclipse.common",
+			.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 					"icons/report-paper.png");
 	
 	public DataSets() {

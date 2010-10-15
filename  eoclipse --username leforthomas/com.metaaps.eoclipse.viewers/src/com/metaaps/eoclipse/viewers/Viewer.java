@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -34,11 +35,18 @@ import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
+import com.metaaps.eoclipse.common.views.ILayeredViewer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.common.views.IViewerItem;
 import com.metaaps.eoclipse.viewers.layers.LayerContent;
 import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
+/**
+ * @author leforthomas
+ * 
+ * A Viewer Tree Item instantiating views when required
+ * 
+ */
 public class Viewer extends Model implements IViewerItem {
 	
 	private IExtension m_extension;
@@ -98,9 +106,13 @@ public class Viewer extends Model implements IViewerItem {
 													vieweritem.addChild(viewer);
 													layertreeview.refresh();
 													// listen to selection changes in the Tree
-													WorkFlowManager.getInstance().addTreeSelectionListener((IViewerImplementation)viewer);
+													if(viewer instanceof ISelectionChangedListener) {
+														WorkFlowManager.getInstance().addTreeSelectionListener((ISelectionChangedListener)viewer);
+													}
 													// Layer View listens for changes in the viewer implementation
-													viewerimp.addListener(layerview);
+													if(viewer instanceof ILayeredViewer) {
+														((ILayeredViewer)viewerimp).addListener(layerview);
+													}
 												}
 												
 											});
