@@ -217,6 +217,42 @@ public class Util {
 		service.addContributionFactory(menucontribution);
 	}
 
+	public static void addMenu(String popupmenuid, String pluginid, String menulabel, String menuid, String commandid, Map parameters) {
+		IMenuService service = (IMenuService) PlatformUI.getWorkbench().getService(IMenuService.class);
+		final Map fparameters = parameters;
+	    final String fmenulabel = menulabel;
+		final String fcommandid = commandid;
+		final String fmenuid = menuid;
+		
+		AbstractContributionFactory menucontribution =
+			   new AbstractContributionFactory(popupmenuid, pluginid) {
+			
+
+				@Override
+				public void createContributionItems(IServiceLocator serviceLocator,
+						IContributionRoot additions) {
+					
+					CommandContributionItemParameter contributionParameters = 
+				    	new CommandContributionItemParameter(serviceLocator, fmenuid, fcommandid, 
+				    			fparameters, null, null, null, fmenulabel, null, null, 
+				    			CommandContributionItem.STYLE_PUSH, null, false);
+				    
+					CommandContributionItem item = new CommandContributionItem(contributionParameters );
+					item.setVisible(true);
+					additions.addContributionItem(item, new Expression() {
+						
+						@Override
+						public EvaluationResult evaluate(IEvaluationContext context)
+								throws CoreException {
+							return EvaluationResult.valueOf(true);
+						}
+					});
+				}
+		};
+		
+		service.addContributionFactory(menucontribution);
+	}
+
 	public static void errorMessage(String message) {
 		MessageBox messageBox = new MessageBox(new Shell(), SWT.OK);
 		messageBox.setMessage(message);

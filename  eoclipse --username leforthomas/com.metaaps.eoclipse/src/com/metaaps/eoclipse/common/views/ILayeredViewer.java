@@ -12,32 +12,18 @@ package com.metaaps.eoclipse.common.views;
 
 import java.util.List;
 
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-
 import com.metaaps.eoclipse.common.IEvent;
-import com.metaaps.eoclipse.common.IModelChangeListener;
-import com.metaaps.eoclipse.common.datasets.IDataSets;
 
 /**
  * @author leforthomas
- * 
- * Interface for all Viewers Implementations
- * Viewers listen to the WorkSpace selection changes
- * Viewers provide Events when they change, eg layers are added or removed. This is useful for the layer view to update.
+ *
+ * Interface for viewers who provide layers and want to have their layers displayed in the layer view
  * 
  */
-public interface IViewerImplementation extends IModelChangeListener {
+public interface ILayeredViewer extends IEvent {
 
-	void setViewid(String viewID);
-	String getViewid();
-
-	String getName();
-	void setName(String name);
+	List<ILayer> getLayers();
 	
-	IDataSets getDataSets();
-	void setDataSets(IDataSets datasets);
-	
-	void refresh();
+	void moveLayer(ILayer layer, boolean up);
 
 }
