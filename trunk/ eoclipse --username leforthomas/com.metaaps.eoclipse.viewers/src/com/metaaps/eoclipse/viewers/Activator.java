@@ -20,7 +20,7 @@ import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.viewers.layers.LayerContent;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author leforthomas
  * 
  * This plugin provides the extension points and handling mechanisms for viewers
  * 
@@ -28,7 +28,7 @@ import com.metaaps.eoclipse.viewers.layers.LayerContent;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.metaaps.eoclipse.viewer"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.metaaps.eoclipse.viewers"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

@@ -17,6 +17,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.datasets.IImport;
 
+/**
+ * @author leforthomas
+ *
+ * Get a file from a local file system
+ * 
+ */
 public class LocalFile implements IImport {
 
 	private String m_uriextension = "file://";

@@ -17,7 +17,11 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author leforthomas
+ * 
+ * This plugin implements the Viewers extension point
+ * It is not implemented yet, it is provided as an example
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 

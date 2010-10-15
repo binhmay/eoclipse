@@ -32,7 +32,7 @@ import com.metaaps.eoclipse.datasets.Activator;
 public class ImportFolder extends Model implements IRegistryChangeListener {
 	
 	private static ImageDescriptor m_imagedescriptor = Activator
-	.imageDescriptorFromPlugin("com.metaaps.eoclipse.common",
+	.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 			"icons/disks.png");
 	
 	private static ImportFolder m_instance = null;

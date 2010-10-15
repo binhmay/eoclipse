@@ -12,6 +12,7 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,9 @@ import com.vividsolutions.jts.operation.buffer.BufferParameters;
 /**
  *
  * @author thoorfr
+ * 
+ * Modified for EOClipse by leforthomas
+ * 
  */
 public class SimpleVectorLayer implements ILayer, IVectorLayer, IClickable, IThreshable {
 
@@ -56,6 +60,8 @@ public class SimpleVectorLayer implements ILayer, IVectorLayer, IClickable, IThr
     public final static String POLYGON = GeometricLayer.POLYGON;
     public final static String LINESTRING = GeometricLayer.LINESTRING;
     public final static String MIXED = GeometricLayer.MIXED;
+	private static final String VISIBLE_KEY = "Visible";
+	private static final String COLOR_KEY = "Color";
     protected boolean active = true;
     protected IImageLayer parent;
     protected GeometricLayer glayer;
@@ -732,20 +738,25 @@ public class SimpleVectorLayer implements ILayer, IVectorLayer, IClickable, IThr
 
 	@Override
 	public Object getLayerProperty(String key) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Property[] getLayerProperties() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Property> properties = new ArrayList<Property>();
+		properties.add(new Property(VISIBLE_KEY, isActive()));
+		properties.add(new Property(COLOR_KEY, color));
+		return properties.toArray(new Property[properties.size()]);
 	}
 
 	@Override
 	public void setLayerProperty(String key, Object obj) {
-		// TODO Auto-generated method stub
-		
+		if(key.contentEquals(COLOR_KEY)) {
+			color = ((Color) obj);
+		}
+		if(key.contentEquals(VISIBLE_KEY)) {
+			setActive(((Boolean) obj).booleanValue());
+		}
 	}
 
 	@Override

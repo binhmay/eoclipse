@@ -29,7 +29,7 @@ import com.metaaps.eoclipse.common.processing.IProcessingFolder;
  */
 public class ProcessingFolder extends Model implements IProcessingFolder {
 
-	private static ImageDescriptor m_imagedescriptorProcessingFolder = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/041.png");
+	private static ImageDescriptor m_imagedescriptorProcessingFolder = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/041.png");
 
 	// create a special instance with filtered data
 	public ProcessingFolder(IDataContent data) {

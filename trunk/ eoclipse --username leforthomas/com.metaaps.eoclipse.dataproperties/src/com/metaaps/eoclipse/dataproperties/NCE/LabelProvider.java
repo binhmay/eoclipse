@@ -24,8 +24,8 @@ import com.metaaps.eoclipse.dataproperties.Activator;
  */
 public class LabelProvider implements ILabelProvider {
 
-	private static ImageDescriptor m_imagedescriptorfolder = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/property.png");
-	private static ImageDescriptor m_imagedescriptorproperty = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/property.png");
+	private static ImageDescriptor m_imagedescriptorfolder = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/property.png");
+	private static ImageDescriptor m_imagedescriptorproperty = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/property.png");
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {

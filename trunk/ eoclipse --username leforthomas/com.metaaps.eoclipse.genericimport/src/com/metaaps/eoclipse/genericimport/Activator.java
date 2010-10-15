@@ -14,7 +14,11 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author leforthomas
+ * 
+ * This plugin provides extends the import methods extension point for Local Files and FTP
+ * PostGIS is not implemented yet
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 

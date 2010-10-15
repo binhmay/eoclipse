@@ -28,6 +28,12 @@ import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.processing.Parameter;
 import com.metaaps.eoclipse.processing.Process;
 
+/**
+ * @author leforthomas
+ * 
+ * Provides a generic wizard page for selecting the process parameters
+ * 
+ */
 public class SelectParametersPage extends WizardPage {
 	
 	private IDataSets m_datasets;

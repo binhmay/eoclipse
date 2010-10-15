@@ -54,6 +54,12 @@ import com.metaaps.eoclipse.common.datasets.IImportWizardPage;
 import com.metaaps.eoclipse.genericimport.FTP;
 import com.metaaps.eoclipse.genericimport.LocalFile;
 
+/**
+ * @author leforthomas
+ *
+ * Wizard for the FTP import method
+ * 
+ */
 public class FTPImportWizardPage extends WizardPage implements IImportWizardPage {
 	private static final String CONFIGURATION_NAME = "com.metaaps.eoclipse.genericimport.ftp.configuration";
 	private Composite container;

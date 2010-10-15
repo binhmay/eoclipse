@@ -8,7 +8,7 @@ Bundle-Vendor: METAAPS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.metaaps.eoclipse.hosted,
- com.metaaps.eoclipse.common,
+ com.metaaps.eoclipse.commonlibs,
  com.metaaps.eoclipse;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

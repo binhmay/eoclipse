@@ -4,6 +4,7 @@
  */
 package com.metaaps.eoclipse.imageviewer.layers;
 
+import com.metaaps.eoclipse.common.Property;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IGeoRaster;
 import com.metaaps.eoclipse.common.datasets.ISatelliteMetadata;
@@ -19,10 +20,13 @@ import com.metaaps.eoclipse.imageviewer.layers.image.TiledBufferedImage;
 import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureCoords;
 import com.sun.opengl.util.texture.TextureIO;
+
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,6 +47,8 @@ import javax.media.opengl.GL;
  */
 public class FastImageLayer extends LayerManager implements IImageLayer {
 
+	private static final String VISIBLE_KEY = "Visible";
+	private static final String BAND_SELECTED = "Selected Band";
     private IGeoRaster eoir;
     private HashMap<String, Float> contrast = new HashMap<String, Float>();
     private float brightness = 0;
@@ -522,6 +528,26 @@ public class FastImageLayer extends LayerManager implements IImageLayer {
             rescale = new RescaleOp(contrast.get(createBandsString(bands)), brightness, null);
         }
     }
+
+	@Override
+	public Property[] getLayerProperties() {
+		ArrayList<Property> properties = new ArrayList<Property>();
+		properties.add(new Property(VISIBLE_KEY, isActive()));
+		if(getNumberOfBands() > 1) {
+			properties.add(new Property(BAND_SELECTED, new Integer(eoir.getBand())));
+		}
+		return properties.toArray(new Property[properties.size()]);
+	}
+
+	@Override
+	public void setLayerProperty(String key, Object obj) {
+		if(key.contentEquals(VISIBLE_KEY)) {
+			setActive(((Boolean) obj).booleanValue());
+		}
+		if(key.contentEquals(BAND_SELECTED)) {
+			eoir.setBand(((Integer) obj).intValue());
+		}
+	}
 
     public int getNumberOfBands() {
         return eoir.getNBand();

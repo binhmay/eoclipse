@@ -26,7 +26,7 @@ import com.metaaps.eoclipse.export.MethodFolder;
  */
 public class LabelProvider implements ILabelProvider {
 
-	private static ImageDescriptor m_imagedescriptorFacilityFolder = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/table-export.png");
+	private static ImageDescriptor m_imagedescriptorFacilityFolder = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/table-export.png");
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {

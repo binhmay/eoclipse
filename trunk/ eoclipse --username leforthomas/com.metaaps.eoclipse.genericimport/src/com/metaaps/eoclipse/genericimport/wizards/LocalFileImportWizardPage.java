@@ -31,6 +31,12 @@ import com.metaaps.eoclipse.common.datasets.IImport;
 import com.metaaps.eoclipse.common.datasets.IImportWizardPage;
 import com.metaaps.eoclipse.genericimport.LocalFile;
 
+/**
+ * @author leforthomas
+ *
+ * Wizard Page for the Local File import method
+ * 
+ */
 public class LocalFileImportWizardPage extends WizardPage implements IImportWizardPage {
 	protected static final String CONFIGURATION_NAME = "com.metaaps.eoclipse.genericimport.localfile";
 	private Label URI;

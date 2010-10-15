@@ -35,6 +35,12 @@ import org.apache.commons.net.ProtocolCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
+/**
+ * @author leforthomas
+ *
+ * FTP import of files, not fully working yet, problem with download of files
+ * 
+ */
 public class FTP implements IImport {
 
 	private String m_filename;

@@ -28,12 +28,18 @@ import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.views.ILayer;
+import com.metaaps.eoclipse.common.views.ILayeredViewer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.globeviewer.layers.GlobeViewerLayer;
-import com.metaaps.eoclipse.globeviewer.layers.LayerTableViewerControl;
 import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
 
-public class GlobeViewer extends AbstractViewerImplementation implements IViewerImplementation, IModelChangeListener {
+/**
+ * @author leforthomas
+ *
+ * The View itself
+ * 
+ */
+public class GlobeViewer extends AbstractViewerImplementation implements IViewerImplementation, ILayeredViewer {
 
 	private GlobeViewerControl m_globeviewercontrol;
 
@@ -108,12 +114,6 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

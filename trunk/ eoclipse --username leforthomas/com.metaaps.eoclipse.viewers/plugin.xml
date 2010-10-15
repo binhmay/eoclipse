@@ -73,6 +73,14 @@
                label="Viewers">
          </menu>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=com.metaaps.eoclipse.workspace">
+         <menu
+               id="com.metaaps.eoclipse.menu.genericviews"
+               label="Views">
+         </menu>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -86,6 +94,15 @@
          <commandParameter
                id="com.metaaps.eoclipse.viewers"
                name="Viewer"
+               optional="true">
+         </commandParameter>
+      </command>
+      <command
+            id="com.metaaps.eoclipse.viewers.genericviewer.open"
+            name="Open Generic View">
+         <commandParameter
+               id="com.metaaps.eoclipse.viewers.viewerid"
+               name="Viewer ID"
                optional="true">
          </commandParameter>
       </command>
@@ -125,6 +142,10 @@
       <handler
             class="com.metaaps.eoclipse.viewers.NCE.OpenMenuHandler"
             commandId="com.metaaps.eoclipse.viewers.viewer">
+      </handler>
+      <handler
+            class="com.metaaps.eoclipse.viewers.NCE.OpenGenericViewerHandler"
+            commandId="com.metaaps.eoclipse.viewers.genericviewer.open">
       </handler>
    </extension>
    <extension

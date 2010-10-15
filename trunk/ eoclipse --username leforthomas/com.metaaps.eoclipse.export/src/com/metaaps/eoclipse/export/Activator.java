@@ -14,7 +14,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * 
+ * This plugin defines the extension point for export methods
+ * It is currently not implemented, eg it only provides support for the tree viewer
+ * 
  */
 public class Activator extends AbstractUIPlugin {
 

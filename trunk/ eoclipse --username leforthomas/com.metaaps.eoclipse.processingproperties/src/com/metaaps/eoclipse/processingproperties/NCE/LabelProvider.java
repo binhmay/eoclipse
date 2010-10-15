@@ -26,8 +26,8 @@ import com.metaaps.eoclipse.processingproperties.Activator;
  */
 public class LabelProvider implements ILabelProvider {
 
-	private static ImageDescriptor m_imagedescriptorparameter = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/bookmark.png");
-	private static ImageDescriptor m_imagedescriptorproperty = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/tag-small.png");
+	private static ImageDescriptor m_imagedescriptorparameter = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/bookmark.png");
+	private static ImageDescriptor m_imagedescriptorproperty = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/tag-small.png");
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {

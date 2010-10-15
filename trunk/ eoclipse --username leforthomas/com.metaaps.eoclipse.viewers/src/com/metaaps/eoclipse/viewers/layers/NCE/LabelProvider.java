@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2010 METAAPS SRL(U).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     METAAPS SRL(U) - created by Thomas Lefort - initial API and implementation
+ ******************************************************************************/
 package com.metaaps.eoclipse.viewers.layers.NCE;
 
 import java.awt.Color;
@@ -14,6 +24,10 @@ import com.metaaps.eoclipse.viewers.Activator;
 import com.metaaps.eoclipse.viewers.Viewer;
 import com.metaaps.eoclipse.viewers.util.EditValueDialog;
 
+/**
+ * @author leforthomas
+ * 
+ */
 public class LabelProvider implements ILabelProvider {
 
 	private static ImageDescriptor m_imagedescriptorLayerManager = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.viewers", "icons/layers.png");

@@ -24,6 +24,10 @@ import com.metaaps.eoclipse.common.datasets.IImportMethod;
 import com.metaaps.eoclipse.export.ExportFolder;
 import com.metaaps.eoclipse.export.Method;
 
+/**
+ * @author leforthomas
+ * 
+ */
 public class AddHandler extends AbstractHandler implements IHandler {
 
 	@Override
