@@ -24,8 +24,8 @@ import com.metaaps.eoclipse.common.Property;
  */
 public class LabelProvider implements ILabelProvider {
 
-	private static ImageDescriptor m_imagedescriptorfolder = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/wrench.png");
-	private static ImageDescriptor m_imagedescriptorproperty = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/174.png");
+	private static ImageDescriptor m_imagedescriptorfolder = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/wrench.png");
+	private static ImageDescriptor m_imagedescriptorproperty = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/174.png");
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {

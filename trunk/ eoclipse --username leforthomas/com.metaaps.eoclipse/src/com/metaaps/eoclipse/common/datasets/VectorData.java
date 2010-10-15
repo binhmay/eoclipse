@@ -7,8 +7,18 @@ package com.metaaps.eoclipse.common.datasets;
 import com.metaaps.eoclipse.common.Attributes;
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
+import org.geotools.geometry.jts.JTS;
+import org.geotools.referencing.CRS;
+import org.opengis.geometry.MismatchedDimensionException;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 
 /**
  * This is THE class model for all Vector Data
@@ -19,10 +29,20 @@ public class VectorData {
     
     private List<Geometry> geoms;
     private List<Attributes> atts;
+	private CoordinateReferenceSystem m_currentCRS;
 
     public VectorData() {
         geoms = new Vector<Geometry>();
         atts = new Vector<Attributes>();
+        try {
+			m_currentCRS = CRS.decode("EPSG:4326");
+		} catch (NoSuchAuthorityCodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FactoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -72,6 +92,18 @@ public class VectorData {
      */
     public List<Geometry> getGeometries() {
         return geoms;
+    }
+    
+    public void transformGeometries(CoordinateReferenceSystem targetCRS) throws MismatchedDimensionException, TransformException, NoSuchAuthorityCodeException, FactoryException {
+
+    	MathTransform transform = CRS.findMathTransform(m_currentCRS, targetCRS);
+    	List<Geometry> newgeometries = new ArrayList<Geometry>();
+    	for(Geometry geom : getGeometries()) {
+        	newgeometries.add(JTS.transform(geom, transform));
+    	}
+    	geoms.clear();
+    	geoms = newgeometries;
+    	m_currentCRS = targetCRS;
     }
     
     /**

@@ -17,5 +17,6 @@ package com.metaaps.eoclipse.common;
  * 
  */
 public interface IModelChangeListener {
+	// take action, the model has changed
 	public void modelChanged(Object element, String event);
 }

@@ -142,16 +142,4 @@ public class BrowserView extends AbstractViewerImplementation implements IViewer
 		
 	}
 	
-	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<ILayer> getLayers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -62,7 +62,7 @@ import com.metaaps.eoclipse.common.views.IViewers;
  */
 public class WorkFlow extends Model implements IWorkFlow {
 	
-	private static ImageDescriptor m_imagedescriptor = Activator.imageDescriptorFromPlugin("com.metaaps.eoclipse.common", "icons/reports.png");
+	private static ImageDescriptor m_imagedescriptor = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/reports.png");
 	
 	private String m_name = "";
 

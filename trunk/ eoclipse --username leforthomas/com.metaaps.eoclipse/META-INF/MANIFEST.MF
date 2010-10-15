@@ -8,7 +8,7 @@ Bundle-Vendor: METAAPS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.5.0",
- com.metaaps.eoclipse.common,
+ com.metaaps.eoclipse.commonlibs,
  org.eclipse.ui.intro
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

@@ -85,7 +85,7 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu?after=file">
          <menu
-               id="views"
+               id="com.metaaps.eoclipse.menu.views"
                label="Views"
                tooltip="Rendering Views">
          </menu>
@@ -99,23 +99,6 @@
          </toolbar>
       </menuContribution>
       <menuContribution
-            allPopups="false"
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=viewstoolbar">
-         <toolbar
-               id="toolstoolbar"
-               label="Tools">
-         </toolbar>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu?after=views">
-         <menu
-               id="tools"
-               label="Tools"
-               tooltip="Tools">
-         </menu>
-      </menuContribution>
-      <menuContribution
             locationURI="popup:navigatorcontent.popupmenu?after=additions">
          <command
                commandId="com.metaaps.eoclipse.workflowmanager.newworkflow"
@@ -124,7 +107,7 @@
                icon="icons/103.png"
                id="com.metaaps.newworkflow"
                label="New WorkFlow"
-               mnemonic="D"
+               mnemonic="N"
                style="push"
                tooltip="Create a New WorkFlow">
             <visibleWhen
@@ -186,11 +169,18 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
+               id="com.metaaps.eoclipse.workspace"
                label="WorkSpace">
             <command
                   commandId="com.metaaps.eoclipse.workflowmanager.newworkflow"
                   icon="icons/103.png"
                   label="New Work Flow"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.metaaps.eoclipse.open"
+                  icon="icons/047.png"
+                  label="Open Work Flow"
                   style="push">
             </command>
          </menu>
