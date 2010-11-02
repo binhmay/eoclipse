@@ -18,8 +18,8 @@ import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.ModelChangeListener;
 import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
-import com.metaaps.eoclipse.datasets.DataSets;
 import com.metaaps.eoclipse.datasets.importmethods.ImportFolder;
+import com.metaaps.eoclipse.workflowmanager.DataSets;
 
 /**
  * @author leforthomas
@@ -40,21 +40,7 @@ public class ContentProvider extends ModelChangeListener {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if(parentElement instanceof IWorkFlow)
-		{
-			IWorkFlow workflow = (IWorkFlow)parentElement;
-			// look for child that is an instance of IDataSets
-			Object[] children = workflow.getChildren();
-			Object dataset = Util.searchForInterface(IDataSets.class, children);
-			// if none create a new one
-			if(dataset == null)
-			{
-				dataset = new DataSets();
-				((IModel)dataset).addListener(this);
-				workflow.addChild(dataset);
-			}
-			return new Object[]{dataset};
-		} else if(parentElement instanceof IDataSets) {
+		if(parentElement instanceof IDataSets) {
 			IDataSets dataset = (IDataSets) parentElement;
 			ArrayList<Object> children = new ArrayList<Object>(Arrays.asList(dataset.getChildren()));
 			children.add(ImportFolder.getInstance());

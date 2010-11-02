@@ -16,6 +16,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.workflowmanager.WorkFlow;
 import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
@@ -32,7 +33,7 @@ public class DeleteHandler extends AbstractHandler {
         if(obj instanceof WorkFlow)
         {
     		WorkFlowManager.getInstance().removeChild(obj);
-    		WorkFlowManager.getInstance().refreshTree();
+    		WorkFlowManager.getInstance().fireChanged(obj, Model.REMOVED);
         }
 		
 		return null;

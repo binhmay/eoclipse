@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
 import com.metaaps.eoclipse.common.Model;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.workflowmanager.WorkFlow;
 
 /**
@@ -42,7 +43,7 @@ public class LabelProvider implements ILabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if(element instanceof WorkFlow)
+		if((element instanceof WorkFlow) || (element instanceof IDataSets))
 		{
 			ImageDescriptor image = ((Model)element).getImageDescriptor();
 			return (image == null ? null : image.createImage());
@@ -52,7 +53,7 @@ public class LabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if(WorkFlow.class.isInstance(element))
+		if((element instanceof WorkFlow) || (element instanceof IDataSets))
 		{
 			return ((Model)element).getLabel();
 		}

@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.eclipse.ui.part.ViewPart;
 import org.jdom.Element;
 
 import com.metaaps.eoclipse.Activator;
@@ -60,7 +61,11 @@ public class WorkFlowManager extends Model {
 	}
 	
 	public WorkFlow openFile(String filename) throws FileNotFoundException {
-		return WorkFlow.openFile(filename);
+    	WorkFlow workflow = new WorkFlow("Initialised");
+    	workflow.openFile(filename);
+    	addWorkFlow(workflow);
+    	//refreshTree();
+		return workflow;
 	}
 	
 	public void setConfigurerData(String key, Object value) {
@@ -72,6 +77,7 @@ public class WorkFlowManager extends Model {
 	}
 
 	public void refreshTree() {
+		if(m_navigator == null) return;
     	// expand the tree
         TreeViewer viewer = (TreeViewer) m_navigator.getCommonViewer();
         viewer.expandAll();
@@ -92,24 +98,58 @@ public class WorkFlowManager extends Model {
 		for(Element fileelement : files) {
 			String filename = fileelement.getAttributeValue("name");
 			try {
-				WorkFlow workflow = WorkFlow.openFile(filename);
-				List<Element> views = fileelement.getChildren(IViewerItem.class.getName());
-				for(Element viewelement : views) {
-					String viewid = viewelement.getAttributeValue("viewid");
-					IViewerItem viewer = WorkFlowManager.getInstance().getViewers().findViewer(viewid);
-					if(viewer != null) {
-						viewer.Open(workflow);
-					} else {
-						Util.errorMessage("Could not Open View with view ID: " + viewid);
-					}
-				}
+				WorkFlow workflow = openFile(filename);
+//				List<Element> views = fileelement.getChildren(IViewerItem.class.getName());
+//				for(Element viewelement : views) {
+//					String viewid = viewelement.getAttributeValue("viewid");
+//					String secondaryid = viewelement.getAttributeValue("secondaryid");
+//					IViewerItem viewer = WorkFlowManager.getInstance().getViewers().findViewer(viewid);
+//					if(viewer != null) {
+//						viewer.Open(workflow, secondaryid);
+//					} else {
+//						Util.errorMessage("Could not Open View with view ID: " + viewid);
+//					}
+//				}
 			} catch (FileNotFoundException e) {
 				Util.errorMessage("Could not find file " + filename);
 			}
 		}
 		
+//		// now open the views with their workflow
+//		for(Element fileelement : files) {
+//			String filename = fileelement.getAttributeValue("name");
+//			try {
+//				WorkFlow workflow = getWorkflowByFileName(filename);
+//				List<Element> views = fileelement.getChildren(IViewerItem.class.getName());
+//				for(Element viewelement : views) {
+//					String viewid = viewelement.getAttributeValue("viewid");
+//					String secondaryid = viewelement.getAttributeValue("secondaryid");
+//					IViewerItem viewer = WorkFlowManager.getInstance().getViewers().findViewer(viewid);
+//					if(viewer != null) {
+//						viewer.Open(workflow, secondaryid);
+//					} else {
+//						Util.errorMessage("Could not Open View with view ID: " + viewid);
+//					}
+//				}
+//			} catch (Exception e) {
+//				Util.errorMessage(e.getMessage());
+//			}
+//		}
+		
 	}
 	
+//	private WorkFlow getWorkflowByFileName(String filename) {
+//		for(Object obj : getChildren()) {
+//			if(obj instanceof WorkFlow) {
+//				WorkFlow workflow = (WorkFlow) obj;
+//				if((workflow.getFileName() != null) && workflow.getFileName().contentEquals(filename)) {
+//					return workflow;
+//				}
+//			}
+//		}
+//		return null;
+//	}
+
 	public void saveWorkSpace() {
 		Element fileselements = new Element(WORKSPACE_FILES);
 		for(Object obj : getChildren())
@@ -126,11 +166,14 @@ public class WorkFlowManager extends Model {
 				}
 				if((filename != null) && (filename.length() != 0)) {
 					Element fileelement = new Element("file").setAttribute("name", filename);
-					IDataSets datasets = (IDataSets) Util.scanTreeChidren(IDataSets.class, workflow);
-					List<IViewerImplementation> viewers = WorkFlowManager.getInstance().getViewers().findDataSetsViewers(datasets);
-					for(IViewerImplementation viewer : viewers) {
-						fileelement.addContent(new Element(IViewerItem.class.getName()).setAttribute("viewid", viewer.getViewid()));
-					}
+//					IDataSets datasets = (IDataSets) Util.scanTreeChidren(IDataSets.class, workflow);
+//					List<IViewerImplementation> viewers = WorkFlowManager.getInstance().getViewers().findDataSetsViewers(datasets);
+//					for(IViewerImplementation viewer : viewers) {
+//						Element viewerelement = new Element(IViewerItem.class.getName());
+//						viewerelement.setAttribute("viewid", viewer.getViewid());
+//						viewerelement.setAttribute("secondaryid", ((ViewPart)viewer).getViewSite().getSecondaryId());
+//						fileelement.addContent(viewerelement);
+//					}
 					fileselements.addContent(fileelement);
 				}
 			}
@@ -172,6 +215,18 @@ public class WorkFlowManager extends Model {
 	
 	public void setConfigurer(IWorkbenchWindowConfigurer windowConfigurer) {
 		m_configurer = windowConfigurer;
+	}
+
+	public IWorkFlow findWorklowByID(String id) {
+		for(Object obj : getChildren()) {
+			if(obj instanceof WorkFlow) {
+				WorkFlow workflow = (WorkFlow) obj;
+				if(workflow.getId().contentEquals(id)) {
+					return workflow;
+				}
+			}
+		}
+		return null;
 	}
 
 }

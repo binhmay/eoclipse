@@ -15,5 +15,4 @@ public interface IViewers {
 
 	IViewerItem findViewer(String viewID);
 	
-	List<IViewerImplementation> findDataSetsViewers(IDataSets datasets);
 }

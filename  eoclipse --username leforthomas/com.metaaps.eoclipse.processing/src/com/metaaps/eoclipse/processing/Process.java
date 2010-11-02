@@ -75,11 +75,6 @@ public class Process extends Model implements IProcess {
 				
 				addChild(new Parameter(parameter.getAttribute("name"), parameter.getAttribute("Type"), (parameter.getAttribute("description")  == null ? "" : parameter.getAttribute("description")), formats));
 			}
-//			if(parameter.getName().contentEquals("Output"))
-//			{
-//				m_resultType = parameter.getAttribute("Type");
-//				m_resultFormat = parameter.getAttribute("Format");
-//			}
 		}
 	}
 	

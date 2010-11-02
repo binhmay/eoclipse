@@ -21,9 +21,13 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.metaaps.eoclipse.common.IModelChangeListener;
+import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.Util;
 import com.metaaps.eoclipse.common.datasets.IDataContent;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
@@ -32,6 +36,7 @@ import com.metaaps.eoclipse.common.views.ILayeredViewer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.globeviewer.layers.GlobeViewerLayer;
 import com.metaaps.eoclipse.viewers.util.AbstractViewerImplementation;
+import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
 /**
  * @author leforthomas
@@ -53,6 +58,9 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 	 */
 	public void createPartControl(Composite parent) {
 		m_globeviewercontrol = new GlobeViewerControl(parent); //sashForm);
+		registerView();
+		renderLayers();
+		System.out.println("Secondary ID = " + getViewSite().getSecondaryId());
 	}
 
 	@Override
@@ -62,29 +70,35 @@ public class GlobeViewer extends AbstractViewerImplementation implements IViewer
 	}
 	
 	@Override
+	protected void setDataSets(IDataSets datasets) {
+		// TODO Auto-generated method stub
+		super.setDataSets(datasets);
+		renderLayers();
+	}
+	
+	@Override
 	public void dispose() {
-		m_datasets.removeChild(this);
+		if(m_datasets != null) {
+			m_datasets.removeChild(this);
+		}
 		super.dispose();
 	}
-
-	public void setDataSets(IDataSets datasets) {
-		// scan datasets for all data
-		for(Object obj : datasets.getChildren()) {
-			if(obj instanceof IDataContent) {
-				IDataContent datacontent = (IDataContent) obj;
-				try {
-					addDataLayer(datacontent);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+	
+	private void renderLayers() {
+		if((m_datasets != null) && (m_globeviewercontrol != null)) {
+			// scan datasets for all data
+			for(Object obj : m_datasets.getChildren()) {
+				if(obj instanceof IDataContent) {
+					IDataContent datacontent = (IDataContent) obj;
+					try {
+						addDataLayer(datacontent);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-		// update table too
-//		m_layertableviewer.setGlobeViewerControl(m_globeviewercontrol);
-		// add datasets listener
-		datasets.addListener(this);
-		m_datasets = datasets;
 	}
 	
 	private void addDataLayer(IDataContent datacontent) throws ParseException {

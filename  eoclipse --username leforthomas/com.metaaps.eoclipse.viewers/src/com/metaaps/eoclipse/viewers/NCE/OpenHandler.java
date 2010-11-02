@@ -35,7 +35,7 @@ public class OpenHandler extends AbstractHandler implements IHandler {
         if(obj instanceof Viewer)
         {
             IWorkFlow workflow = (IWorkFlow) Util.scanTreePath(currentSelection, IWorkFlow.class);
-        	((Viewer)obj).Open(workflow);
+        	((Viewer)obj).Open(workflow, null);
         }
         
 		return null;

@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -269,6 +270,26 @@ public class Util {
 	public static boolean questionMessage(String title, String message) {
 		Shell shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
 		return MessageDialog.openQuestion(shell, title, message);
+	}
+	
+	static public DialogSettings getDialogSettings(String section) {
+        DialogSettings dialogSettings = new DialogSettings(section);
+        try {
+            // loads existing settings if any.
+            dialogSettings.load("eoclipsesettings.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return dialogSettings;
+	}
+	
+	static public void setSetting(String section, String key, String value) {
+		getDialogSettings(section).put(key, value);
+	}
+	
+	static public String getSetting(String section, String key) {
+		return getDialogSettings(section).get(key);
 	}
 	
 	static public File getConfigurationFile() {

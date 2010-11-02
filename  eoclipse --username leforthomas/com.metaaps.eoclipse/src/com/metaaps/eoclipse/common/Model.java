@@ -35,16 +35,22 @@ public abstract class Model implements IModel {
 	protected String m_id = null;
 	
 	public void fireChanged(Object added, String event) {
+		System.out.println("fireChanged(" + added + ", " + event + ")");
 		for(IModelChangeListener listener : listeners) {
+			System.out.println("	@" + listener.toString() + " modelChanged(" + added + ", " + event + ")");
 			listener.modelChanged(added, event);
 		}
 	}
 
 	public void addListener(IModelChangeListener listener) {
+		System.out.println(toString() + " addListener(" + listener.toString() + ")");
+		// make sure we don't add it twice
+		listeners.remove(listener);
 		listeners.add(listener);
 	}
 	
 	public void removeListener(IModelChangeListener listener) {
+		System.out.println("removeListener(" + listener.toString() + ")");
 		listeners.remove(listener);
 	}
 	

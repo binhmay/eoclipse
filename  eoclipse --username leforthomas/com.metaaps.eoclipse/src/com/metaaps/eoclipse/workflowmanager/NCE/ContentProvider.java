@@ -10,7 +10,9 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.workflowmanager.NCE;
 
+import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.ModelChangeListener;
+import com.metaaps.eoclipse.workflowmanager.DataSets;
 import com.metaaps.eoclipse.workflowmanager.WorkFlow;
 import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
@@ -41,8 +43,9 @@ public class ContentProvider extends ModelChangeListener {
 		if(parentElement instanceof WorkFlowManager)
 		{
             children = WorkFlowManager.getInstance().getChildren();
-        } else if(parentElement instanceof WorkFlow) {
-        	children = ((WorkFlow) parentElement).getChildren();
+        } else if((parentElement instanceof WorkFlow) || (parentElement instanceof DataSets)) {
+        	children = ((Model) parentElement).getChildren();
+        	((Model) parentElement).addListener(this);
         }
 
         return children;

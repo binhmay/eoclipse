@@ -12,6 +12,7 @@ package com.metaaps.eoclipse.common.views;
 
 import com.metaaps.eoclipse.common.IModel;
 import com.metaaps.eoclipse.common.IWorkFlow;
+import com.metaaps.eoclipse.workflowmanager.WorkFlow;
 
 /**
  * 
@@ -23,6 +24,6 @@ public interface IViewerItem extends IModel {
 
 	String getViewID();
 
-	void Open(IWorkFlow workflow);
+	void Open(IWorkFlow workflow, String secondaryid);
 
 }

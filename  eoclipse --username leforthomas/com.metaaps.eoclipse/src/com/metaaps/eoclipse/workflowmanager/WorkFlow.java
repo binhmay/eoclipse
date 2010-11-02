@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -70,6 +71,9 @@ public class WorkFlow extends Model implements IWorkFlow {
 	
 	public WorkFlow(String name){
 		m_name = name;
+		setId(UUID.randomUUID().toString());
+		DataSets dataset = new DataSets();
+		addChild(dataset);
 	}
 	
 	public String getName(){
@@ -86,11 +90,6 @@ public class WorkFlow extends Model implements IWorkFlow {
 		return m_imagedescriptor;
 	}
 
-	@Override
-	public String getId() {
-		return "Workflow";
-	}
-	
 	public void writeToStream(OutputStream stream) throws IOException {
 		Element root = new Element(IWorkFlow.class.getName());
 		fillDOMElement(root);
@@ -101,6 +100,7 @@ public class WorkFlow extends Model implements IWorkFlow {
 	
 	public void fillDOMElement(Element element) {
 		element.setAttribute("name", getLabel());
+		element.setAttribute("id", getId());
 		for(Object obj : getChildren()) {
 			if(obj instanceof IDataSets) {
 				Element dataset = new Element(IDataSets.class.getName());
@@ -269,41 +269,23 @@ public class WorkFlow extends Model implements IWorkFlow {
 	public void readDOMElement(Element element) {
 		String label = element.getAttribute("name").getValue();
 		m_name = label;
+		Attribute idelement = element.getAttribute("id");
+		if(idelement != null) {
+			setId(idelement.getValue());
+		}
 		Element datasetselements = (Element) element.getChild(IDataSets.class.getName());
-		IDataSets datasets = (IDataSets) Util.searchForInterface(IDataSets.class, getChildren());
-		if(datasets != null) {
-			readDOMDataElement(datasetselements, datasets);
-		}
-			
-		Element viewselements = (Element) element.getChild(IViewerItem.class.getName());
-		if(viewselements != null) {
-			readDOMViewsElement(viewselements);
-		}
+		readDOMDataElement(datasetselements, getDataSets());
 			
 		Element exportselements = (Element) element.getChild(IExportItem.class.getName());
 		if(exportselements != null) {
-			readDOMViewsElement(viewselements);
 		}
 			
 	}
 
-	private void readDOMViewsElement(Element viewselements) {
-//		List<Element> views = viewselements.getChildren(IViewerItem.class.getName());
-//		for(Element viewelement : views) {
-//			String viewid = viewelement.getAttributeValue("viewid");
-//			IViewerItem viewer = WorkFlowManager.getInstance().getViewers().findViewer(viewid);
-//			viewer.Open(this);
-//		}
-	}
-
-	static public WorkFlow openFile(String filename) throws FileNotFoundException {
+	public void openFile(String filename) throws FileNotFoundException {
 		FileInputStream fileinputstream = new FileInputStream(filename);
-    	WorkFlow workflow = new WorkFlow("Initialised");
-    	workflow.setFileName(filename);
-    	WorkFlowManager.getInstance().addWorkFlow(workflow);
-    	WorkFlowManager.getInstance().refreshTree();
-		workflow.readFromStream(fileinputstream);
-		return workflow;
+    	setFileName(filename);
+		readFromStream(fileinputstream);
 	}
 
 	private void setFileName(String filename) {
@@ -340,6 +322,11 @@ public class WorkFlow extends Model implements IWorkFlow {
 			e.printStackTrace();
 			Util.errorMessage("Could not save file");
 		}
+	}
+
+	@Override
+	public IDataSets getDataSets() {
+		return (IDataSets) Util.searchForInterface(IDataSets.class, getChildren());
 	}
 	
 }

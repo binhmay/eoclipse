@@ -17,27 +17,26 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 
 import com.metaaps.eoclipse.common.IEvent;
 import com.metaaps.eoclipse.common.IModelChangeListener;
+import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.datasets.IDataSets;
 
 /**
  * @author leforthomas
  * 
  * Interface for all Viewers Implementations
- * Viewers listen to the WorkSpace selection changes
- * Viewers provide Events when they change, eg layers are added or removed. This is useful for the layer view to update.
  * 
  */
 public interface IViewerImplementation extends IModelChangeListener {
 
-	void setViewid(String viewID);
 	String getViewid();
 
 	String getName();
 	void setName(String name);
 	
-	IDataSets getDataSets();
-	void setDataSets(IDataSets datasets);
-	
+	// refresh method called when the data has changed
 	void refresh();
+
+	void setWorkFlow(IWorkFlow workflow);
+	String getWorkFlowID();
 
 }
