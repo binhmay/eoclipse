@@ -30,7 +30,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	@Override
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
-		//configurer.setSaveAndRestore(true);
+		configurer.setSaveAndRestore(true);
 	}
 
 }

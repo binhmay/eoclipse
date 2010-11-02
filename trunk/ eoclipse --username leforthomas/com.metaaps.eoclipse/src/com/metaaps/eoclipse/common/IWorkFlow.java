@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.common;
 
+import com.metaaps.eoclipse.common.datasets.IDataSets;
+
 /**
  * @author leforthomas
  * 
@@ -17,5 +19,7 @@ package com.metaaps.eoclipse.common;
  * 
  */
 public interface IWorkFlow extends IModel {
+
+	IDataSets getDataSets();
 
 }

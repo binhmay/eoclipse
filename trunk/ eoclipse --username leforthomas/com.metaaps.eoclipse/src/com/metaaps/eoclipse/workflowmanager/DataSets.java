@@ -8,7 +8,7 @@
  * Contributors:
  *     METAAPS SRL(U) - created by Thomas Lefort - initial API and implementation
  ******************************************************************************/
-package com.metaaps.eoclipse.datasets;
+package com.metaaps.eoclipse.workflowmanager;
 
 import java.io.File;
 import java.util.UUID;
@@ -21,6 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.jdom.Element;
 
+import com.metaaps.eoclipse.Activator;
 import com.metaaps.eoclipse.common.CodeFragment;
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Util;

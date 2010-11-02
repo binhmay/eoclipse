@@ -50,7 +50,7 @@ public class OpenMenuHandler extends AbstractHandler implements IHandler {
 					}
 				}
 	            IWorkFlow workflow = (IWorkFlow) Util.scanTreePath(currentSelection, IWorkFlow.class);
-				viewer.Open(workflow);
+				viewer.Open(workflow, null);
 			} catch (Exception e) {
 				Util.errorMessage("Could not activate Import Method");
 				e.printStackTrace();

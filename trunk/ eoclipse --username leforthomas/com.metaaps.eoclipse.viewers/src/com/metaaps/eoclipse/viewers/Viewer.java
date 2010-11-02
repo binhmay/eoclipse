@@ -11,6 +11,7 @@
 package com.metaaps.eoclipse.viewers;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -54,7 +55,6 @@ public class Viewer extends Model implements IViewerItem {
 	private String m_name;
 	private IConfigurationElement m_configuration;
 	private String m_viewid;
-	private int m_viewCounter = 0;
 
 	public Viewer(IExtension extension, IConfigurationElement element) {
 		m_extension = extension;
@@ -69,22 +69,27 @@ public class Viewer extends Model implements IViewerItem {
 	}
 	
 	@Override
-	public void Open(final IWorkFlow workflow)
+	public void Open(final IWorkFlow workflow, String secondaryid)
 	{
+		if(secondaryid == null) {
+			secondaryid = UUID.randomUUID().toString();
+		}
 		IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		try {
-			workbench.getActivePage().showView(m_viewid, new Integer(m_viewCounter).toString(), IWorkbenchPage.VIEW_CREATE);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-			Util.errorMessage("Could not open the View");
-			return;
+		if(workbench.getActivePage().findViewReference(m_viewid, secondaryid) == null) {
+			try {
+				workbench.getActivePage().showView(m_viewid, secondaryid, IWorkbenchPage.VIEW_ACTIVATE);
+			} catch (PartInitException e) {
+				e.printStackTrace();
+				Util.errorMessage("Could not open the View");
+				return;
+			}
 		}
 		// open layers view if not already opened
 		Viewers.getInstance().OpenLayersView();
 		// find datasets from the workflow
 		final IDataSets datasets = (IDataSets) Util.searchForInterface(IDataSets.class, workflow.getChildren());
 		if(datasets != null) {
-			final IViewPart viewer = workbench.getActivePage().findViewReference(m_viewid, new Integer(m_viewCounter).toString()).getView(false);
+			final IViewPart viewer = workbench.getActivePage().findViewReference(m_viewid, secondaryid).getView(false);
 			if(viewer != null) {
 				workbench.getActivePage().activate(viewer);
 				final Viewer vieweritem = this;
@@ -99,20 +104,8 @@ public class Viewer extends Model implements IViewerItem {
 												public void run() {
 													LayerContent layerview = Viewers.getInstance().getLayerView();
 													IViewerImplementation viewerimp = (IViewerImplementation)viewer;
-													viewerimp.setDataSets(datasets);
-													viewerimp.setViewid(m_viewid);
-													viewerimp.setName(workflow.getLabel());
-													CommonViewer layertreeview = layerview.getCommonViewer();
-													vieweritem.addChild(viewer);
-													layertreeview.refresh();
-													// listen to selection changes in the Tree
-													if(viewer instanceof ISelectionChangedListener) {
-														WorkFlowManager.getInstance().addTreeSelectionListener((ISelectionChangedListener)viewer);
-													}
-													// Layer View listens for changes in the viewer implementation
-													if(viewer instanceof ILayeredViewer) {
-														((ILayeredViewer)viewerimp).addListener(layerview);
-													}
+													viewerimp.setWorkFlow(workflow);
+//													viewerimp.setName(workflow.getLabel());
 												}
 												
 											});
@@ -125,8 +118,6 @@ public class Viewer extends Model implements IViewerItem {
 
 			}
 		}
-		m_viewCounter++;
-		
 	}
 
 	@Override

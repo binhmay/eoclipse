@@ -37,24 +37,4 @@ public class AllViewers implements IViewers {
 		return Viewers.getInstance().findViewer(viewID);
 	}
 
-	@Override
-	public List<IViewerImplementation> findDataSetsViewers(IDataSets datasets) {
-		List<IViewerImplementation> datasetViewers = new ArrayList<IViewerImplementation>(); 
-		for(Object obj : Viewers.getInstance().getChildren()) {
-			if(obj instanceof IViewerItem) {
-				IViewerItem vieweritem = (IViewerItem) obj;
-				for(Object viewobj : vieweritem.getChildren()) {
-					if(viewobj instanceof IViewerImplementation) {
-						IViewerImplementation viewerimp = (IViewerImplementation) viewobj;
-						if(viewerimp.getDataSets() == datasets) {
-							datasetViewers.add(viewerimp);
-						}
-						
-					}
-				}
-			}
-		}
-		return datasetViewers;
-	}
-
 }

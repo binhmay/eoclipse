@@ -186,6 +186,8 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 		};
 		canvas.getDisplay().asyncExec(core);
 		
+		registerView();
+		renderLayers();
 	}
 	
 	public ILayerManager getRootLayer(){
@@ -217,22 +219,28 @@ public class ImageViewer extends AbstractViewerImplementation implements ILayerU
 		this.root.removeListenner(l);
 	}
 
-	@Override
-	public void setDataSets(IDataSets datasets) {
-		m_datasets = datasets;
-		// scan datasets for all data
-		for(Object obj : datasets.getChildren()) {
-			if(obj instanceof IDataContent) {
-				IDataContent datacontent = (IDataContent) obj;
-				try {
-					addDataLayer(datacontent);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+	private void renderLayers() {
+		if((m_datasets != null) && (canvas != null)) {
+			// scan datasets for all data
+			for(Object obj : m_datasets.getChildren()) {
+				if(obj instanceof IDataContent) {
+					IDataContent datacontent = (IDataContent) obj;
+					try {
+						addDataLayer(datacontent);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-		datasets.addListener(this);
+	}
+	
+	@Override
+	protected void setDataSets(IDataSets datasets) {
+		// TODO Auto-generated method stub
+		super.setDataSets(datasets);
+		renderLayers();
 	}
 	
 	public void addDataLayer(IDataContent datacontent) throws ParseException {

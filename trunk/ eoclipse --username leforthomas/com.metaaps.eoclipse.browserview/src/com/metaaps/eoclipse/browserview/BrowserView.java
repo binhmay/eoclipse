@@ -141,5 +141,11 @@ public class BrowserView extends AbstractViewerImplementation implements IViewer
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -10,7 +10,9 @@
  ******************************************************************************/
 package com.metaaps.eoclipse.viewers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -29,6 +31,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IViewPart;
@@ -45,15 +48,19 @@ import org.eclipse.ui.navigator.CommonViewer;
 import org.eclipse.ui.part.ViewPart;
 
 import com.metaaps.eoclipse.common.Folder;
+import com.metaaps.eoclipse.common.IModelChangeListener;
+import com.metaaps.eoclipse.common.IWorkFlow;
 import com.metaaps.eoclipse.common.Model;
 import com.metaaps.eoclipse.common.Property;
 import com.metaaps.eoclipse.common.Util;
+import com.metaaps.eoclipse.common.datasets.IDataSets;
 import com.metaaps.eoclipse.common.views.ILayer;
 import com.metaaps.eoclipse.common.views.ILayeredViewer;
 import com.metaaps.eoclipse.common.views.IViewerImplementation;
 import com.metaaps.eoclipse.common.views.IViewerItem;
 import com.metaaps.eoclipse.viewers.layers.LayerContent;
 import com.metaaps.eoclipse.viewers.util.EditValueDialog;
+import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
 /**
  * @author leforthomas
@@ -61,18 +68,11 @@ import com.metaaps.eoclipse.viewers.util.EditValueDialog;
  * Viewers folder with a set of utilities for binding views and viewers together
  * 
  */
-public class Viewers extends Folder implements IRegistryChangeListener, IDoubleClickListener, ISelectionChangedListener {
+public class Viewers extends Folder implements IRegistryChangeListener, IDoubleClickListener, ISelectionChangedListener, IModelChangeListener {
 	
 	private static String extensionpoint = "com.metaaps.eoclipse.viewers";
 	
-	private static ImageDescriptor m_imagedescriptorActionLayerUp = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/arrow-curve-090.png");
-	private static ImageDescriptor m_imagedescriptorActionLayerDown = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/arrow-curve-270.png");
-	
 	private static Viewers m_instance = null;
-
-	private Action m_layerdown;
-
-	private Action m_layerup;
 
 	protected Viewers() {
 		IExtensionPoint viewers = Platform.getExtensionRegistry().getExtensionPoint(extensionpoint);
@@ -87,129 +87,74 @@ public class Viewers extends Folder implements IRegistryChangeListener, IDoubleC
 		// add a listener to track for new plugins with the extension
 		Platform.getExtensionRegistry().addRegistryChangeListener(this, extensionpoint);
 		
+		// listen to changes in the workflows
+		WorkFlowManager.getInstance().addListener(this);
 	}
 	
-	public void OpenLayersView() {
+	public LayerContent OpenLayersView() {
 		IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		// check if view has already been opened
-		if(getLayerView() == null) {
+		CommonNavigator layerView = getLayerView();
+		if(layerView == null) {
 			// create layer panel
 			try {
 				IWorkbenchPage activepage = workbench.getActivePage();
 				activepage.showView(LayerContent.layerViewID);
-				CommonNavigator layerView = getLayerView();
-				final CommonViewer layerviewer = layerView.getCommonViewer();
-				if(layerviewer != null) {
-					// add Listeners
-					layerviewer.addDoubleClickListener(this);
-					layerviewer.addSelectionChangedListener(this);
-					// add ViewPart listeners
-					activepage.addPartListener(new IPartListener2() {
-						
-						@Override
-						public void partVisible(IWorkbenchPartReference partRef) {
-						}
-						
-						@Override
-						public void partOpened(IWorkbenchPartReference partRef) {
-						}
-						
-						@Override
-						public void partInputChanged(IWorkbenchPartReference partRef) {
-						}
-						
-						@Override
-						public void partHidden(IWorkbenchPartReference partRef) {
-						}
-						
-						@Override
-						public void partDeactivated(IWorkbenchPartReference partRef) {
-						}
-						
-						@Override
-						public void partClosed(IWorkbenchPartReference partRef) {
-							IWorkbenchPart part = partRef.getPart(false);
-							if(part instanceof IViewerImplementation) {
-								Viewers.getInstance().removeViewerImp((IViewerImplementation) part);
-							}
-						}
-						
-						@Override
-						public void partBroughtToTop(IWorkbenchPartReference partRef) {
-						}
-						
-						@Override
-						public void partActivated(IWorkbenchPartReference partRef) {
-						}
-					});
-					// add actions to the window
-					makeActions();
-					IToolBarManager toolbarmanager = layerView.getViewSite().getActionBars().getToolBarManager();
-					toolbarmanager.add(m_layerup);
-					toolbarmanager.add(m_layerdown);
-				}
+				layerView = getLayerView();
 			} catch (PartInitException e) {
 				e.printStackTrace();
 				Util.errorMessage("Could not open the Layers View");
-				return;
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+				Util.errorMessage("Could not open the Layers View");
+				return null;
 			}
 		}
 		
+		return (LayerContent) layerView;
 	}
 	
-	private void makeActions() {
-		CommonNavigator layerView = getLayerView();
-		final CommonViewer layerviewer = layerView.getCommonViewer();
-		m_layerdown = new Action() {
-			public void run() {
-				ISelection selection = layerviewer.getSelection();
-				Object obj = ((ITreeSelection)selection).getFirstElement();
-				if((!selection.isEmpty()) && (obj instanceof ILayer)) {
-					ILayer layer = (ILayer) obj;
-					ILayeredViewer viewerimp = (ILayeredViewer) Util.scanTreePath((ITreeSelection)selection, IViewerImplementation.class);
-					if(viewerimp != null) {
-						((ILayeredViewer)viewerimp).moveLayer(layer, false);
-						layerviewer.refresh();
-					}
-				}
-			}
-		};
-		m_layerdown.setText("");
-		m_layerdown.setToolTipText("Move Layer Down");
-		m_layerdown.setImageDescriptor(m_imagedescriptorActionLayerDown);
-		
-		m_layerup = new Action() {
-			public void run() {
-				ISelection selection = layerviewer.getSelection();
-				Object obj = ((ITreeSelection)selection).getFirstElement();
-				if((!selection.isEmpty()) && (obj instanceof ILayer)) {
-					ILayer layer = (ILayer) obj;
-					ILayeredViewer viewerimp = (ILayeredViewer) Util.scanTreePath((ITreeSelection)selection, IViewerImplementation.class);
-					if(viewerimp != null) {
-						((ILayeredViewer)viewerimp).moveLayer(layer, true);
-						layerviewer.refresh();
-					}
-				}
-			}
-		};
-		m_layerup.setText("");
-		m_layerup.setToolTipText("Move Layer Down");
-		m_layerup.setImageDescriptor(m_imagedescriptorActionLayerUp);
-		
-	}
-
-	protected void removeViewerImp(IViewerImplementation viewerimp) {
+	public void removeViewerImp(IViewerImplementation viewerimp) {
 		IViewerItem viewer = findViewer(viewerimp.getViewid());
+		if(viewer == null) return;
 		viewer.removeChild(viewerimp);
+		if(getLayerView() == null) return;
 		getLayerView().getCommonViewer().refresh(true);
 	}
 
 	public LayerContent getLayerView() {
-		IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		IViewReference viewreference = workbench.getActivePage().findViewReference(LayerContent.layerViewID);
-		if(viewreference == null) return null;
-		IViewPart viewpart = viewreference.getView(false);
-		return (LayerContent) viewpart;
+		try {
+			IWorkbenchWindow workbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			IViewReference viewreference = workbench.getActivePage().findViewReference(LayerContent.layerViewID);
+			if(viewreference != null) {
+				IViewPart viewpart = viewreference.getView(false);
+				return (LayerContent) viewpart;
+			}
+		} catch(Exception e) {
+			
+		}
+		return null;
+	}
+	
+	public void registerView(final IViewerImplementation viewerimp) {
+			try {
+				LayerContent layerview = OpenLayersView();
+				CommonViewer layertreeview = layerview.getCommonViewer();
+				IViewerItem vieweritem = findViewer(viewerimp.getViewid());
+				vieweritem.addChild(viewerimp);
+				layertreeview.refresh();
+				// listen to selection changes in the Tree
+				if(viewerimp instanceof ISelectionChangedListener) {
+					WorkFlowManager.getInstance().addTreeSelectionListener((ISelectionChangedListener)viewerimp);
+				}
+				// Layer View listens for changes in the viewer implementation
+				if(viewerimp instanceof ILayeredViewer) {
+					((ILayeredViewer)viewerimp).addListener(layerview);
+				}
+			} catch (Exception e) {
+				System.out.println("Could not register View " + viewerimp.getName() + " reason " + e.getMessage());
+			}
 	}
 
 	private void scanForExtension(IExtension extension) {
@@ -317,4 +262,38 @@ public class Viewers extends Folder implements IRegistryChangeListener, IDoubleC
 			}
 		}
 	}
+
+	@Override
+	public void modelChanged(Object element, String event) {
+		if((element instanceof IWorkFlow) && (event.contentEquals(Model.ADDED))) {
+			// workflow has just been added
+			IWorkFlow workflow = (IWorkFlow) element;
+			// find the viewers viewing this workflow
+			List<IViewerImplementation> viewers = findWorkFlowViewers(workflow);
+			for(IViewerImplementation viewimp : viewers) {
+				viewimp.setWorkFlow(workflow);
+			}
+		}
+	}
+
+	public List<IViewerImplementation> findWorkFlowViewers(IWorkFlow workflow) {
+		List<IViewerImplementation> viewers = new ArrayList<IViewerImplementation>(); 
+		for(Object obj : getChildren()) {
+			if(obj instanceof IViewerItem) {
+				IViewerItem vieweritem = (IViewerItem) obj;
+				for(Object viewobj : vieweritem.getChildren()) {
+					if(viewobj instanceof IViewerImplementation) {
+						IViewerImplementation viewerimp = (IViewerImplementation) viewobj;
+						System.out.println(viewerimp.getWorkFlowID() + " " + workflow.getId());
+						if(viewerimp.getWorkFlowID() == null) return null;
+						if(viewerimp.getWorkFlowID().contentEquals(workflow.getId())) {
+							viewers.add(viewerimp);
+						}
+					}
+				}
+			}
+		}
+		return viewers;
+	}
+	
 }

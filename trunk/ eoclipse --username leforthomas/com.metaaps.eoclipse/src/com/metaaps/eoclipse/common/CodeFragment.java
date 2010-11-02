@@ -22,10 +22,16 @@ import com.metaaps.eoclipse.common.datasets.IDataContent;
 /**
  * @author leforthomas
  * 
- * CodeFragment
+ * CodeFragment is the full code block that will enable a data element to be regenerated
+ * In other words a code fragment represents an IDataContent and the instructions to use to generate it
  * 
  */
-public class CodeFragment extends Element {
+public final class CodeFragment extends Element {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static enum TYPE {SOURCE, GENERATED};
 	

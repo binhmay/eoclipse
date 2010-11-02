@@ -13,6 +13,8 @@ package com.metaaps.eoclipse.datasets;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.metaaps.eoclipse.workflowmanager.DataSets;
+
 /**
  * The activator class controls the plug-in life cycle
  * @author leforthomas

@@ -63,7 +63,7 @@ public class LabelProvider implements ILabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		ImageDescriptor imagedescriptor = null;
-		if((element instanceof IDataSets) || (element instanceof ImportFolder) || (element instanceof IImportMethod))
+		if((element instanceof ImportFolder) || (element instanceof IImportMethod))
 		{
 			imagedescriptor = ((Model)element).getImageDescriptor();
 		} else if(element instanceof IDataContent) {
@@ -80,7 +80,7 @@ public class LabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if((element instanceof IDataSets) || (element instanceof ImportFolder) || (element instanceof IImportMethod))
+		if((element instanceof ImportFolder) || (element instanceof IImportMethod))
 		{
 			return ((Model)element).getLabel();
 		} else if(element instanceof IDataContent) {

@@ -24,7 +24,7 @@
             priority="highest">
          <enablement>
             <instanceof
-                  value="com.metaaps.eoclipse.common.IWorkFlow">
+                  value="com.metaaps.eoclipse.common.datasets.IDataSets">
             </instanceof>
          </enablement>
          <commonSorter
