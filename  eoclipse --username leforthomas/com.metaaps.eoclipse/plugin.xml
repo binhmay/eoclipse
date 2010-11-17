@@ -264,12 +264,12 @@
             commandId="com.metaaps.eoclipse.runworkflow">
          <activeWhen>
             <reference
-                  definitionId="com.metaaps.eoclipse.datasets.isworkflow">
+                  definitionId="com.metaaps.eoclipse.isworkflow">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="com.metaaps.eoclipse.datasets.isworkflow">
+                  definitionId="com.metaaps.eoclipse.isworkflow">
             </reference>
          </enabledWhen>
       </handler>
@@ -364,13 +364,22 @@
                name="appName"
                value="EOClipse">
          </property>
+	     <property
+	            name="introTitle"
+	            value="Welcome to EOClipse"/>
+	      <property
+	            name="introBrandingImage"
+	            value="product:eclipse.png"/>
+	      <property
+	            name="introBrandingImageText"
+	            value="XYZ Company"/>
          <property
                name="aboutImage"
                value="icons/helplogo.png">
          </property>
          <property
                name="aboutText"
-               value="An Open Source framework and Rich Client Platform for Earth Observation Services&#x0A;Version 0.1&#x0A;Copyright Metaaps, October 2010&#x0A;This software is available using the GNU Lesser General Public License (LGPL).&#x0A;Visit http://www.eotools.com/eorcp/&#x0A;&#x0A;This product includes software developed by the Eclipse&#x0A;Foundation, Geotools and the Apache Software Foundation.&#x0A;This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke Kamiyamane.">
+               value="An Open Source framework and Rich Client Platform for Earth Observation Services&#x0A;Version 0.1&#x0A;&#x0A;Copyright Metaaps, October 2010&#x0A;This software is available using the Eclipse Public License v1.0.&#x0A;Visit http://www.eotools.com/eorcp/&#x0A;&#x0A;This product includes software developed by the Eclipse&#x0A;Foundation, Geotools and the Apache Software Foundation.&#x0A;This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke Kamiyamane.">
          </property>
          <property
                name="startupForegroundColor"
@@ -396,27 +405,21 @@
    </extension>
    <extension
          point="org.eclipse.ui.intro">
-      <intro
-            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
-            id="com.metaaps.eoclipse.intro">
-      </intro>
       <introProductBinding
-            introId="com.metaaps.eoclipse.intro"
+            introId="org.eclipse.ui.intro.universal"
             productId="com.metaaps.eoclipse.product">
       </introProductBinding>
    </extension>
    <extension
          point="org.eclipse.ui.intro.config">
       <config
-            content="introContent.xml"
-            id="com.metaaps.eoclipse.introConfigId"
-            introId="com.metaaps.eoclipse.intro">
+            content="intro/intro.xml"
+            id="com.metaaps.eoclipse.intro"
+            introId="org.eclipse.ui.intro.universal">
          <presentation
-               home-page-id="root">
+               home-page-id="intropage">
             <implementation
-                  kind="html"
-                  os="win32,linux,macosx"
-                  style="content/shared.css">
+                  kind="html">
             </implementation>
          </presentation>
       </config>

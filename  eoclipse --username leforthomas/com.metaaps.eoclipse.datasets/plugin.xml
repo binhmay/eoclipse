@@ -40,7 +40,7 @@
          <command
                commandId="org.eclipse.ui.edit.delete"
                id="cnf.popupmenu.delete"
-               label="Delete"
+               label="Remove"
                style="push">
             <visibleWhen
                   checkEnabled="true">

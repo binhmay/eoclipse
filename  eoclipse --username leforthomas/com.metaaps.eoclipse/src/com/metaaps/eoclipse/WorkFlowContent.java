@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.metaaps.eoclipse;
 
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonNavigator;
 import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 
@@ -19,6 +21,18 @@ import com.metaaps.eoclipse.workflowmanager.WorkFlowManager;
 public class WorkFlowContent extends CommonNavigator {
 
 	public static final String ID = "com.metaaps.eoclipse.navigatorcontent";
+	private Composite top;
+	
+	@Override
+	public void createPartControl(Composite aParent) {
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(aParent, "com.metaaps.eoclipse.message"); // NEW
+		
+		// TODO Auto-generated method stub
+		super.createPartControl(aParent);
+		
+		top = aParent;
+		
+	}
 	
 	@Override
 	protected Object getInitialInput() {
@@ -26,4 +40,12 @@ public class WorkFlowContent extends CommonNavigator {
 		workflowmanager.setNavigator(this);
 		return workflowmanager;
 	}
+	
+	@Override
+	public void setFocus() {
+		if(top != null) {
+			top.setFocus();
+		}
+	}
+	
 }
