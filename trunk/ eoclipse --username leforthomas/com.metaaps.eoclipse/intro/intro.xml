@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<introContent>
+  <page alt-style="css/intro.css" style="css/intro.css" id="intropage" style-id="intropage">
+    <title style-id="intro-header">Welcome to EOClipse - This software is in its very early stage!</title>
+    <group id="links-background">
+	<group id="page-links">
+	  <link label="Getting Started" url="./Getting Started.html" id="tutorials" style-id="left">
+        <img id="tutorial_img" style-id="content-img" src="css/graphics/tu_nav_64.gif" alt="Getting Started"></img>
+	    <text>Access the introductory tutorial.</text>
+	  </link>
+	  <link label="Official Website" url="http://eotoolbox.com/eorcp/" id="website" style-id="left">
+	    <img id="site_img" style-id="content-img" src="css/graphics/ov_nav_64.gif" alt="Official Site"></img>
+	    <text>Check out the official EOClipse website</text>
+	  </link>
+	</group>
+	</group>
+	<group id="action-links">
+	  <link url="http://org.eclipse.ui.intro/close" label="Workbench" id="workbench" style-id="right">
+        <img id="workbench_img" style-id="content-img" src="css/graphics/workbench48_hov.gif" alt="Close Introduction"></img>
+        <text>Close this screen to begin using EOClipse.</text>
+      </link>
+	</group>
+  </page>
+  
+</introContent>

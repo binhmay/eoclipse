@@ -7,10 +7,7 @@ Bundle-Activator: com.metaaps.eoclipse.metadataviewer.Activator
 Bundle-Vendor: METAAPS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- com.metaaps.eoclipse.viewers
+ com.metaaps.eoclipse.viewers,
+ com.metaaps.eoclipse;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: com.metaaps.eoclipse.common,
- com.metaaps.eoclipse.common.datasets,
- com.metaaps.eoclipse.common.views,
- com.metaaps.eoclipse.workflowmanager

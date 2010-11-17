@@ -9,11 +9,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.5.0",
  com.metaaps.eoclipse.commonlibs,
- org.eclipse.ui.intro
+ org.eclipse.ui.intro,
+ org.eclipse.ui.intro.universal
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: com.metaaps.eoclipse.common,
- org.eclipse.core.expressions
+Import-Package: org.eclipse.core.expressions
 Export-Package: com.metaaps.eoclipse.common,
  com.metaaps.eoclipse.common.datasets,
  com.metaaps.eoclipse.common.export,
