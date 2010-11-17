@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Helpcontent
+Bundle-SymbolicName: com.metaaps.eoclipse.helpcontent; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: METAAPS
+Require-Bundle: org.eclipse.help
