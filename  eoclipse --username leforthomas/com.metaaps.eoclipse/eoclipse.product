@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="EOClipse" uid="com.metaaps.eoclipse" id="com.metaaps.eoclipse.product" application="com.metaaps.eoclipse.application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="EOClipse" uid="com.metaaps.eoclipse" id="com.metaaps.eoclipse.product" application="com.metaaps.eoclipse.application" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.metaaps.eoclipse/icons/helplogo.png"/>
@@ -23,7 +23,7 @@ This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke 
    </configIni>
 
    <launcherArgs>
-      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog</programArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}</programArgs>
       <vmArgs>-Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Xms40m -Xmx512m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
@@ -46,7 +46,6 @@ This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke 
 
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.ibm.icu"/>
@@ -81,7 +80,15 @@ This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke 
       <plugin id="org.eclipse.core.databinding.property"/>
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.filesystem"/>
+      <plugin id="org.eclipse.core.filesystem.aix.ppc" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.hpux.ia64_32" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.ppc" fragment="true"/>
       <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.solaris.sparc" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
@@ -101,6 +108,8 @@ This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke 
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
+      <plugin id="org.eclipse.equinox.security.macosx" fragment="true"/>
+      <plugin id="org.eclipse.equinox.security.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
@@ -108,14 +117,34 @@ This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke 
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>
+      <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.cocoa.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.cocoa.macosx.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.ppc" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.ppc64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.s390" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.s390x" fragment="true"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.solaris.sparc" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.solaris.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.motif.aix.ppc" fragment="true"/>
+      <plugin id="org.eclipse.swt.motif.hpux.ia64_32" fragment="true"/>
+      <plugin id="org.eclipse.swt.motif.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.motif.solaris.sparc" fragment="true"/>
+      <plugin id="org.eclipse.swt.photon.qnx.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.carbon" fragment="true"/>
+      <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.ide"/>
       <plugin id="org.eclipse.ui.intro"/>
       <plugin id="org.eclipse.ui.intro.universal"/>
       <plugin id="org.eclipse.ui.navigator"/>
+      <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
    </plugins>
 
@@ -124,69 +153,7 @@ This product includes icons created by Diagona Icons, Copyright (C) 2007 Yusuke 
    </features>
 
    <configurations>
-      <plugin id="com.ibm.icu" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.OpticalVDS" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.SARDetection" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.browserview" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.codeviewer" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.commonlibs" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.dataproperties" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.datasets" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.export" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.facility" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.genericimport" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.genericprocessing" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.globeviewer" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.helpcontent" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.hosted" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.imagereaders" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.imageviewer" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.metadataviewer" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.opengis" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.processing" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.processingproperties" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.swathplanner" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.vectordatareader" autoStart="false" startLevel="0" />
-      <plugin id="com.metaaps.eoclipse.viewers" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.commands" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.contenttype" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.databinding" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.databinding.observable" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.databinding.property" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.expressions" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.filesystem" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.jobs" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.ecf" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ecf.filetransfer" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ecf.identity" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ecf.provider.filetransfer" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.app" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.p2.core" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.p2.engine" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.p2.metadata" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.p2.metadata.repository" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.p2.repository" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.preferences" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.registry" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.equinox.security" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.help" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.jface" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.jface.databinding" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.jface.text" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.osgi.services" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.swt" autoStart="true" startLevel="3" />
-      <plugin id="org.eclipse.text" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui.forms" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui.ide" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui.intro" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui.intro.universal" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui.navigator" autoStart="false" startLevel="0" />
-      <plugin id="org.eclipse.ui.workbench" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
    </configurations>
 
 </product>
